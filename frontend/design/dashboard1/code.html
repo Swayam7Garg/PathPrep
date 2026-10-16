@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-fixed":"#1b1c1c","primary-fixed":"#e5e2e1","surface-container":"#eeeeee","inverse-on-surface":"#f1f1f1","on-tertiary-fixed-variant":"#464747","secondary-fixed-dim":"#c8c6c6","secondary-fixed":"#e4e2e2","surface-dim":"#dadada","on-secondary":"#ffffff","tertiary-container":"#1b1c1c","on-tertiary-fixed":"#1b1c1c","surface-bright":"#f9f9f9","outline":"#747878","on-surface":"#1a1c1c","surface-container-highest":"#e2e2e2","surface-container-lowest":"#ffffff","surface-container-high":"#e8e8e8","tertiary-fixed-dim":"#c7c6c6","error-container":"#ffdad6","on-secondary-fixed-variant":"#464747","surface-container-low":"#f4f3f3","primary-fixed-dim":"#c8c6c5","on-tertiary":"#ffffff","on-surface-variant":"#444748","secondary-container":"#e4e2e2","surface-tint":"#5f5e5e","on-error-container":"#93000a","tertiary":"#000000","inverse-primary":"#c8c6c5","on-primary-container":"#858383","on-error":"#ffffff","background":"#f9f9f9","on-tertiary-container":"#848484","primary-container":"#1c1b1b","on-primary-fixed":"#1c1b1b","on-primary-fixed-variant":"#474646","outline-variant":"#c4c7c7","tertiary-fixed":"#e3e2e2","surface":"#f9f9f9","on-secondary-container":"#646464","on-primary":"#ffffff","surface-variant":"#e2e2e2","error":"#ba1a1a","inverse-surface":"#2f3131","primary":"#000000","secondary":"#5e5e5e","on-background":"#1a1c1c"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"gutter":"1.5rem","space-sm":"0.5rem","space-md":"1rem","margin-mobile":"1.25rem","space-lg":"1.5rem","space-xl":"2.5rem","margin":"3rem","gutter-mobile":"1rem","space-xs":"0.25rem"},fontFamily:{"headline-xl-mobile":["Inter"],"headline-sm":["Inter"],"headline-xl":["Inter"],"body-md":["Inter"],"label-sm":["Inter"],"headline-lg":["Inter"],"headline-md":["Inter"],"headline-lg-mobile":["Inter"],"code-sm":["JetBrains Mono"],"body-sm":["Inter"],"label-md":["Inter"],"body-lg":["Inter"]},fontSize:{"headline-xl-mobile":["26px",{lineHeight:"34px",letterSpacing:"-0.015em",fontWeight:"600"}],"headline-sm":["18px",{lineHeight:"26px",letterSpacing:"-0.005em",fontWeight:"500"}],"headline-xl":["32px",{lineHeight:"40px",letterSpacing:"-0.02em",fontWeight:"600"}],"body-md":["15px",{lineHeight:"24px",letterSpacing:"0em",fontWeight:"400"}],"label-sm":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"500"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"600"}],"headline-md":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-lg-mobile":["22px",{lineHeight:"30px",letterSpacing:"-0.01em",fontWeight:"600"}],"code-sm":["13px",{lineHeight:"20px",letterSpacing:"0em",fontWeight:"400"}],"body-sm":["13px",{lineHeight:"20px",letterSpacing:"0em",fontWeight:"400"}],"label-md":["14px",{lineHeight:"20px",letterSpacing:"0.01em",fontWeight:"500"}],"body-lg":["16px",{lineHeight:"25.6px",letterSpacing:"0em",fontWeight:"400"}]}}}};</script></head><body class="bg-surface-container-lowest font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-60 bg-surface-container-lowest border-r border-outline-variant/50 z-50 flex flex-col justify-between"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center gap-space-sm border-b border-outline-variant/30"><img alt="PrepPath Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UlcacYoW6nO9PCkFeQppJ0vMc1QhuEe9K465aKvAn-HuPcRiYFxbltFDGchG7LTjGd23v54WajH4Qzo7sYapYJaCReS6wm3x62NCShxN-7OgP37G643AE-aSd9P9PKk80kVQezJl2XfoXaZqiL9Gl6VW1Kn_frQUP6snq-4i_Uh6ixtH_nY7tFkhX9msaqHxtdgb3Al59yFz9bSo8hc_nQ8lxMLHhfS2SaLxCy0yPkvyyVtSwRpkFqDew"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface leading-none tracking-tight">PrepPath</span><span class="font-label-sm text-label-sm text-secondary leading-tight mt-0.5">Campus Prep</span></div></div><nav class="p-space-sm flex flex-col gap-space-xs mt-space-xs" data-active-classes="bg-surface-container-low text-primary font-medium"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">grid_view</span><span>Dashboard</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="practice" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">code</span><span>Practice</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="interviews" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">videocam</span><span>Interviews</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="skills" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">psychology</span><span>Skills</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="review" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">fact_check</span><span>Review</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="progress" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">monitoring</span><span>Progress</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">settings</span><span>Settings</span></a></nav></div><div class="p-space-sm border-t border-outline-variant/30 mb-space-xs"><a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="placement-guide-2025" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-headline-sm leading-none text-secondary">menu_book</span><span class="font-label-sm text-label-sm">Placement Guide 2025</span></div><span class="material-symbols-outlined text-label-sm leading-none text-secondary">arrow_outward</span></a></div></aside><div class="pl-60"><header class="fixed top-0 left-60 right-0 h-16 bg-surface-container-lowest border-b border-outline-variant/50 z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-sm"><span class="font-headline-sm text-headline-sm text-on-surface">Dashboard</span><span class="text-outline-variant">•</span><span class="font-label-sm text-label-sm text-secondary">Spring Placement Season · Day 18</span></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-2.5 py-1 rounded-full border border-outline-variant/60 bg-surface-container-lowest"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span><span class="font-code-sm text-code-sm text-on-surface-variant">AI credits today: 1 of 2</span></div><button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-headline-sm leading-none">notifications</span></button><div class="flex items-center pl-space-xs border-l border-outline-variant/40"><img alt="Profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD68EU96MOEKfl6X_yqyZqomWVbZkimk7AZXMwGKqVM0K5mwI1FDHS-t7TRfXrIVgOPfQqj4TZFY8PUoCl8SMsUgjdv2jpEj3_-KLxPJxEvjE3w8NXMURcVGYibPFTNJbIKxGfQjLwfArTcSxpbA6SxRXt7wt1BAqkDFUsUbuRzVcGLWnD2_NYag9LFUQk1bv6hhVjYOHiymp2xgEbhpIJ4UvOS_QOse50uZM_pheL8sMXuMj77OcfT"/></div></div></header><main class="w-full pt-16 min-h-screen bg-surface-container-lowest"><div class="flex flex-col w-full">
+<div class="w-full max-w-[1200px] mx-auto px-space-md lg:px-space-lg py-space-lg lg:py-space-xl flex flex-col gap-space-lg lg:gap-space-xl">
+<!-- 1. Header & Longitudinal Readiness Matrix Context -->
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-space-md border-b border-outline-variant/40 pb-space-lg">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="font-code-sm text-code-sm uppercase tracking-wider text-secondary">
+            Performance &amp; Retention Telemetry • Longitudinal Readiness Matrix
+          </span>
+</div>
+<div class="flex flex-wrap items-baseline gap-space-sm mt-1">
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">
+            Progress &amp; Mastery Velocity
+          </h1>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm border border-outline-variant/60">
+<span>Current Readiness: <strong class="font-semibold text-primary">78%</strong></span>
+<span class="text-secondary">(+14% over 30d)</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+          Spring Placement Season cohort benchmark target: <span class="text-on-surface font-medium">Tier-1 SDE Benchmark (80%)</span>. You are 2.0 percentage points away from target threshold.
+        </p>
+</div>
+<div class="flex items-center gap-space-sm self-start md:self-auto shrink-0">
+<button class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-surface-container-lowest border border-outline-variant text-on-surface font-label-md text-label-md hover:border-primary transition-colors focus:outline-none" type="button">
+<span class="material-symbols-outlined text-body-md leading-none">download</span>
+<span>Export Diagnostic Summary</span>
+</button>
+</div>
+</header>
+<!-- 2. Large Line Chart Card (Readiness Over Time) -->
+<section class="bg-surface-container-lowest border border-outline-variant/50 rounded-xl p-space-md lg:p-space-lg flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-space-sm border-b border-outline-variant/30">
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">
+            Placement Readiness Trajectory
+          </h2>
+<span class="font-body-sm text-body-sm text-secondary">
+            Composite readiness index across mock evaluations, system design rounds, and active quizzes
+          </span>
+</div>
+<!-- Segmented Range Switcher -->
+<div aria-label="Time horizon" class="inline-flex items-center p-1 rounded-lg bg-surface-container border border-outline-variant/40 self-start sm:self-auto" role="group">
+<button class="px-2.5 py-1 rounded text-secondary font-label-sm text-label-sm hover:text-primary transition-colors" type="button">7d</button>
+<button class="px-2.5 py-1 rounded bg-primary text-on-primary font-label-sm text-label-sm shadow-sm transition-colors" type="button">30d</button>
+<button class="px-2.5 py-1 rounded text-secondary font-label-sm text-label-sm hover:text-primary transition-colors" type="button">90d</button>
+</div>
+</div>
+<!-- Chart Display Surface -->
+<div class="w-full relative overflow-x-auto pt-2">
+<div class="min-w-[680px] w-full">
+<svg class="w-full h-72 overflow-visible" fill="none" viewbox="0 0 900 280" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="curveGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#111111" stop-opacity="0.08"></stop>
+<stop offset="100%" stop-color="#111111" stop-opacity="0.00"></stop>
+</lineargradient>
+</defs>
+<!-- Horizontal Grid lines & Y-Axis Labels -->
+<!-- 100% at Y=30 -->
+<line stroke="#EFEFEF" stroke-dasharray="3 3" stroke-width="1" x1="50" x2="880" y1="30" y2="30"></line>
+<text class="font-code-sm text-[11px]" fill="#747878" text-anchor="end" x="40" y="34">100%</text>
+<!-- Tier-1 Cutoff Benchmark line (80%) at Y=74 -->
+<line stroke="#111111" stroke-dasharray="5 4" stroke-opacity="0.65" stroke-width="1.2" x1="50" x2="880" y1="74" y2="74"></line>
+<text class="font-code-sm text-[11px] font-medium tracking-tight" fill="#111111" text-anchor="end" x="880" y="66">Tier-1 Placement Cutoff (80%)</text>
+<text class="font-code-sm text-[11px]" fill="#747878" text-anchor="end" x="40" y="78">80%</text>
+<!-- 75% at Y=85 -->
+<line stroke="#EFEFEF" stroke-dasharray="3 3" stroke-width="1" x1="50" x2="880" y1="85" y2="85"></line>
+<text class="font-code-sm text-[11px]" fill="#747878" text-anchor="end" x="40" y="89">75%</text>
+<!-- 50% at Y=140 -->
+<line stroke="#EFEFEF" stroke-dasharray="3 3" stroke-width="1" x1="50" x2="880" y1="140" y2="140"></line>
+<text class="font-code-sm text-[11px]" fill="#747878" text-anchor="end" x="40" y="144">50%</text>
+<!-- 25% at Y=195 -->
+<line stroke="#EFEFEF" stroke-dasharray="3 3" stroke-width="1" x1="50" x2="880" y1="195" y2="195"></line>
+<text class="font-code-sm text-[11px]" fill="#747878" text-anchor="end" x="40" y="199">25%</text>
+<!-- 0% at Y=250 -->
+<line stroke="#E2E2E2" stroke-width="1" x1="50" x2="880" y1="250" y2="250"></line>
+<text class="font-code-sm text-[11px]" fill="#747878" text-anchor="end" x="40" y="254">0%</text>
+<!-- Area fill under line -->
+<path d="M 60 110 C 120 108, 170 102, 220 98 C 280 94, 340 98, 400 90 C 460 82, 510 86, 560 76 C 620 66, 680 82, 730 70 C 780 60, 830 58, 870 52 L 870 250 L 60 250 Z" fill="url(#curveGradient)"></path>
+<!-- Trajectory Line Graph -->
+<path d="M 60 110 C 120 108, 170 102, 220 98 C 280 94, 340 98, 400 90 C 460 82, 510 86, 560 76 C 620 66, 680 82, 730 70 C 780 60, 830 58, 870 52" fill="none" stroke="#111111" stroke-linecap="round" stroke-width="2"></path>
+<!-- Data check points -->
+<circle cx="60" cy="110" fill="#FFFFFF" r="3.5" stroke="#111111" stroke-width="2"></circle>
+<circle cx="220" cy="98" fill="#FFFFFF" r="3.5" stroke="#111111" stroke-width="2"></circle>
+<circle cx="400" cy="90" fill="#FFFFFF" r="3.5" stroke="#111111" stroke-width="2"></circle>
+<circle cx="560" cy="76" fill="#FFFFFF" r="3.5" stroke="#111111" stroke-width="2"></circle>
+<circle cx="730" cy="70" fill="#111111" r="4.5" stroke="#FFFFFF" stroke-width="1.5"></circle>
+<circle cx="870" cy="52" fill="#111111" r="4.5" stroke="#FFFFFF" stroke-width="1.5"></circle>
+<!-- Active inspection tooltip pin near Day 24 (X=730, Y=70) -->
+<g transform="translate(620, 16)">
+<rect fill="#111111" height="38" rx="6" width="220" x="0" y="0"></rect>
+<path d="M 110 38 L 110 44" stroke="#111111" stroke-width="2"></path>
+<text class="font-label-sm text-[11px] font-medium" fill="#FFFFFF" x="12" y="16">Mock #402: +5% gain</text>
+<text class="font-code-sm text-[10px]" fill="#A1A1AA" x="12" y="30">ConcurrentHashMap &amp; Locks</text>
+</g>
+<!-- X-axis tick labels -->
+<text class="font-code-sm text-[11px]" fill="#747878" text-anchor="middle" x="60" y="270">Day 1</text>
+<text class="font-code-sm text-[11px]" fill="#747878" text-anchor="middle" x="220" y="270">Day 6</text>
+<text class="font-code-sm text-[11px]" fill="#747878" text-anchor="middle" x="400" y="270">Day 12</text>
+<text class="font-code-sm text-[11px]" fill="#747878" text-anchor="middle" x="560" y="270">Day 18</text>
+<text class="font-code-sm text-[11px]" fill="#747878" text-anchor="middle" x="730" y="270">Day 24</text>
+<text class="font-code-sm text-[11px] font-semibold" fill="#111111" text-anchor="middle" x="870" y="270">Today (Day 30)</text>
+</svg>
+</div>
+</div>
+<!-- Chart Legend / Telemetry Subtext -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs border-t border-outline-variant/30 text-secondary font-label-sm text-label-sm">
+<div class="flex flex-wrap items-center gap-space-md">
+<div class="flex items-center gap-2">
+<span class="w-4 h-0.5 bg-primary"></span>
+<span class="text-on-surface">Your Trajectory (Composite 78%)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-4 h-0.5 border-t border-dashed border-primary"></span>
+<span>Tier-1 Benchmark (80%)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span>Mock Interview Checkpoint</span>
+</div>
+</div>
+<span class="font-code-sm text-code-sm text-secondary">Sampling Rate: 100% verification fidelity</span>
+</div>
+</section>
+<!-- 3. Three Stat Cards (Telemetry Metrics Row) -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Card 1: Active Days -->
+<div class="bg-surface-container-lowest border border-outline-variant/50 rounded-xl p-space-md lg:p-space-lg flex flex-col justify-between hover:border-primary transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Practice Frequency</span>
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container text-on-surface border border-outline-variant/40">
+            ↑ 4-day streak
+          </span>
+</div>
+<div class="my-space-sm">
+<div class="font-headline-xl text-headline-xl text-on-surface font-semibold tracking-tight leading-none">
+            24 <span class="font-headline-sm text-headline-sm text-secondary font-normal">/ 30</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1.5">
+            80% consistency rate across rolling 30-day window
+          </p>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 80%;"></div>
+</div>
+</div>
+<!-- Card 2: Sessions Completed -->
+<div class="bg-surface-container-lowest border border-outline-variant/50 rounded-xl p-space-md lg:p-space-lg flex flex-col justify-between hover:border-primary transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Sessions Completed</span>
+<span class="font-code-sm text-code-sm text-secondary">30d Total</span>
+</div>
+<div class="my-space-sm">
+<div class="font-headline-xl text-headline-xl text-on-surface font-semibold tracking-tight leading-none">
+            42
+          </div>
+<p class="font-body-sm text-body-sm text-on-surface mt-1.5 font-medium">
+            14 Mocks <span class="text-secondary font-normal">•</span> 28 Technical Quizzes
+          </p>
+</div>
+<div class="pt-2 border-t border-outline-variant/30 flex items-center justify-between font-label-sm text-label-sm text-secondary">
+<span>Avg. 21 mins / session</span>
+<span class="font-code-sm text-code-sm text-on-surface">14.7 hrs net</span>
+</div>
+</div>
+<!-- Card 3: Topics Improved -->
+<div class="bg-surface-container-lowest border border-outline-variant/50 rounded-xl p-space-md lg:p-space-lg flex flex-col justify-between hover:border-primary transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Topic Competency</span>
+<span class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded text-label-sm font-label-sm bg-surface-container text-on-surface border border-outline-variant/40">
+            +18% avg delta
+          </span>
+</div>
+<div class="my-space-sm">
+<div class="font-headline-xl text-headline-xl text-on-surface font-semibold tracking-tight leading-none">
+            9 <span class="font-headline-sm text-headline-sm text-secondary font-normal">of 12</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1.5">
+            3 reached <span class="text-on-surface font-medium">Mastered</span> tier this month
+          </p>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 75%;"></div>
+</div>
+</div>
+</section>
+<!-- 4. GitHub-Style Activity Calendar (Contribution Heatmap in Monochrome Grays) -->
+<section class="bg-surface-container-lowest border border-outline-variant/50 rounded-xl p-space-md lg:p-space-lg flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-xs pb-space-sm border-b border-outline-variant/30">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">
+            Study &amp; Practice Cadence
+          </h2>
+<span class="font-body-sm text-body-sm text-secondary">
+            318 practice questions &amp; 16 interview drills logged across the past 12 weeks
+          </span>
+</div>
+<div class="flex items-center gap-2 font-code-sm text-code-sm text-secondary">
+<span>Cadence Reliability:</span>
+<span class="text-on-surface font-medium">High Focus (Q3 Cohort)</span>
+</div>
+</div>
+<!-- Heatmap Display & Metrics Side-by-side -->
+<div class="flex flex-col lg:flex-row gap-space-lg items-start justify-between">
+<!-- Calendar Grid -->
+<div class="overflow-x-auto w-full lg:w-auto pb-2">
+<div class="inline-flex flex-col gap-1.5 min-w-[540px]">
+<!-- Month Headers -->
+<div class="flex font-code-sm text-[11px] text-secondary pl-7">
+<span class="w-[120px]">September</span>
+<span class="w-[144px]">October</span>
+<span class="w-[144px]">November</span>
+<span class="w-[72px]">December</span>
+</div>
+<!-- Heatmap Rows with Day Labels -->
+<div class="flex gap-2">
+<div class="flex flex-col justify-between font-code-sm text-[10px] text-secondary w-5 py-0.5">
+<span>Mon</span>
+<span>Wed</span>
+<span>Fri</span>
+<span>Sun</span>
+</div>
+<!-- 14 Columns x 7 Days Grid -->
+<div class="grid grid-flow-col grid-rows-7 gap-[3.5px]">
+<!-- Week 1 -->
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]" title="Sep 01: 2 questions"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#F3F4F6]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]" title="Sep 03: 4 questions"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#F3F4F6]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#4B5563]" title="Sep 05: 7 questions"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#F3F4F6]"></div>
+<!-- Week 2 -->
+<div class="w-3.5 h-3.5 rounded-sm bg-[#F3F4F6]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#111111]" title="Sep 13: Mock Day (12 items)"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#F3F4F6]"></div>
+<!-- Week 3 -->
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#4B5563]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#F3F4F6]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]"></div>
+<!-- Week 4 -->
+<div class="w-3.5 h-3.5 rounded-sm bg-[#4B5563]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#111111]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#4B5563]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#F3F4F6]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]"></div>
+<!-- Week 5 -->
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#F3F4F6]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#4B5563]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#111111]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#F3F4F6]"></div>
+<!-- Week 6 -->
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#4B5563]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#F3F4F6]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#F3F4F6]"></div>
+<!-- Week 7 -->
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#4B5563]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#111111]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#4B5563]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]"></div>
+<!-- Week 8 -->
+<div class="w-3.5 h-3.5 rounded-sm bg-[#4B5563]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#111111]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#4B5563]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#F3F4F6]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#F3F4F6]"></div>
+<!-- Week 9 -->
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#4B5563]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#111111]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#4B5563]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<!-- Week 10 -->
+<div class="w-3.5 h-3.5 rounded-sm bg-[#4B5563]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#111111]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#4B5563]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#F3F4F6]"></div>
+<!-- Week 11 -->
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#4B5563]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#111111]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#4B5563]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#E5E7EB]"></div>
+<!-- Week 12 (Current) -->
+<div class="w-3.5 h-3.5 rounded-sm bg-[#9CA3AF]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#4B5563]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#111111]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#111111]" title="Today: Day 30"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#F3F4F6]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#F3F4F6]"></div>
+<div class="w-3.5 h-3.5 rounded-sm bg-[#F3F4F6]"></div>
+</div>
+</div>
+<!-- Heatmap Scale Legend -->
+<div class="flex items-center justify-end gap-1.5 pt-2 text-secondary font-code-sm text-[11px]">
+<span>Less</span>
+<div class="w-3 h-3 rounded-sm bg-[#F3F4F6]" title="0 items"></div>
+<div class="w-3 h-3 rounded-sm bg-[#E5E7EB]" title="1-2 items"></div>
+<div class="w-3 h-3 rounded-sm bg-[#9CA3AF]" title="3-5 items"></div>
+<div class="w-3 h-3 rounded-sm bg-[#4B5563]" title="6-9 items"></div>
+<div class="w-3 h-3 rounded-sm bg-[#111111]" title="10+ items"></div>
+<span>More</span>
+</div>
+</div>
+</div>
+<!-- Telemetry Summary Column -->
+<div class="flex flex-col gap-space-sm p-space-md rounded-lg bg-surface-container-low border border-outline-variant/40 w-full lg:w-72 shrink-0">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Cadence Diagnostics</span>
+<div class="flex flex-col gap-2.5 pt-1">
+<div class="flex items-baseline justify-between">
+<span class="font-body-sm text-body-sm text-secondary">Current Streak</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">4 days</span>
+</div>
+<div class="flex items-baseline justify-between border-t border-outline-variant/30 pt-2">
+<span class="font-body-sm text-body-sm text-secondary">Longest Streak</span>
+<span class="font-body-md text-body-md text-on-surface font-semibold">11 days</span>
+</div>
+<div class="flex items-baseline justify-between border-t border-outline-variant/30 pt-2">
+<span class="font-body-sm text-body-sm text-secondary">Total Study Hours</span>
+<span class="font-body-md text-body-md text-on-surface font-semibold">38.5 hrs</span>
+</div>
+<div class="flex items-baseline justify-between border-t border-outline-variant/30 pt-2">
+<span class="font-body-sm text-body-sm text-secondary">Daily Output Rate</span>
+<span class="font-code-sm text-code-sm text-on-surface">3.8 drills/day</span>
+</div>
+</div>
+<div class="mt-2 text-secondary font-label-sm text-label-sm leading-relaxed border-t border-outline-variant/30 pt-2">
+            Consistency pattern places you in the <strong class="text-on-surface font-medium">Top 8th percentile</strong> for Spring recruitment preparation volume.
+          </div>
+</div>
+</div>
+</section>
+<!-- 5. "Biggest Improvements" Section -->
+<section class="flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row md:items-baseline justify-between gap-space-xs border-b border-outline-variant/40 pb-space-xs">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">
+            Biggest Improvements
+          </h2>
+<p class="font-body-sm text-body-sm text-secondary">
+            Concepts with the highest score delta over the last 30 days based on diagnostic rubrics
+          </p>
+</div>
+<span class="font-code-sm text-code-sm text-secondary">
+          Evaluated across 14 Mock transcript checkpoints
+        </span>
+</div>
+<!-- 3-Column Improvement Concept Cards -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md">
+<!-- Improvement 1: Spring Boot Dependency Injection -->
+<article class="bg-surface-container-lowest border border-outline-variant/50 rounded-xl p-space-md flex flex-col justify-between hover:border-primary transition-colors">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-2">
+<h3 class="font-headline-sm text-[16px] leading-snug text-on-surface font-semibold">
+                Spring Boot Dependency Injection
+              </h3>
+<span class="inline-flex px-2 py-0.5 rounded text-[11px] font-medium tracking-wide bg-[#DCFCE7] text-[#16A34A] shrink-0">
+                Mastered
+              </span>
+</div>
+<!-- Comparative Delta Metric -->
+<div class="flex items-baseline justify-between pt-1">
+<div class="flex items-baseline gap-1.5">
+<span class="font-code-sm text-code-sm text-secondary">58%</span>
+<span class="text-secondary text-xs">→</span>
+<span class="font-headline-sm text-headline-sm text-primary font-semibold">84%</span>
+</div>
+<span class="font-code-sm text-code-sm font-semibold text-primary">+26% jump</span>
+</div>
+<!-- Mini Comparative Bar -->
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden flex">
+<div class="bg-outline h-full" style="width: 58%;"></div>
+<div class="bg-primary h-full" style="width: 26%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary leading-relaxed pt-1">
+              Resolved circular dependency &amp; bean lifecycle gaps after 3 focused drills.
+            </p>
+</div>
+<div class="pt-space-md mt-space-sm border-t border-outline-variant/30">
+<a class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary font-medium hover:underline" href="#">
+<span>View drill history</span>
+<span class="material-symbols-outlined text-[14px] leading-none">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Improvement 2: HashMaps & Collision Resolution -->
+<article class="bg-surface-container-lowest border border-outline-variant/50 rounded-xl p-space-md flex flex-col justify-between hover:border-primary transition-colors">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-2">
+<h3 class="font-headline-sm text-[16px] leading-snug text-on-surface font-semibold">
+                HashMaps &amp; Collision Resolution
+              </h3>
+<span class="inline-flex px-2 py-0.5 rounded text-[11px] font-medium tracking-wide bg-[#DCFCE7] text-[#16A34A] shrink-0">
+                Mastered
+              </span>
+</div>
+<!-- Comparative Delta Metric -->
+<div class="flex items-baseline justify-between pt-1">
+<div class="flex items-baseline gap-1.5">
+<span class="font-code-sm text-code-sm text-secondary">72%</span>
+<span class="text-secondary text-xs">→</span>
+<span class="font-headline-sm text-headline-sm text-primary font-semibold">92%</span>
+</div>
+<span class="font-code-sm text-code-sm font-semibold text-primary">+20% jump</span>
+</div>
+<!-- Mini Comparative Bar -->
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden flex">
+<div class="bg-outline h-full" style="width: 72%;"></div>
+<div class="bg-primary h-full" style="width: 20%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary leading-relaxed pt-1">
+              Flawless red-black tree threshold explanations in mock rounds and live coding tests.
+            </p>
+</div>
+<div class="pt-space-md mt-space-sm border-t border-outline-variant/30">
+<a class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary font-medium hover:underline" href="#">
+<span>View drill history</span>
+<span class="material-symbols-outlined text-[14px] leading-none">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Improvement 3: Garbage Collection & Generations -->
+<article class="bg-surface-container-lowest border border-outline-variant/50 rounded-xl p-space-md flex flex-col justify-between hover:border-primary transition-colors">
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-start justify-between gap-2">
+<h3 class="font-headline-sm text-[16px] leading-snug text-on-surface font-semibold">
+                Garbage Collection &amp; Generations
+              </h3>
+<span class="inline-flex px-2 py-0.5 rounded text-[11px] font-medium tracking-wide bg-[#FEF3C7] text-[#D97706] shrink-0">
+                Solid
+              </span>
+</div>
+<!-- Comparative Delta Metric -->
+<div class="flex items-baseline justify-between pt-1">
+<div class="flex items-baseline gap-1.5">
+<span class="font-code-sm text-code-sm text-secondary">61%</span>
+<span class="text-secondary text-xs">→</span>
+<span class="font-headline-sm text-headline-sm text-primary font-semibold">78%</span>
+</div>
+<span class="font-code-sm text-code-sm font-semibold text-primary">+17% jump</span>
+</div>
+<!-- Mini Comparative Bar -->
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden flex">
+<div class="bg-outline h-full" style="width: 61%;"></div>
+<div class="bg-primary h-full" style="width: 17%;"></div>
+</div>
+<p class="font-body-sm text-body-sm text-secondary leading-relaxed pt-1">
+              G1GC region mechanics and card-marking understood; zero weak flags remaining.
+            </p>
+</div>
+<div class="pt-space-md mt-space-sm border-t border-outline-variant/30">
+<a class="inline-flex items-center gap-1 font-label-sm text-label-sm text-primary font-medium hover:underline" href="#">
+<span>View drill history</span>
+<span class="material-symbols-outlined text-[14px] leading-none">arrow_forward</span>
+</a>
+</div>
+</article>
+</div>
+</section>
+<!-- Bottom Contextual Status Strip -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-sm px-space-md py-space-sm rounded-lg bg-surface-container-low border border-outline-variant/40 text-secondary font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-body-md text-on-surface">verified</span>
+<span>Target SDE Readiness milestone projected for <strong class="text-on-surface font-medium">Day 22</strong> at current velocity (+0.47%/session).</span>
+</div>
+<a class="font-label-sm text-label-sm text-on-surface font-medium hover:underline shrink-0" href="#">
+        Adjust placement target rubric →
+      </a>
+</div>
+</div>
+</div></main></div></body></html>

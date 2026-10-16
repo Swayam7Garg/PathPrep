@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #FAFAFA;
+    --foreground: #111111;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #FAFAFA;
+    color: #111111;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Planimetric Focus: zero ambient elevation shadows */
+  * {
+    border-color: #E5E5E5;
+  }
+}
+
+/* Hairline border utility */
+.border-hairline {
+  border-width: 1px;
+  border-color: #E5E5E5;
+}
+
+/* Transition for interactive hairline cards: zero vertical translate, only border swap */
+.hairline-card {
+  border: 1px solid #E5E5E5;
+  transition: border-color 150ms ease;
+}
+
+.hairline-card:hover {
+  border-color: #111111;
+}
+
+/* Clean minimal scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E5E5E5;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #DADADA;
+}

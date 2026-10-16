@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-fixed":"#1b1c1c","primary-fixed":"#e5e2e1","surface-container":"#eeeeee","inverse-on-surface":"#f1f1f1","on-tertiary-fixed-variant":"#464747","secondary-fixed-dim":"#c8c6c6","secondary-fixed":"#e4e2e2","surface-dim":"#dadada","on-secondary":"#ffffff","tertiary-container":"#1b1c1c","on-tertiary-fixed":"#1b1c1c","surface-bright":"#f9f9f9","outline":"#747878","on-surface":"#1a1c1c","surface-container-highest":"#e2e2e2","surface-container-lowest":"#ffffff","surface-container-high":"#e8e8e8","tertiary-fixed-dim":"#c7c6c6","error-container":"#ffdad6","on-secondary-fixed-variant":"#464747","surface-container-low":"#f4f3f3","primary-fixed-dim":"#c8c6c5","on-tertiary":"#ffffff","on-surface-variant":"#444748","secondary-container":"#e4e2e2","surface-tint":"#5f5e5e","on-error-container":"#93000a","tertiary":"#000000","inverse-primary":"#c8c6c5","on-primary-container":"#858383","on-error":"#ffffff","background":"#f9f9f9","on-tertiary-container":"#848484","primary-container":"#1c1b1b","on-primary-fixed":"#1c1b1b","on-primary-fixed-variant":"#474646","outline-variant":"#c4c7c7","tertiary-fixed":"#e3e2e2","surface":"#f9f9f9","on-secondary-container":"#646464","on-primary":"#ffffff","surface-variant":"#e2e2e2","error":"#ba1a1a","inverse-surface":"#2f3131","primary":"#000000","secondary":"#5e5e5e","on-background":"#1a1c1c"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"gutter":"1.5rem","space-sm":"0.5rem","space-md":"1rem","margin-mobile":"1.25rem","space-lg":"1.5rem","space-xl":"2.5rem","margin":"3rem","gutter-mobile":"1rem","space-xs":"0.25rem"},fontFamily:{"headline-xl-mobile":["Inter"],"headline-sm":["Inter"],"headline-xl":["Inter"],"body-md":["Inter"],"label-sm":["Inter"],"headline-lg":["Inter"],"headline-md":["Inter"],"headline-lg-mobile":["Inter"],"code-sm":["JetBrains Mono"],"body-sm":["Inter"],"label-md":["Inter"],"body-lg":["Inter"]},fontSize:{"headline-xl-mobile":["26px",{lineHeight:"34px",letterSpacing:"-0.015em",fontWeight:"600"}],"headline-sm":["18px",{lineHeight:"26px",letterSpacing:"-0.005em",fontWeight:"500"}],"headline-xl":["32px",{lineHeight:"40px",letterSpacing:"-0.02em",fontWeight:"600"}],"body-md":["15px",{lineHeight:"24px",letterSpacing:"0em",fontWeight:"400"}],"label-sm":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"500"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"600"}],"headline-md":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-lg-mobile":["22px",{lineHeight:"30px",letterSpacing:"-0.01em",fontWeight:"600"}],"code-sm":["13px",{lineHeight:"20px",letterSpacing:"0em",fontWeight:"400"}],"body-sm":["13px",{lineHeight:"20px",letterSpacing:"0em",fontWeight:"400"}],"label-md":["14px",{lineHeight:"20px",letterSpacing:"0.01em",fontWeight:"500"}],"body-lg":["16px",{lineHeight:"25.6px",letterSpacing:"0em",fontWeight:"400"}]}}}};</script></head><body class="bg-surface-container-lowest font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-60 bg-surface-container-lowest border-r border-outline-variant/50 z-50 flex flex-col justify-between"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center gap-space-sm border-b border-outline-variant/30"><img alt="PrepPath Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UlcacYoW6nO9PCkFeQppJ0vMc1QhuEe9K465aKvAn-HuPcRiYFxbltFDGchG7LTjGd23v54WajH4Qzo7sYapYJaCReS6wm3x62NCShxN-7OgP37G643AE-aSd9P9PKk80kVQezJl2XfoXaZqiL9Gl6VW1Kn_frQUP6snq-4i_Uh6ixtH_nY7tFkhX9msaqHxtdgb3Al59yFz9bSo8hc_nQ8lxMLHhfS2SaLxCy0yPkvyyVtSwRpkFqDew"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface leading-none tracking-tight">PrepPath</span><span class="font-label-sm text-label-sm text-secondary leading-tight mt-0.5">Campus Prep</span></div></div><nav class="p-space-sm flex flex-col gap-space-xs mt-space-xs" data-active-classes="bg-surface-container-low text-primary font-medium"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">grid_view</span><span>Dashboard</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="practice" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">code</span><span>Practice</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="interviews" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">videocam</span><span>Interviews</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="skills" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">psychology</span><span>Skills</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="review" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">fact_check</span><span>Review</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="progress" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">monitoring</span><span>Progress</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">settings</span><span>Settings</span></a></nav></div><div class="p-space-sm border-t border-outline-variant/30 mb-space-xs"><a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="placement-guide-2025" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-headline-sm leading-none text-secondary">menu_book</span><span class="font-label-sm text-label-sm">Placement Guide 2025</span></div><span class="material-symbols-outlined text-label-sm leading-none text-secondary">arrow_outward</span></a></div></aside><div class="pl-60"><header class="fixed top-0 left-60 right-0 h-16 bg-surface-container-lowest border-b border-outline-variant/50 z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-sm"><span class="font-headline-sm text-headline-sm text-on-surface">Dashboard</span><span class="text-outline-variant">•</span><span class="font-label-sm text-label-sm text-secondary">Spring Placement Season · Day 18</span></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-2.5 py-1 rounded-full border border-outline-variant/60 bg-surface-container-lowest"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span><span class="font-code-sm text-code-sm text-on-surface-variant">AI credits today: 1 of 2</span></div><button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-headline-sm leading-none">notifications</span></button><div class="flex items-center pl-space-xs border-l border-outline-variant/40"><img alt="Profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD68EU96MOEKfl6X_yqyZqomWVbZkimk7AZXMwGKqVM0K5mwI1FDHS-t7TRfXrIVgOPfQqj4TZFY8PUoCl8SMsUgjdv2jpEj3_-KLxPJxEvjE3w8NXMURcVGYibPFTNJbIKxGfQjLwfArTcSxpbA6SxRXt7wt1BAqkDFUsUbuRzVcGLWnD2_NYag9LFUQk1bv6hhVjYOHiymp2xgEbhpIJ4UvOS_QOse50uZM_pheL8sMXuMj77OcfT"/></div></div></header><main class="w-full pt-16 min-h-screen bg-surface-container-lowest"><div class="flex flex-col w-full">
+<!-- Interactive Toast Notification Component -->
+<div class="fixed bottom-6 right-6 z-50 flex items-center gap-space-sm bg-primary text-on-primary px-space-md py-space-sm rounded-lg shadow-xl opacity-0 pointer-events-none transition-all duration-300 transform translate-y-3" id="save-toast">
+<span class="material-symbols-outlined text-headline-sm text-on-primary">check_circle</span>
+<span class="font-label-md text-label-md text-on-primary" id="toast-text">Preferences updated successfully</span>
+</div>
+<div class="w-full max-w-[1080px] mx-auto px-space-md md:px-margin py-space-xl">
+<!-- Header Section with Editorial Academic Hierarchy -->
+<header class="mb-space-xl">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-code-sm text-code-sm uppercase tracking-wider mb-2">
+<span>Account &amp; Preferences</span>
+<span class="text-outline-variant">/</span>
+<span class="text-primary font-medium">Academic Placement Settings</span>
+</div>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Settings</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 max-w-2xl">
+            Manage your candidate academic profile, model inference credits, and developer API keys.
+          </p>
+</div>
+<div class="flex items-center gap-space-xs px-3 py-1.5 rounded-lg bg-surface-container-low text-on-surface-variant font-code-sm text-code-sm border border-outline-variant/40 self-start md:self-auto">
+<span class="w-2 h-2 rounded-full bg-primary inline-block"></span>
+<span>Cohort: 2024–2025 Regular</span>
+</div>
+</div>
+</header>
+<!-- Main Content Grid -->
+<div class="flex flex-col gap-space-lg">
+<!-- CARD 1: Academic Profile & Target Role -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/50 p-space-lg shadow-sm hover:border-primary/40 transition-colors duration-150">
+<div class="flex flex-col md:flex-row md:items-center justify-between pb-space-md border-b border-outline-variant/40 mb-space-lg gap-space-xs">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-headline-sm text-primary">school</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Academic Profile</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+              Your campus cohort placement preferences and target track.
+            </p>
+</div>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-surface-container text-on-surface-variant self-start md:self-auto">
+<span class="material-symbols-outlined text-sm leading-none">sync</span>
+            Verified NIT Trichy EduID
+          </span>
+</div>
+<form class="space-y-space-md" id="profile-form" onsubmit="event.preventDefault(); triggerToast('Academic profile updated');">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Full Name -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="fullName">Full Name</label>
+<input class="w-full px-3.5 py-2.5 bg-surface-container-lowest border border-outline-variant/70 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary transition-colors" id="fullName" placeholder="Candidate Name" type="text" value="Ananya Sharma"/>
+</div>
+<!-- College / University -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="college">College / University</label>
+<div class="relative">
+<input class="w-full px-3.5 py-2.5 bg-surface-container-lowest border border-outline-variant/70 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary transition-colors pr-9" id="college" placeholder="Institute name" type="text" value="National Institute of Technology, Trichy"/>
+<span class="material-symbols-outlined absolute right-3 top-3 text-secondary text-sm pointer-events-none">verified</span>
+</div>
+</div>
+<!-- Branch / Major -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="branch">Branch / Major</label>
+<div class="relative">
+<select class="w-full px-3.5 py-2.5 bg-surface-container-lowest border border-outline-variant/70 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary transition-colors appearance-none pr-10 cursor-pointer" id="branch">
+<option selected="">Computer Science &amp; Engineering</option>
+<option>Electronics &amp; Communication Engineering</option>
+<option>Electrical &amp; Electronics Engineering</option>
+<option>Information Technology</option>
+<option>Data Science &amp; Artificial Intelligence</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-secondary pointer-events-none">unfold_more</span>
+</div>
+</div>
+<!-- Graduation Year -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="gradYear">Graduation Year</label>
+<div class="relative">
+<select class="w-full px-3.5 py-2.5 bg-surface-container-lowest border border-outline-variant/70 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary transition-colors appearance-none pr-10 cursor-pointer" id="gradYear">
+<option selected="">2025 (Final Year)</option>
+<option>2026 (Pre-final Year)</option>
+<option>2027 (Sophomore)</option>
+<option>2024 (Graduated / Alum)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-secondary pointer-events-none">unfold_more</span>
+</div>
+</div>
+<!-- Target Track -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="targetTrack">Target Track</label>
+<div class="relative">
+<select class="w-full px-3.5 py-2.5 bg-surface-container-lowest border border-outline-variant/70 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary transition-colors appearance-none pr-10 cursor-pointer" id="targetTrack">
+<option selected="">Java Backend SDE</option>
+<option>Full Stack SDE (React + Node/Go)</option>
+<option>Data Engineering &amp; Platform</option>
+<option>Systems &amp; Embedded Engineering</option>
+<option>Quant &amp; High Frequency Trading</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-secondary pointer-events-none">unfold_more</span>
+</div>
+</div>
+<!-- Target Placement Tier -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface" for="placementTier">Target Placement Tier</label>
+<div class="relative">
+<select class="w-full px-3.5 py-2.5 bg-surface-container-lowest border border-outline-variant/70 rounded-lg font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary transition-colors appearance-none pr-10 cursor-pointer" id="placementTier">
+<option selected="">Tier-1 Product / High-Frequency Tech (₹24+ LPA)</option>
+<option>Tier-1 Core Product / Cloud (₹16 - ₹24 LPA)</option>
+<option>Tier-2 High-Growth FinTech (₹10 - ₹16 LPA)</option>
+<option>General Campus Standard (Day 1 IT Services)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-3 text-secondary pointer-events-none">unfold_more</span>
+</div>
+</div>
+</div>
+<!-- Bottom Actions -->
+<div class="pt-space-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-sm border-t border-outline-variant/30 mt-space-md">
+<span class="font-code-sm text-code-sm text-secondary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">schedule</span>
+              Last synced 2 days ago (Cloud DB: Mumbai-1)
+            </span>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-2 bg-surface-container-lowest border border-outline-variant/70 text-on-surface font-label-md text-label-md rounded-lg hover:bg-surface-container-low transition-colors" type="button">
+                Discard Changes
+              </button>
+<button class="px-space-md py-2 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-on-surface-variant transition-colors flex items-center gap-1.5" type="submit">
+<span>Save Profile</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</form>
+</section>
+<!-- CARD 2: AI Credits & Daily Quota -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/50 p-space-lg shadow-sm hover:border-primary/40 transition-colors duration-150">
+<div class="flex flex-col md:flex-row md:items-center justify-between pb-space-md border-b border-outline-variant/40 mb-space-lg gap-space-xs">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-headline-sm text-primary">bolt</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">AI Credits &amp; Daily Quota</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+              You receive 2 free AI-simulated mock interview rounds and 20 AI diagnostic reviews every day.
+            </p>
+</div>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-surface-container text-on-surface border border-outline-variant/40 self-start md:self-auto">
+            Active Tier: Campus Free
+          </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+<!-- Metric 1: Mock Interviews -->
+<div class="p-space-md rounded-lg bg-surface-container-lowest border border-outline-variant/40 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<span class="font-label-md text-label-md text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-secondary">videocam</span>
+                  Mock Interview Rounds
+                </span>
+<span class="font-code-sm text-code-sm font-semibold text-primary">1 of 2 used today</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mb-3">Live conversational interviewer agent (30m session length).</p>
+<!-- Progress Bar -->
+<div class="w-full bg-[#E5E5E5] h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-500" style="width: 50%;"></div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/30 flex items-center justify-between text-xs text-secondary font-code-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">hourglass_top</span>
+                Resets in 7 hrs 42 mins (00:00 IST)
+              </span>
+<span class="text-primary font-medium">50% remaining</span>
+</div>
+</div>
+<!-- Metric 2: Code Reviews -->
+<div class="p-space-md rounded-lg bg-surface-container-lowest border border-outline-variant/40 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<span class="font-label-md text-label-md text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-secondary">fact_check</span>
+                  Diagnostic &amp; Code Reviews
+                </span>
+<span class="font-code-sm text-code-sm font-semibold text-primary">14 of 20 used today</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary mb-3">Time/Space complexity deep dives &amp; SRS critique generation.</p>
+<!-- Progress Bar -->
+<div class="w-full bg-[#E5E5E5] h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full transition-all duration-500" style="width: 70%;"></div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-outline-variant/30 flex items-center justify-between text-xs text-secondary font-code-sm">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">hourglass_top</span>
+                Resets in 7 hrs 42 mins (00:00 IST)
+              </span>
+<span class="text-primary font-medium">6 available</span>
+</div>
+</div>
+</div>
+<!-- Info Notice -->
+<div class="mt-space-md p-space-sm sm:p-space-md rounded-lg bg-surface-container-low border border-outline-variant/50 flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-headline-sm text-primary flex-shrink-0 mt-0.5">info</span>
+<div class="text-body-sm text-secondary">
+<span class="text-on-surface font-medium">Need unlimited interview simulations for upcoming placement season drives?</span>
+            Add your personal API key below to bypass daily rate limits completely. Zero usage throttling, ultra-low latency response times.
+          </div>
+</div>
+</section>
+<!-- CARD 3: Groq API Key (Bring Your Own Key) -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/50 p-space-lg shadow-sm hover:border-primary/40 transition-colors duration-150">
+<div class="flex flex-col md:flex-row md:items-center justify-between pb-space-md border-b border-outline-variant/40 mb-space-lg gap-space-xs">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-headline-sm text-primary">key</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Use your own Groq API key</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+              Keep your practice completely free and remove all daily AI credit limits.
+            </p>
+</div>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#DCFCE7] text-[#16A34A] border border-[#BBF7D0] self-start md:self-auto">
+<span class="w-1.5 h-1.5 rounded-full bg-[#16A34A]"></span>
+            Optional • Unlimited Simulations
+          </span>
+</div>
+<div class="text-body-sm text-on-surface-variant leading-relaxed mb-space-md">
+          Keep your practice completely free and remove all daily AI credit limits by providing your personal Groq API key. Your key is stored securely in your browser session/encrypted vault and calls are routed directly to Groq's high-speed inference endpoints (<span class="font-code-sm text-code-sm text-primary bg-surface-container px-1 py-0.5 rounded">Llama 3 70B</span> / <span class="font-code-sm text-code-sm text-primary bg-surface-container px-1 py-0.5 rounded">Mixtral 8x7B</span>).
+        </div>
+<div class="space-y-space-md">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface" for="groqKeyInput">Groq API Key</label>
+<div class="flex items-center gap-1.5 text-xs text-[#16A34A] font-medium font-code-sm">
+<span class="material-symbols-outlined text-sm">verified_user</span>
+                Configured &amp; Active
+              </div>
+</div>
+<div class="relative flex items-center">
+<input class="w-full px-3.5 py-2.5 bg-surface-container-lowest border border-outline-variant/70 rounded-lg font-code-sm text-code-sm text-on-surface tracking-wider focus:outline-none focus:border-primary transition-colors pr-24" id="groqKeyInput" placeholder="gsk_••••••••••••••••••••••••••••••••••••••••••••" type="password" value="gsk_9K2p8L110vMc1QhuEe9K465aKvAn-HuPcRiYFxbltFDGchG7"/>
+<div class="absolute right-2.5 flex items-center gap-1">
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" id="toggleKeyBtn" title="Toggle Visibility" type="button">
+<span class="material-symbols-outlined text-sm" id="eyeIcon">visibility</span>
+</button>
+<button class="p-1 rounded text-secondary hover:text-on-surface hover:bg-surface-container-low transition-colors" onclick="navigator.clipboard.writeText(document.getElementById('groqKeyInput').value); triggerToast('Copied key to clipboard');" title="Copy Key" type="button">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+</div>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-space-sm pt-2">
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="px-space-md py-2 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-on-surface-variant transition-colors flex items-center justify-center gap-1.5 shadow-sm" onclick="triggerToast('Groq API Key encrypted &amp; saved');" type="button">
+<span class="material-symbols-outlined text-sm">save</span>
+<span>Save Key</span>
+</button>
+<button class="px-space-md py-2 bg-surface-container-lowest border border-outline-variant/70 text-on-surface font-label-md text-label-md rounded-lg hover:bg-surface-container-low transition-colors flex items-center justify-center gap-1.5" id="testConnBtn" type="button">
+<span class="material-symbols-outlined text-sm">wifi_tethering</span>
+<span id="testBtnText">Test Connection</span>
+</button>
+</div>
+<a class="font-body-sm text-body-sm text-secondary hover:text-primary transition-colors inline-flex items-center gap-1 self-start sm:self-auto py-1" href="https://console.groq.com/keys" rel="noopener noreferrer" target="_blank">
+<span>How to get a free Groq API key in 60 seconds</span>
+<span class="material-symbols-outlined text-sm">arrow_outward</span>
+</a>
+</div>
+</div>
+</section>
+<!-- CARD 4: Danger Zone -->
+<section class="bg-surface-container-lowest rounded-xl border border-error-container p-space-lg shadow-sm">
+<div class="pb-space-md border-b border-error-container/60 mb-space-md">
+<div class="flex items-center gap-space-xs text-error">
+<span class="material-symbols-outlined text-headline-sm">warning</span>
+<h2 class="font-headline-sm text-headline-sm font-semibold">Danger Zone</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+            Irreversible actions regarding your practice data and diagnostic telemetry.
+          </p>
+</div>
+<div class="flex flex-col divide-y divide-outline-variant/30">
+<!-- Action Item 1 -->
+<div class="py-space-md flex flex-col md:flex-row md:items-center justify-between gap-space-sm first:pt-0">
+<div>
+<p class="font-label-md text-label-md text-on-surface font-semibold">Reset SRS Mistake Queue</p>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5 max-w-xl">
+                Clears spaced repetition scheduling intervals for 48 recorded mistakes. Questions will return to initial baseline testing intervals.
+              </p>
+</div>
+<button class="px-space-md py-2 bg-surface-container-lowest border border-outline-variant/70 text-on-surface font-label-md text-label-md rounded-lg hover:bg-surface-container-low transition-colors flex-shrink-0 self-start md:self-auto" onclick="if(confirm('Are you sure you want to reset your Spaced Repetition queue?')) { triggerToast('SRS mistake queue reset to initial state'); }" type="button">
+              Reset Mistake Queue
+            </button>
+</div>
+<!-- Action Item 2 -->
+<div class="py-space-md flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+<div>
+<p class="font-label-md text-label-md text-error font-semibold">Delete all practice data and account history</p>
+<p class="font-body-sm text-body-sm text-secondary mt-0.5 max-w-xl">
+                Permanently erase all mock transcripts, question logs, SRS mistake queue data, and readiness metrics. This action cannot be reversed.
+              </p>
+</div>
+<button class="px-space-md py-2 border border-error/40 text-error hover:bg-error-container/30 font-label-md text-label-md rounded-lg transition-colors flex-shrink-0 self-start md:self-auto flex items-center gap-1.5" onclick="if(confirm('Warning: This will permanently delete all mock interview records and readiness data. Proceed?')) { triggerToast('Practice history purged'); }" type="button">
+<span class="material-symbols-outlined text-sm">delete_forever</span>
+<span>Delete my data</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Footer Info -->
+<footer class="pt-space-sm pb-space-lg flex flex-col sm:flex-row items-center justify-between text-xs text-secondary font-code-sm gap-2">
+<span>PrepPath Core v2.4.1 (Campus Enterprise Build)</span>
+<div class="flex items-center gap-4">
+<a class="hover:underline" href="#">Privacy Policy</a>
+<span>•</span>
+<a class="hover:underline" href="#">API Telemetry Spec</a>
+<span>•</span>
+<a class="hover:underline" href="#">Placement Cell Verification</a>
+</div>
+</footer>
+</div>
+</div>
+<script>
+    // Highlight Settings in Shell Sidebar
+    (function highlightSettingsNav() {
+      const links = document.querySelectorAll('aside nav a');
+      links.forEach(link => {
+        if (link.getAttribute('data-path') === 'settings') {
+          link.classList.add('bg-surface-container-low', 'text-primary', 'font-medium');
+          link.classList.remove('text-on-surface-variant');
+        } else {
+          link.classList.remove('bg-surface-container-low', 'text-primary', 'font-medium');
+        }
+      });
+    })();
+
+    // Password Toggle Functionality
+    const keyInput = document.getElementById('groqKeyInput');
+    const toggleBtn = document.getElementById('toggleKeyBtn');
+    const eyeIcon = document.getElementById('eyeIcon');
+
+    if (toggleBtn && keyInput && eyeIcon) {
+      toggleBtn.addEventListener('click', () => {
+        if (keyInput.type === 'password') {
+          keyInput.type = 'text';
+          eyeIcon.textContent = 'visibility_off';
+        } else {
+          keyInput.type = 'password';
+          eyeIcon.textContent = 'visibility';
+        }
+      });
+    }
+
+    // Test Connection Simulation
+    const testBtn = document.getElementById('testConnBtn');
+    const testText = document.getElementById('testBtnText');
+    if (testBtn && testText) {
+      testBtn.addEventListener('click', () => {
+        testText.textContent = 'Pinging...';
+        testBtn.disabled = true;
+        setTimeout(() => {
+          testText.textContent = 'Connected (114ms)';
+          testBtn.classList.add('border-[#16A34A]', 'text-[#16A34A]');
+          triggerToast('Groq inference handshake successful • 114ms latency');
+          setTimeout(() => {
+            testText.textContent = 'Test Connection';
+            testBtn.disabled = false;
+            testBtn.classList.remove('border-[#16A34A]', 'text-[#16A34A]');
+          }, 3000);
+        }, 850);
+      });
+    }
+
+    // Dynamic Toast Handler
+    function triggerToast(message) {
+      const toast = document.getElementById('save-toast');
+      const toastText = document.getElementById('toast-text');
+      if (!toast || !toastText) return;
+      toastText.textContent = message;
+      toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-3');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-3');
+        toast.classList.remove('opacity-100', 'translate-y-0');
+      }, 3200);
+    }
+  </script>
+</div></main></div></body></html>

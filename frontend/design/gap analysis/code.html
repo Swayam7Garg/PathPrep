@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-fixed":"#1b1c1c","primary-fixed":"#e5e2e1","surface-container":"#eeeeee","inverse-on-surface":"#f1f1f1","on-tertiary-fixed-variant":"#464747","secondary-fixed-dim":"#c8c6c6","secondary-fixed":"#e4e2e2","surface-dim":"#dadada","on-secondary":"#ffffff","tertiary-container":"#1b1c1c","on-tertiary-fixed":"#1b1c1c","surface-bright":"#f9f9f9","outline":"#747878","on-surface":"#1a1c1c","surface-container-highest":"#e2e2e2","surface-container-lowest":"#ffffff","surface-container-high":"#e8e8e8","tertiary-fixed-dim":"#c7c6c6","error-container":"#ffdad6","on-secondary-fixed-variant":"#464747","surface-container-low":"#f4f3f3","primary-fixed-dim":"#c8c6c5","on-tertiary":"#ffffff","on-surface-variant":"#444748","secondary-container":"#e4e2e2","surface-tint":"#5f5e5e","on-error-container":"#93000a","tertiary":"#000000","inverse-primary":"#c8c6c5","on-primary-container":"#858383","on-error":"#ffffff","background":"#f9f9f9","on-tertiary-container":"#848484","primary-container":"#1c1b1b","on-primary-fixed":"#1c1b1b","on-primary-fixed-variant":"#474646","outline-variant":"#c4c7c7","tertiary-fixed":"#e3e2e2","surface":"#f9f9f9","on-secondary-container":"#646464","on-primary":"#ffffff","surface-variant":"#e2e2e2","error":"#ba1a1a","inverse-surface":"#2f3131","primary":"#000000","secondary":"#5e5e5e","on-background":"#1a1c1c"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"gutter":"1.5rem","space-sm":"0.5rem","space-md":"1rem","margin-mobile":"1.25rem","space-lg":"1.5rem","space-xl":"2.5rem","margin":"3rem","gutter-mobile":"1rem","space-xs":"0.25rem"},fontFamily:{"headline-xl-mobile":["Inter"],"headline-sm":["Inter"],"headline-xl":["Inter"],"body-md":["Inter"],"label-sm":["Inter"],"headline-lg":["Inter"],"headline-md":["Inter"],"headline-lg-mobile":["Inter"],"code-sm":["JetBrains Mono"],"body-sm":["Inter"],"label-md":["Inter"],"body-lg":["Inter"]},fontSize:{"headline-xl-mobile":["26px",{lineHeight:"34px",letterSpacing:"-0.015em",fontWeight:"600"}],"headline-sm":["18px",{lineHeight:"26px",letterSpacing:"-0.005em",fontWeight:"500"}],"headline-xl":["32px",{lineHeight:"40px",letterSpacing:"-0.02em",fontWeight:"600"}],"body-md":["15px",{lineHeight:"24px",letterSpacing:"0em",fontWeight:"400"}],"label-sm":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"500"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"600"}],"headline-md":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-lg-mobile":["22px",{lineHeight:"30px",letterSpacing:"-0.01em",fontWeight:"600"}],"code-sm":["13px",{lineHeight:"20px",letterSpacing:"0em",fontWeight:"400"}],"body-sm":["13px",{lineHeight:"20px",letterSpacing:"0em",fontWeight:"400"}],"label-md":["14px",{lineHeight:"20px",letterSpacing:"0.01em",fontWeight:"500"}],"body-lg":["16px",{lineHeight:"25.6px",letterSpacing:"0em",fontWeight:"400"}]}}}};</script></head><body class="bg-surface-container-lowest font-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-60 bg-surface-container-lowest border-r border-outline-variant/50 z-50 flex flex-col justify-between"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center gap-space-sm border-b border-outline-variant/30"><img alt="PrepPath Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1UlcacYoW6nO9PCkFeQppJ0vMc1QhuEe9K465aKvAn-HuPcRiYFxbltFDGchG7LTjGd23v54WajH4Qzo7sYapYJaCReS6wm3x62NCShxN-7OgP37G643AE-aSd9P9PKk80kVQezJl2XfoXaZqiL9Gl6VW1Kn_frQUP6snq-4i_Uh6ixtH_nY7tFkhX9msaqHxtdgb3Al59yFz9bSo8hc_nQ8lxMLHhfS2SaLxCy0yPkvyyVtSwRpkFqDew"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface leading-none tracking-tight">PrepPath</span><span class="font-label-sm text-label-sm text-secondary leading-tight mt-0.5">Campus Prep</span></div></div><nav class="p-space-sm flex flex-col gap-space-xs mt-space-xs" data-active-classes="bg-surface-container-low text-primary font-medium"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">grid_view</span><span>Dashboard</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="practice" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">code</span><span>Practice</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="interviews" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">videocam</span><span>Interviews</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="skills" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">psychology</span><span>Skills</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="review" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">fact_check</span><span>Review</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="progress" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">monitoring</span><span>Progress</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-headline-sm leading-none">settings</span><span>Settings</span></a></nav></div><div class="p-space-sm border-t border-outline-variant/30 mb-space-xs"><a class="flex items-center justify-between px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="placement-guide-2025" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-headline-sm leading-none text-secondary">menu_book</span><span class="font-label-sm text-label-sm">Placement Guide 2025</span></div><span class="material-symbols-outlined text-label-sm leading-none text-secondary">arrow_outward</span></a></div></aside><div class="pl-60"><header class="fixed top-0 left-60 right-0 h-16 bg-surface-container-lowest border-b border-outline-variant/50 z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-sm"><span class="font-headline-sm text-headline-sm text-on-surface">Dashboard</span><span class="text-outline-variant">•</span><span class="font-label-sm text-label-sm text-secondary">Spring Placement Season · Day 18</span></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-2.5 py-1 rounded-full border border-outline-variant/60 bg-surface-container-lowest"><span class="w-1.5 h-1.5 rounded-full bg-primary"></span><span class="font-code-sm text-code-sm text-on-surface-variant">AI credits today: 1 of 2</span></div><button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-headline-sm leading-none">notifications</span></button><div class="flex items-center pl-space-xs border-l border-outline-variant/40"><img alt="Profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD68EU96MOEKfl6X_yqyZqomWVbZkimk7AZXMwGKqVM0K5mwI1FDHS-t7TRfXrIVgOPfQqj4TZFY8PUoCl8SMsUgjdv2jpEj3_-KLxPJxEvjE3w8NXMURcVGYibPFTNJbIKxGfQjLwfArTcSxpbA6SxRXt7wt1BAqkDFUsUbuRzVcGLWnD2_NYag9LFUQk1bv6hhVjYOHiymp2xgEbhpIJ4UvOS_QOse50uZM_pheL8sMXuMj77OcfT"/></div></div></header><main class="w-full pt-16 min-h-screen bg-surface-container-lowest"><div class="flex flex-col w-full">
+<div class="w-full max-w-[1240px] mx-auto px-space-md sm:px-space-lg lg:px-space-xl py-space-lg">
+<!-- Top Header & Meta Area -->
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-space-md pb-space-lg">
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center gap-2">
+<span class="font-code-sm text-code-sm text-secondary uppercase tracking-wider">Java Backend Track</span>
+<span class="text-outline-variant">•</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Placement Diagnostic Matrix</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Skills Mastery &amp; Gap Analysis</h1>
+<div class="flex items-center gap-2 mt-1">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            Campus Readiness Index: <strong>76%</strong>
+</span>
+<span class="text-outline-variant">•</span>
+<span class="font-label-sm text-label-sm text-secondary">Target: Tier-1 SDE Placement</span>
+</div>
+</div>
+<!-- Segmented Filter Control -->
+<div class="flex items-center bg-surface-container-low p-1 rounded-lg self-start md:self-end">
+<button class="filter-btn px-3.5 py-1.5 rounded-lg font-label-md text-label-md transition-colors bg-surface-container-lowest text-primary shadow-sm font-medium" data-filter="all" id="btn-filter-all" onclick="setTopicFilter('all')">
+          All <span class="ml-1 px-1.5 py-0.2 rounded-full bg-surface-container font-code-sm text-code-sm text-secondary">12</span>
+</button>
+<button class="filter-btn px-3.5 py-1.5 rounded-lg font-label-md text-label-md transition-colors text-secondary hover:text-primary" data-filter="weak" id="btn-filter-weak" onclick="setTopicFilter('weak')">
+          Weak <span class="ml-1 px-1.5 py-0.2 rounded-full bg-surface-container font-code-sm text-code-sm text-secondary">4</span>
+</button>
+<button class="filter-btn px-3.5 py-1.5 rounded-lg font-label-md text-label-md transition-colors text-secondary hover:text-primary" data-filter="improving" id="btn-filter-improving" onclick="setTopicFilter('improving')">
+          Improving <span class="ml-1 px-1.5 py-0.2 rounded-full bg-surface-container font-code-sm text-code-sm text-secondary">5</span>
+</button>
+</div>
+</header>
+<!-- Main Content Dual-Column Split -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT COLUMN: Topic Mastery Radar & Key Diagnostics (approx 44%) -->
+<div class="lg:col-span-5 flex flex-col gap-space-md">
+<!-- Radar Visualization Card -->
+<section class="bg-surface-container-lowest rounded-xl p-space-lg flex flex-col gap-space-md">
+<div class="flex flex-col gap-1 pb-space-sm bg-surface-container-lowest">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Topic Mastery Radar</h2>
+<span class="material-symbols-outlined text-secondary text-headline-sm">radar</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Multivariate proficiency across 6 core technical domains evaluated in mock sessions &amp; quizzes.</p>
+</div>
+<!-- Radar SVG Display -->
+<div class="w-full flex justify-center py-2 relative">
+<svg aria-label="Technical Proficiency Spider Chart" class="w-full max-w-[420px] h-auto overflow-visible select-none" viewbox="0 0 460 440">
+<!-- Radial Guidelines / Rings (100%, 75%, 50%, 25%) Center at (230, 215), Radius = 150 -->
+<!-- Hexagon Rings: angles at 30, 90, 150, 210, 270, 330 deg -->
+<!-- 100% Ring -->
+<polygon fill="none" points="359.9,290 230,365 100.1,290 100.1,140 230,65 359.9,140" stroke="#E5E5E5" stroke-width="1"></polygon>
+<!-- 75% Ring -->
+<polygon fill="none" points="327.4,271.25 230,327.5 132.6,271.25 132.6,158.75 230,102.5 327.4,158.75" stroke="#EBEBEB" stroke-dasharray="2 3" stroke-width="1"></polygon>
+<!-- 50% Ring -->
+<polygon fill="none" points="295,252.5 230,290 165,252.5 165,177.5 230,140 295,177.5" stroke="#E5E5E5" stroke-width="1"></polygon>
+<!-- 25% Ring -->
+<polygon fill="none" points="262.5,233.75 230,252.5 197.5,233.75 197.5,196.25 230,177.5 262.5,196.25" stroke="#EBEBEB" stroke-dasharray="2 3" stroke-width="1"></polygon>
+<!-- Axis Rays from Center (230, 215) to 100% Vertices -->
+<line stroke="#E5E5E5" stroke-width="1" x1="230" x2="230" y1="215" y2="65"></line>
+<line stroke="#E5E5E5" stroke-width="1" x1="230" x2="359.9" y1="215" y2="140"></line>
+<line stroke="#E5E5E5" stroke-width="1" x1="230" x2="359.9" y1="215" y2="290"></line>
+<line stroke="#E5E5E5" stroke-width="1" x1="230" x2="230" y1="215" y2="365"></line>
+<line stroke="#E5E5E5" stroke-width="1" x1="230" x2="100.1" y1="215" y2="290"></line>
+<line stroke="#E5E5E5" stroke-width="1" x1="230" x2="100.1" y1="215" y2="140"></line>
+<!-- Benchmark Polygon (Target Placement Benchmark: 80%, 75%, 85%, 85%, 80%, 75%) -->
+<!-- Angles: 
+                   1. Concurrency (270°): 230, 215 - 150*0.80 = 230, 95
+                   2. DB & Indexing (330°): 230 + 150*0.75*0.866 = 327.4, 215 - 150*0.75*0.5 = 158.8
+                   3. JVM Internals (30°): 230 + 150*0.85*0.866 = 340.4, 215 + 150*0.85*0.5 = 278.8
+                   4. Spring (90°): 230, 215 + 150*0.85 = 230, 342.5
+                   5. DSA (150°): 230 - 150*0.80*0.866 = 126.1, 215 + 150*0.80*0.5 = 275
+                   6. System Design (210°): 230 - 150*0.75*0.866 = 132.6, 215 - 150*0.75*0.5 = 158.8
+              -->
+<polygon fill="none" points="230,95 327.4,158.8 340.4,278.8 230,342.5 126.1,275 132.6,158.8" stroke="#A3A3A3" stroke-dasharray="4 4" stroke-width="1.5"></polygon>
+<!-- User Polygon Profile:
+                   1. Concurrency: 62% -> 230, 215 - 150*0.62 = 230, 122
+                   2. DB & Indexing: 48% -> 230 + 150*0.48*0.866 = 292.4, 215 - 150*0.48*0.5 = 179
+                   3. JVM Internals: 78% -> 230 + 150*0.78*0.866 = 331.3, 215 + 150*0.78*0.5 = 273.5
+                   4. Spring: 84% -> 230, 215 + 150*0.84 = 230, 341
+                   5. DSA: 88% -> 230 - 150*0.88*0.866 = 115.7, 215 + 150*0.88*0.5 = 281
+                   6. System Design: 58% -> 230 - 150*0.58*0.866 = 154.7, 215 - 150*0.58*0.5 = 171.5
+              -->
+<polygon fill="#111111" fill-opacity="0.08" points="230,122 292.4,179 331.3,273.5 230,341 115.7,281 154.7,171.5" stroke="#111111" stroke-width="2"></polygon>
+<!-- Data Dots for User Profile -->
+<circle cx="230" cy="122" fill="#111111" r="4" stroke="#FFFFFF" stroke-width="1.5"></circle>
+<circle cx="292.4" cy="179" fill="#111111" r="4" stroke="#FFFFFF" stroke-width="1.5"></circle>
+<circle cx="331.3" cy="273.5" fill="#111111" r="4" stroke="#FFFFFF" stroke-width="1.5"></circle>
+<circle cx="230" cy="341" fill="#111111" r="4" stroke="#FFFFFF" stroke-width="1.5"></circle>
+<circle cx="115.7" cy="281" fill="#111111" r="4" stroke="#FFFFFF" stroke-width="1.5"></circle>
+<circle cx="154.7" cy="171.5" fill="#111111" r="4" stroke="#FFFFFF" stroke-width="1.5"></circle>
+<!-- Concentric Axis Labels -->
+<text class="fill-secondary font-code-sm text-[10px]" x="234" y="180">25%</text>
+<text class="fill-secondary font-code-sm text-[10px]" x="234" y="142">50%</text>
+<text class="fill-secondary font-code-sm text-[10px]" x="234" y="105">75%</text>
+<!-- Axis Vertex Labels & Diagnostic Percentages -->
+<!-- Top: Concurrency -->
+<text class="fill-on-surface font-label-sm text-[12px] font-semibold" text-anchor="middle" x="230" y="44">Concurrency</text>
+<text class="fill-secondary font-code-sm text-[11px]" text-anchor="middle" x="230" y="58">62%</text>
+<!-- Top Right: DB & Indexing -->
+<text class="fill-on-surface font-label-sm text-[12px] font-semibold" text-anchor="start" x="375" y="132">Database &amp; Indexing</text>
+<text class="fill-error font-code-sm text-[11px] font-medium" text-anchor="start" x="375" y="146">48% (Gap)</text>
+<!-- Bottom Right: JVM Internals -->
+<text class="fill-on-surface font-label-sm text-[12px] font-semibold" text-anchor="start" x="375" y="295">JVM Internals</text>
+<text class="fill-secondary font-code-sm text-[11px]" text-anchor="start" x="375" y="309">78%</text>
+<!-- Bottom: Spring Ecosystem -->
+<text class="fill-on-surface font-label-sm text-[12px] font-semibold" text-anchor="middle" x="230" y="385">Spring Ecosystem</text>
+<text class="fill-secondary font-code-sm text-[11px]" text-anchor="middle" x="230" y="399">84%</text>
+<!-- Bottom Left: DSA -->
+<text class="fill-on-surface font-label-sm text-[12px] font-semibold" text-anchor="end" x="85" y="295">Data Structures &amp; Algos</text>
+<text class="fill-secondary font-code-sm text-[11px]" text-anchor="end" x="85" y="309">88%</text>
+<!-- Top Left: System Design -->
+<text class="fill-on-surface font-label-sm text-[12px] font-semibold" text-anchor="end" x="85" y="132">System Design</text>
+<text class="fill-secondary font-code-sm text-[11px]" text-anchor="end" x="85" y="146">58%</text>
+</svg>
+</div>
+<!-- Radar Chart Legend -->
+<div class="flex items-center justify-center gap-space-md pt-space-xs text-body-sm font-label-sm text-secondary">
+<div class="flex items-center gap-2">
+<span class="w-3 h-0.5 bg-primary"></span>
+<span>Your Profile</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-4 h-0.5 bg-secondary-fixed-dim border-t border-dashed border-secondary"></span>
+<span>Top 20% Placement Benchmark</span>
+</div>
+</div>
+</section>
+<!-- Diagnostic Gap Focus Callout -->
+<div class="bg-surface-container-low rounded-xl p-space-md flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-headline-sm mt-0.5">priority_high</span>
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md text-on-surface font-medium">Primary Diagnostic Focus</span>
+<p class="font-body-sm text-body-sm text-secondary leading-relaxed">
+<strong>Database &amp; Indexing (48%)</strong> and <strong>Concurrency (62%)</strong> are currently tracking below your target tier benchmark. Prioritize these to bridge the readiness gap before mock review rounds.
+            </p>
+</div>
+</div>
+<!-- Metric Summary Chips -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="bg-surface-container-lowest rounded-xl p-space-md flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-secondary">Strongest Domain</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Data Structures</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">88% Mastery • Top 5%</span>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-space-md flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-secondary">Urgent Recovery</span>
+<span class="font-headline-sm text-headline-sm text-error">B+ Tree Indexes</span>
+<span class="font-code-sm text-code-sm text-secondary">48% Mastery • -4% delta</span>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Topic Breakdown & Targeted Practice List (approx 56%) -->
+<div class="lg:col-span-7 flex flex-col gap-space-md">
+<div class="bg-surface-container-lowest rounded-xl p-space-lg flex flex-col gap-space-md">
+<!-- Category Header & List Filter Summary -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Topic Breakdown</h2>
+<p class="font-body-sm text-body-sm text-secondary">Granular review of assessed concepts with targeted practice triggers.</p>
+</div>
+<div class="flex items-center gap-1.5 self-start sm:self-auto">
+<span class="font-code-sm text-code-sm text-secondary">Showing:</span>
+<span class="font-label-sm text-label-sm font-medium px-2 py-0.5 rounded-full bg-surface-container text-on-surface" id="active-filter-indicator">All Topics</span>
+</div>
+</div>
+<!-- Topic List Container -->
+<div class="flex flex-col gap-space-sm" id="topic-list">
+<!-- Item 1: B+ Trees (Weak) -->
+<article class="topic-row p-space-md rounded-lg bg-surface-container-lowest hover:bg-surface-container-low transition-colors duration-150 flex flex-col md:flex-row md:items-center justify-between gap-space-md" data-topic-status="weak">
+<div class="flex flex-col gap-1.5 flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-surface-container font-label-sm text-[11px] text-secondary font-medium tracking-wide">Database &amp; Storage Engines</span>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-[11px] font-semibold">Weak Area</span>
+</div>
+<h3 class="font-headline-sm text-body-lg text-on-surface font-semibold truncate">B+ Trees &amp; Database Indexing</h3>
+<div class="flex items-center gap-3 pt-1">
+<!-- Progress Bar -->
+<div class="w-28 sm:w-36 bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-error h-1.5 rounded-full" style="width: 48%;"></div>
+</div>
+<span class="font-code-sm text-code-sm font-semibold text-error">48%</span>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-sm leading-none text-error">arrow_downward</span>
+                    -4% vs last mock
+                  </span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<a class="px-3.5 py-1.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1.5 shadow-sm" href="#">
+<span>Practice</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Item 2: Lock Granularity (Weak) -->
+<article class="topic-row p-space-md rounded-lg bg-surface-container-lowest hover:bg-surface-container-low transition-colors duration-150 flex flex-col md:flex-row md:items-center justify-between gap-space-md" data-topic-status="weak">
+<div class="flex flex-col gap-1.5 flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-surface-container font-label-sm text-[11px] text-secondary font-medium tracking-wide">Java Concurrency</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-[11px] font-medium">Needs Revision</span>
+</div>
+<h3 class="font-headline-sm text-body-lg text-on-surface font-semibold truncate">Lock Granularity &amp; Concurrency Primitives</h3>
+<div class="flex items-center gap-3 pt-1">
+<div class="w-28 sm:w-36 bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-on-surface-variant h-1.5 rounded-full" style="width: 62%;"></div>
+</div>
+<span class="font-code-sm text-code-sm font-semibold text-on-surface">62%</span>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-sm leading-none">trending_flat</span>
+                    No change (2 drills)
+                  </span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<a class="px-3.5 py-1.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1.5 shadow-sm" href="#">
+<span>Practice</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Item 3: Spring Boot (Improving / Strong) -->
+<article class="topic-row p-space-md rounded-lg bg-surface-container-lowest hover:bg-surface-container-low transition-colors duration-150 flex flex-col md:flex-row md:items-center justify-between gap-space-md" data-topic-status="improving">
+<div class="flex flex-col gap-1.5 flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-surface-container font-label-sm text-[11px] text-secondary font-medium tracking-wide">Spring Framework</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-[11px] font-semibold">Strong</span>
+</div>
+<h3 class="font-headline-sm text-body-lg text-on-surface font-semibold truncate">Spring Boot Dependency Injection &amp; Lifecycle</h3>
+<div class="flex items-center gap-3 pt-1">
+<div class="w-28 sm:w-36 bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 84%;"></div>
+</div>
+<span class="font-code-sm text-code-sm font-semibold text-on-surface">84%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-0.5 font-medium">
+<span class="material-symbols-outlined text-sm leading-none">arrow_upward</span>
+                    +12% this week
+                  </span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<a class="px-3.5 py-1.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1.5 shadow-sm" href="#">
+<span>Practice</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Item 4: Garbage Collection (Improving / Solid) -->
+<article class="topic-row p-space-md rounded-lg bg-surface-container-lowest hover:bg-surface-container-low transition-colors duration-150 flex flex-col md:flex-row md:items-center justify-between gap-space-md" data-topic-status="improving">
+<div class="flex flex-col gap-1.5 flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-surface-container font-label-sm text-[11px] text-secondary font-medium tracking-wide">JVM Architecture</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-[11px] font-medium">Solid</span>
+</div>
+<h3 class="font-headline-sm text-body-lg text-on-surface font-semibold truncate">Garbage Collection &amp; Memory Leaks</h3>
+<div class="flex items-center gap-3 pt-1">
+<div class="w-28 sm:w-36 bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 78%;"></div>
+</div>
+<span class="font-code-sm text-code-sm font-semibold text-on-surface">78%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-0.5">
+<span class="material-symbols-outlined text-sm leading-none">arrow_upward</span>
+                    +6% this week
+                  </span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<a class="px-3.5 py-1.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1.5 shadow-sm" href="#">
+<span>Practice</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Item 5: Cache Invalidation (Weak) -->
+<article class="topic-row p-space-md rounded-lg bg-surface-container-lowest hover:bg-surface-container-low transition-colors duration-150 flex flex-col md:flex-row md:items-center justify-between gap-space-md" data-topic-status="weak">
+<div class="flex flex-col gap-1.5 flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-surface-container font-label-sm text-[11px] text-secondary font-medium tracking-wide">Distributed Systems</span>
+<span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-[11px] font-semibold">Weak Area</span>
+</div>
+<h3 class="font-headline-sm text-body-lg text-on-surface font-semibold truncate">Cache Invalidation &amp; Redis Patterns</h3>
+<div class="flex items-center gap-3 pt-1">
+<div class="w-28 sm:w-36 bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-error h-1.5 rounded-full" style="width: 56%;"></div>
+</div>
+<span class="font-code-sm text-code-sm font-semibold text-error">56%</span>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-sm leading-none text-error">arrow_downward</span>
+                    -2% gap
+                  </span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<a class="px-3.5 py-1.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1.5 shadow-sm" href="#">
+<span>Practice</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Item 6: HashMaps & Collision (Improving / Mastered) -->
+<article class="topic-row p-space-md rounded-lg bg-surface-container-lowest hover:bg-surface-container-low transition-colors duration-150 flex flex-col md:flex-row md:items-center justify-between gap-space-md" data-topic-status="improving">
+<div class="flex flex-col gap-1.5 flex-1 min-w-0">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="px-2 py-0.5 rounded-full bg-surface-container font-label-sm text-[11px] text-secondary font-medium tracking-wide">Collections &amp; Data Structures</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-[11px] font-semibold">Mastered</span>
+</div>
+<h3 class="font-headline-sm text-body-lg text-on-surface font-semibold truncate">HashMaps &amp; Collision Resolution</h3>
+<div class="flex items-center gap-3 pt-1">
+<div class="w-28 sm:w-36 bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 92%;"></div>
+</div>
+<span class="font-code-sm text-code-sm font-semibold text-on-surface">92%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-0.5 font-medium">
+<span class="material-symbols-outlined text-sm leading-none">arrow_upward</span>
+                    +5% mastered
+                  </span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<a class="px-3.5 py-1.5 rounded-lg bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1.5 shadow-sm" href="#">
+<span>Practice</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</article>
+</div>
+<!-- Bottom Session Schedule Banner -->
+<div class="mt-space-sm p-space-md rounded-xl bg-surface-container-low flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-headline-sm">tune</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Adaptive Practice Generator</span>
+<span class="font-body-sm text-body-sm text-secondary">Queue 5 targeted questions balancing your weak areas.</span>
+</div>
+</div>
+<button class="px-4 py-2 rounded-lg bg-primary text-on-primary hover:bg-secondary font-label-md text-label-md font-medium transition-colors whitespace-nowrap self-start sm:self-auto" type="button">
+              Start Rapid Drill
+            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+    function setTopicFilter(filter) {
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(btn => {
+        if (btn.getAttribute('data-filter') === filter) {
+          btn.className = 'filter-btn px-3.5 py-1.5 rounded-lg font-label-md text-label-md transition-colors bg-surface-container-lowest text-primary shadow-sm font-medium';
+        } else {
+          btn.className = 'filter-btn px-3.5 py-1.5 rounded-lg font-label-md text-label-md transition-colors text-secondary hover:text-primary';
+        }
+      });
+
+      const indicator = document.getElementById('active-filter-indicator');
+      if (filter === 'all') {
+        indicator.textContent = 'All Topics (12)';
+      } else if (filter === 'weak') {
+        indicator.textContent = 'Weak Areas (<65%)';
+      } else if (filter === 'improving') {
+        indicator.textContent = 'Improving (Last 7d)';
+      }
+
+      const rows = document.querySelectorAll('#topic-list .topic-row');
+      rows.forEach(row => {
+        const rowStatus = row.getAttribute('data-topic-status');
+        if (filter === 'all') {
+          row.style.display = 'flex';
+        } else if (filter === rowStatus) {
+          row.style.display = 'flex';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</div></main></div></body></html>
