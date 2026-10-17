@@ -288,3 +288,10 @@ Turns finished quiz sessions into persistent scorecards, enables resuming in-pro
 - [x] Phase 5 `GET /sessions/{id}`, `POST /sessions/{id}/complete`, `GET /sessions/{id}/report`, `GET /sessions` done and tested (Zero AI, single active session guard, scorecard, history)
 - [x] V8 migration (`skill_mastery`, `review_queue`, `review_attempts`, `daily_activity`)
 - [x] Phase 6 The Learning Loop done and tested (`/me/skills`, `/me/skills/gaps`, `/me/plan/today`, `/me/progress`, `/me/review/due`, `/me/review/{id}/answer`, zero-AI pure calculators, atomic daily activity upsert, strict JSON boolean naming)
+- [x] Phases 5 & 6 Gap Closure & Robustness:
+  - Report on IN_PROGRESS returns 400 `SESSION_NOT_COMPLETED`; ABANDONED returns 409 `REPORT_NOT_AVAILABLE`.
+  - `ReadinessView` contains `minAnswersRequired` matching configured threshold.
+  - `GapKind` includes advisory `PREREQUISITE_BLOCKED` for topics with unmet dependencies.
+  - `LearningEventListener` handles concurrent initial insert race on `skill_mastery` via pessimistic retry.
+  - `QuestionMapper` record mapping without ModelMapper reflection.
+  - 83/83 unit and integration tests passing covering full review ladder, atomicity, replay invariance, and single-active-session constraints.

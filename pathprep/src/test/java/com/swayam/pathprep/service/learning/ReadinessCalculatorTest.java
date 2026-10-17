@@ -54,4 +54,12 @@ class ReadinessCalculatorTest {
         var res3 = calculator.calculate(15, List.of(t1), 0, 5);
         assertThat(res3.percent()).isEqualByComparingTo("64.0");
     }
+    @Test
+    void studentWithAnswersButNoQueuedMistakes_calculatesWithoutDivisionByZero() {
+        var t1 = new ReadinessCalculator.TopicWeightAndMastery(BigDecimal.valueOf(1.0), BigDecimal.valueOf(85.0), 5);
+        var res = calculator.calculate(20, List.of(t1), 0, 0); // 0 ever queued
+        assertThat(res.percent()).isEqualByComparingTo("85.0");
+        assertThat(res.reason()).isNull();
+        assertThat(res.basedOnQuestions()).isEqualTo(20);
+    }
 }

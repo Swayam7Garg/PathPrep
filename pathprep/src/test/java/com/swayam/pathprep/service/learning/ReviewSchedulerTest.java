@@ -20,7 +20,17 @@ class ReviewSchedulerTest {
     }
 
     @Test
-    void wrongAnswer_resetsToStep0Interval1Tomorrow() {
+    void wrongAnswerAtStep0_staysAtStep0Interval1Tomorrow() {
+        var res = scheduler.schedule(0, false, today);
+        assertThat(res.repetitionCount()).isEqualTo(0);
+        assertThat(res.intervalDays()).isEqualTo(1);
+        assertThat(res.nextDueOn()).isEqualTo(today.plusDays(1));
+        assertThat(res.graduated()).isFalse();
+        assertThat(res.status()).isEqualTo(ReviewStatus.PENDING);
+    }
+
+    @Test
+    void wrongAnswerAtHigherStep_resetsToStep0Interval1Tomorrow() {
         var res = scheduler.schedule(2, false, today);
         assertThat(res.repetitionCount()).isEqualTo(0);
         assertThat(res.intervalDays()).isEqualTo(1);
@@ -30,8 +40,8 @@ class ReviewSchedulerTest {
     }
 
     @Test
-    void correctLadderSteps() {
-        // Step 0 -> 1: interval 3 days
+    void correctLadderSteps_allFourTransitions() {
+        // Transition 1: Step 0 -> 1 (interval: 3 days)
         var step1 = scheduler.schedule(0, true, today);
         assertThat(step1.repetitionCount()).isEqualTo(1);
         assertThat(step1.intervalDays()).isEqualTo(3);
@@ -39,21 +49,21 @@ class ReviewSchedulerTest {
         assertThat(step1.graduated()).isFalse();
         assertThat(step1.status()).isEqualTo(ReviewStatus.PENDING);
 
-        // Step 1 -> 2: interval 7 days
+        // Transition 2: Step 1 -> 2 (interval: 7 days)
         var step2 = scheduler.schedule(1, true, today);
         assertThat(step2.repetitionCount()).isEqualTo(2);
         assertThat(step2.intervalDays()).isEqualTo(7);
         assertThat(step2.nextDueOn()).isEqualTo(today.plusDays(7));
         assertThat(step2.graduated()).isFalse();
 
-        // Step 2 -> 3: interval 14 days
+        // Transition 3: Step 2 -> 3 (interval: 14 days)
         var step3 = scheduler.schedule(2, true, today);
         assertThat(step3.repetitionCount()).isEqualTo(3);
         assertThat(step3.intervalDays()).isEqualTo(14);
         assertThat(step3.nextDueOn()).isEqualTo(today.plusDays(14));
         assertThat(step3.graduated()).isFalse();
 
-        // Step 3 -> 4: graduated
+        // Transition 4: Step 3 -> 4 (graduated)
         var step4 = scheduler.schedule(3, true, today);
         assertThat(step4.repetitionCount()).isEqualTo(4);
         assertThat(step4.intervalDays()).isNull();

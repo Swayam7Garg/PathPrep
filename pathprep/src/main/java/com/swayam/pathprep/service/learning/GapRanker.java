@@ -19,7 +19,8 @@ public class GapRanker {
             int publishedQuestionCount,
             SkillStatus status,
             int attemptsCount,
-            int correctCount
+            int correctCount,
+            boolean prerequisitesMet
     ) {}
 
     public record RankedGap(
@@ -58,11 +59,16 @@ public class GapRanker {
                     BigDecimal gap = BigDecimal.valueOf(100).subtract(m);
                     BigDecimal impact = w.multiply(gap).setScale(1, RoundingMode.HALF_UP);
 
-                    GapKind kind = (c.attemptsCount() == 0) ? GapKind.NOT_STARTED : GapKind.WEAK;
+                    GapKind kind;
                     String reason;
-                    if (c.attemptsCount() == 0) {
+                    if (!c.prerequisitesMet()) {
+                        kind = GapKind.PREREQUISITE_BLOCKED;
+                        reason = "Weight " + w.stripTrailingZeros().toPlainString() + ", prerequisites unmet (advisory)";
+                    } else if (c.attemptsCount() == 0) {
+                        kind = GapKind.NOT_STARTED;
                         reason = "Weight " + w.stripTrailingZeros().toPlainString() + ", not started yet";
                     } else {
+                        kind = GapKind.WEAK;
                         reason = "Weight " + w.stripTrailingZeros().toPlainString() + ", you answered " + c.correctCount() + " of " + c.attemptsCount() + " correctly";
                     }
 

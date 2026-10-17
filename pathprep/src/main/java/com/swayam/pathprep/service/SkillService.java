@@ -113,7 +113,7 @@ public class SkillService {
                     tr.getName(),
                     tr.getDomain(),
                     tr.getWeight(),
-                    (int) (int) tr.getQuestionCount(),
+                    (int) tr.getQuestionCount(),
                     masteryPercent,
                     attemptsCount,
                     correctCount,
@@ -146,9 +146,24 @@ public class SkillService {
         }
 
         List<Long> topicIds = topicRows.stream().map(TopicRow::getId).toList();
-        Map<Long, SkillMastery> masteryMap = skillMasteryRepository.findByUserIdAndTopicIdIn(userId, topicIds)
+
+        // Prerequisites mapping
+        List<TopicPrereq> prereqs = topicPrereqRepository.findByTopicIdIn(topicIds);
+        Map<Long, List<Long>> prereqMap = new HashMap<>();
+        Set<Long> allPrereqIds = new HashSet<>();
+        for (TopicPrereq p : prereqs) {
+            prereqMap.computeIfAbsent(p.getId().getTopicId(), k -> new ArrayList<>()).add(p.getId().getPrereqId());
+            allPrereqIds.add(p.getId().getPrereqId());
+        }
+
+        Set<Long> neededTopicInfoIds = new HashSet<>(topicIds);
+        neededTopicInfoIds.addAll(allPrereqIds);
+
+        Map<Long, SkillMastery> masteryMap = skillMasteryRepository.findByUserIdAndTopicIdIn(userId, neededTopicInfoIds)
                 .stream()
                 .collect(Collectors.toMap(sm -> sm.getTopic().getId(), Function.identity()));
+
+        BigDecimal prereqThreshold = BigDecimal.valueOf(learningProperties.getPrerequisiteThreshold());
 
         MasteryCalculator masteryCalculator = new MasteryCalculator(
                 learningProperties.getMasteryWindow(),
@@ -166,6 +181,17 @@ public class SkillService {
             int attempts = (sm != null) ? sm.getAttemptsCount() : 0;
             int correct = (sm != null) ? sm.getCorrectCount() : 0;
 
+            List<Long> topicPrereqIds = prereqMap.getOrDefault(tr.getId(), List.of());
+            boolean prerequisitesMet = true;
+            for (Long pid : topicPrereqIds) {
+                SkillMastery pSm = masteryMap.get(pid);
+                BigDecimal pMastery = (pSm != null) ? pSm.getMasteryScore() : null;
+                if (pMastery == null || pMastery.compareTo(prereqThreshold) < 0) {
+                    prerequisitesMet = false;
+                    break;
+                }
+            }
+
             candidates.add(new GapRanker.Candidate(
                     tr.getId(),
                     tr.getName(),
@@ -174,7 +200,8 @@ public class SkillService {
                     (int) tr.getQuestionCount(),
                     status,
                     attempts,
-                    correct
+                    correct,
+                    prerequisitesMet
             ));
         }
 

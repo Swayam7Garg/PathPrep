@@ -39,8 +39,7 @@ public class QuestionMapper {
         if (option == null) {
             return null;
         }
-        log.trace("Mapping QuestionOption id={} position={} via ModelMapper", option.getId(), option.getPosition());
-        return modelMapper.map(option, OptionView.class);
+        return new OptionView(option.getId(), option.getPosition(), option.getText());
     }
 
     /**

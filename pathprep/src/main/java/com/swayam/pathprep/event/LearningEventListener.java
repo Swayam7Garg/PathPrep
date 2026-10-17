@@ -9,6 +9,7 @@ import com.swayam.pathprep.util.AppDay;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;
@@ -72,7 +73,26 @@ public class LearningEventListener {
         mastery.setConfidenceLevel(masteryCalculator.calculateConfidence(mastery.getAttemptsCount()));
         mastery.setLastPracticedAt(now);
         mastery.setUpdatedAt(now);
-        skillMasteryRepository.saveAndFlush(mastery);
+        try {
+            skillMasteryRepository.saveAndFlush(mastery);
+        } catch (DataIntegrityViolationException dive) {
+            log.info("Concurrent insert race on skill_mastery: retrying with lock for userId={}, topicId={}",
+                    event.getUserId(), event.getTopicId());
+            SkillMastery existing = skillMasteryRepository
+                    .findByUserIdAndTopicIdWithLock(event.getUserId(), event.getTopicId())
+                    .orElseThrow(() -> dive);
+            String retryOutcomes = masteryCalculator.appendOutcome(existing.getRecentOutcomes(), event.isCorrect());
+            existing.setRecentOutcomes(retryOutcomes);
+            existing.setAttemptsCount(existing.getAttemptsCount() + 1);
+            if (event.isCorrect()) {
+                existing.setCorrectCount(existing.getCorrectCount() + 1);
+            }
+            existing.setMasteryScore(masteryCalculator.calculateScore(retryOutcomes));
+            existing.setConfidenceLevel(masteryCalculator.calculateConfidence(existing.getAttemptsCount()));
+            existing.setLastPracticedAt(now);
+            existing.setUpdatedAt(now);
+            skillMasteryRepository.saveAndFlush(existing);
+        }
 
         // 2. daily_activity update (atomic native upsert)
         int cappedSeconds = Math.min(event.getTimeSpentSec(), learningProperties.getMaxSecondsPerAnswer());

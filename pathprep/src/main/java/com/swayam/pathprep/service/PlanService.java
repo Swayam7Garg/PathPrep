@@ -92,7 +92,7 @@ public class PlanService {
                     learningProperties.getMinMistakesForClearance()
             ).calculate(totalQuestionsAnswered, readinessTopics, graduated, totalEverQueued);
 
-            readinessView = new ReadinessView(readinessRes.percent(), readinessRes.reason(), readinessRes.basedOnQuestions());
+            readinessView = new ReadinessView(readinessRes.percent(), readinessRes.reason(), readinessRes.basedOnQuestions(), learningProperties.getMinAnswersForReadiness());
 
             SkillGapsResponse gaps = skillService.getSkillGaps(track.getId(), 1);
             if (!gaps.gaps().isEmpty()) {
@@ -100,7 +100,7 @@ public class PlanService {
                 recommendedFocus = new RecommendedFocus(topGap.topicId(), topGap.topicName(), topGap.kind(), topGap.reason());
             }
         } else {
-            readinessView = new ReadinessView(null, "NOT_ENOUGH_DATA", 0);
+            readinessView = new ReadinessView(null, "NOT_ENOUGH_DATA", 0, learningProperties.getMinAnswersForReadiness());
         }
 
         // 6. Plan Items (Maximum 3 items)
