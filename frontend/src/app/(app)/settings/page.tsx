@@ -194,20 +194,20 @@ export default function SettingsPage() {
         </CardContent>
       </Card>
 
-      {/* 2. AI Credits & Daily Quota Card */}
-      <Card>
+      {/* 2. AI Credits & Daily Quota Card (Phase 8 - Not Available Yet) */}
+      <Card className="opacity-80">
         <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 gap-2">
           <div>
             <div className="flex items-center gap-2">
-              <Zap className="w-4 h-4 text-[#111111]" />
+              <Zap className="w-4 h-4 text-[#8A8A8A]" />
               <CardTitle className="text-[18px]">AI Credits & Daily Quota</CardTitle>
             </div>
             <p className="text-[13px] text-[#8A8A8A] mt-1">
-              You receive 2 free AI mock interview rounds and 20 AI diagnostic reviews every day.
+              Live conversational interviewer agent and diagnostic evaluations.
             </p>
           </div>
-          <Badge variant="primary" className="text-[11px] self-start sm:self-auto">
-            Campus Free Tier
+          <Badge variant="warning" className="text-[11px] self-start sm:self-auto">
+            Not available yet (Phase 8)
           </Badge>
         </CardHeader>
 
@@ -217,24 +217,24 @@ export default function SettingsPage() {
             <div className="p-4 rounded-xl bg-[#FAFAFA] border border-[#E5E5E5] flex flex-col justify-between gap-4">
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-[14px] font-semibold text-[#111111]">
+                  <span className="text-[14px] font-semibold text-[#8A8A8A]">
                     Mock Interview Rounds
                   </span>
-                  <span className="font-mono text-[12px] font-semibold text-[#111111]">
-                    {usage?.usedToday ?? 1} of {usage?.dailyQuota ?? 2} used
+                  <span className="font-mono text-[12px] font-semibold text-[#8A8A8A]">
+                    0 of 2 used
                   </span>
                 </div>
                 <p className="text-[12px] text-[#8A8A8A] mb-3">
                   Live conversational interviewer agent (30m session).
                 </p>
-                <Progress value={((usage?.usedToday ?? 1) / (usage?.dailyQuota ?? 2)) * 100} className="h-2" />
+                <Progress value={0} className="h-2" />
               </div>
 
               <div className="pt-2 border-t border-[#E5E5E5]/60 flex items-center justify-between font-mono text-[11px] text-[#8A8A8A]">
                 <span className="flex items-center gap-1">
-                  <Clock className="w-3 h-3" /> Resets in 7h 42m (00:00 UTC)
+                  <Clock className="w-3 h-3" /> Offline
                 </span>
-                <span className="text-[#111111] font-medium">1 available</span>
+                <span className="text-[#8A8A8A]">Feature in development</span>
               </div>
             </div>
 
@@ -242,103 +242,73 @@ export default function SettingsPage() {
             <div className="p-4 rounded-xl bg-[#FAFAFA] border border-[#E5E5E5] flex flex-col justify-between gap-4">
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-[14px] font-semibold text-[#111111]">
+                  <span className="text-[14px] font-semibold text-[#8A8A8A]">
                     Diagnostic Reviews
                   </span>
-                  <span className="font-mono text-[12px] font-semibold text-[#111111]">
-                    14 of 20 used
+                  <span className="font-mono text-[12px] font-semibold text-[#8A8A8A]">
+                    0 of 20 used
                   </span>
                 </div>
                 <p className="text-[12px] text-[#8A8A8A] mb-3">
                   Deep-dive code complexity and rubric feedback.
                 </p>
-                <Progress value={70} className="h-2" />
+                <Progress value={0} className="h-2" />
               </div>
 
               <div className="pt-2 border-t border-[#E5E5E5]/60 flex items-center justify-between font-mono text-[11px] text-[#8A8A8A]">
                 <span className="flex items-center gap-1">
-                  <Clock className="w-3 h-3" /> Resets in 7h 42m (00:00 UTC)
+                  <Clock className="w-3 h-3" /> Offline
                 </span>
-                <span className="text-[#111111] font-medium">6 available</span>
+                <span className="text-[#8A8A8A]">Feature in development</span>
               </div>
             </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* 3. Bring Your Own Groq Key Card */}
-      <Card className="border-[#111111]">
+      {/* 3. Bring Your Own Groq Key Card (Phase 8 - Not Available Yet) */}
+      <Card className="opacity-80">
         <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 gap-2">
           <div>
             <div className="flex items-center gap-2">
-              <Key className="w-4 h-4 text-[#111111]" />
+              <Key className="w-4 h-4 text-[#8A8A8A]" />
               <CardTitle className="text-[18px]">Use Your Own Groq API Key</CardTitle>
             </div>
             <p className="text-[13px] text-[#8A8A8A] mt-1">
-              Bypass all daily platform limits with your personal free Groq Cloud key.
+              Direct connection to Groq Cloud for unlimited LLM interview simulations.
             </p>
           </div>
-          <Badge variant="success">Unlimited Simulations</Badge>
+          <Badge variant="warning" className="text-[11px] self-start sm:self-auto">
+            Not available yet (Phase 8)
+          </Badge>
         </CardHeader>
 
         <CardContent className="flex flex-col gap-4">
-          <p className="text-[13px] text-[#555555] leading-relaxed">
-            Your key is AES encrypted in the backend. Calls are routed directly to Groq's ultra-low latency inference endpoints (<code>Llama 3 70B</code> / <code>Mixtral 8x7B</code>) with zero platform rate limiting.
+          <p className="text-[13px] text-[#8A8A8A] leading-relaxed">
+            Personal LLM key encryption and routing will be enabled in Phase 8 (Mock Interviews). For now, all practice quizzes and learning loop metrics run 100% locally with zero AI dependency.
           </p>
 
           <div className="flex flex-col gap-2">
-            <label className="text-[13px] font-medium text-[#111111]">
+            <label className="text-[13px] font-medium text-[#8A8A8A]">
               Groq Cloud API Key
             </label>
-            <div className="relative flex items-center">
-              <input
-                type={showKey ? "text" : "password"}
-                value={groqKey}
-                onChange={(e) => setGroqKey(e.target.value)}
-                placeholder="gsk_••••••••••••••••••••••••••••••••"
-                className="w-full px-3.5 py-2.5 rounded-lg border border-[#E5E5E5] focus:border-[#111111] focus:outline-none text-[13px] font-mono tracking-wider bg-white pr-20 text-[#111111]"
-              />
-              <div className="absolute right-2.5 flex items-center gap-1">
-                <button
-                  type="button"
-                  onClick={() => setShowKey(!showKey)}
-                  className="p-1 text-[#8A8A8A] hover:text-[#111111] transition-colors"
-                >
-                  {showKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
-              </div>
-            </div>
+            <input
+              type="password"
+              disabled
+              placeholder="gsk_•••••••••••••••••••••••••••••••• (Not available yet)"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-[#E5E5E5] bg-[#FAFAFA] text-[13px] font-mono text-[#8A8A8A] cursor-not-allowed"
+            />
           </div>
 
           <div className="flex items-center justify-between pt-2">
             <span className="text-[12px] text-[#8A8A8A]">
-              Don't have a key? Get one free at{" "}
-              <a
-                href="https://console.groq.com"
-                target="_blank"
-                rel="noreferrer"
-                className="text-[#111111] underline"
-              >
-                console.groq.com
-              </a>
+              Custom LLM integration unlocks in Phase 8
             </span>
 
-            <div className="flex items-center gap-3">
-              {keySaved && (
-                <span className="text-[12px] text-[#16A34A] font-medium flex items-center gap-1">
-                  <Check className="w-3.5 h-3.5" /> Key Saved & Verified!
-                </span>
-              )}
-              <Button
-                size="sm"
-                onClick={() => saveKeyMutation.mutate(groqKey)}
-                disabled={saveKeyMutation.isPending || !groqKey.trim()}
-                className="gap-2"
-              >
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Save Encrypted Key</span>
-              </Button>
-            </div>
+            <Button size="sm" disabled className="gap-2 cursor-not-allowed opacity-50">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Save Encrypted Key</span>
+            </Button>
           </div>
         </CardContent>
       </Card>

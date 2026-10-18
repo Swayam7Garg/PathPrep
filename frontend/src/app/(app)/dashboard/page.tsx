@@ -1,367 +1,499 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import {
-  ArrowUpRight,
-  Download,
   Flame,
-  Clock,
+  CheckCircle2,
+  AlertTriangle,
   Play,
   RotateCcw,
-  Sparkles,
-  ChevronRight,
+  ArrowRight,
   TrendingUp,
+  Clock,
+  Target,
+  BookOpen,
+  History,
+  AlertCircle,
+  RefreshCw,
+  Compass,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import {
-  getDailyPlan,
-  getSkillMastery,
-  getReviewQueue,
-} from "@/lib/api";
+import { getTodayPlan, getSessionHistory } from "@/lib/api";
 import { queryKeys } from "@/lib/query-keys";
+import { PlanItem } from "@/lib/types";
 
 export default function DashboardPage() {
-  const [timeRange, setTimeRange] = useState<"7d" | "30d" | "90d">("30d");
-
-  const { data: dailyPlan } = useQuery({
+  const {
+    data: plan,
+    isLoading: planLoading,
+    isError: planError,
+    error: planErrorObj,
+    refetch: refetchPlan,
+  } = useQuery({
     queryKey: queryKeys.me.planToday,
-    queryFn: getDailyPlan,
+    queryFn: getTodayPlan,
   });
 
-  const { data: masteryList } = useQuery({
-    queryKey: queryKeys.me.skills,
-    queryFn: getSkillMastery,
+  const {
+    data: sessionsData,
+    isLoading: sessionsLoading,
+    isError: sessionsError,
+    refetch: refetchSessions,
+  } = useQuery({
+    queryKey: queryKeys.sessions.history({ size: 5 }),
+    queryFn: () => getSessionHistory({ size: 5 }),
   });
 
-  const { data: reviewItems } = useQuery({
-    queryKey: queryKeys.me.reviewDue,
-    queryFn: getReviewQueue,
-  });
+  // Error State
+  if (planError) {
+    return (
+      <div className="w-full max-w-[1200px] mx-auto px-6 py-12 flex flex-col items-center justify-center min-h-[50vh]">
+        <div className="p-8 rounded-xl border border-[#E5E5E5] bg-white max-w-md w-full flex flex-col items-center text-center gap-4">
+          <div className="w-12 h-12 rounded-full bg-[#FEE2E2] flex items-center justify-center text-[#DC2626]">
+            <AlertCircle className="w-6 h-6" />
+          </div>
+          <div className="flex flex-col gap-1">
+            <h3 className="text-[18px] font-semibold text-[#111111]">Failed to load today's plan</h3>
+            <p className="text-[13px] text-[#555555]">
+              {planErrorObj instanceof Error ? planErrorObj.message : "Could not connect to the learning server."}
+            </p>
+          </div>
+          <Button onClick={() => refetchPlan()} className="gap-2 mt-2 w-full">
+            <RefreshCw className="w-4 h-4" />
+            <span>Retry</span>
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Loading Skeleton State
+  if (planLoading) {
+    return (
+      <div className="w-full max-w-[1200px] mx-auto px-6 py-8 flex flex-col gap-8 animate-pulse">
+        <div className="flex flex-col gap-2 border-b border-[#E5E5E5] pb-6">
+          <div className="h-4 w-48 bg-[#EEEEEE] rounded" />
+          <div className="h-8 w-72 bg-[#EEEEEE] rounded mt-2" />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="h-36 rounded-xl border border-[#E5E5E5] bg-[#FAFAFA]" />
+          ))}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 h-72 rounded-xl border border-[#E5E5E5] bg-[#FAFAFA]" />
+          <div className="h-72 rounded-xl border border-[#E5E5E5] bg-[#FAFAFA]" />
+        </div>
+      </div>
+    );
+  }
+
+  const streak = plan?.streak;
+  const readiness = plan?.readiness;
+  const recommendedFocus = plan?.recommendedFocus;
+  const items: PlanItem[] = plan?.items ?? [];
+  const recentSessions = sessionsData?.items ?? [];
 
   return (
     <div className="w-full max-w-[1200px] mx-auto px-6 py-8 flex flex-col gap-8">
-      {/* 1. Header & Readiness Telemetry Summary */}
+      {/* 1. Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#E5E5E5] pb-6">
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#111111]" />
             <span className="font-mono text-[11px] uppercase tracking-wider text-[#8A8A8A]">
-              Telemetry • Longitudinal Readiness Matrix
+              Longitudinal Learning Plan • {plan?.date ?? "Today"}
             </span>
           </div>
-
-          <div className="flex flex-wrap items-baseline gap-3 mt-1">
-            <h2 className="text-[30px] font-semibold text-[#111111] tracking-tight">
-              Progress & Mastery Velocity
-            </h2>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEEEEE] text-[#111111] text-[12px] font-medium border border-[#E5E5E5]">
-              <span>Current Readiness: <strong>78%</strong></span>
-              <span className="text-[#8A8A8A] font-normal">(+14% over 30d)</span>
-            </div>
-          </div>
-
+          <h1 className="text-[30px] font-semibold text-[#111111] tracking-tight">
+            Dashboard & Learning Momentum
+          </h1>
           <p className="text-[13px] text-[#555555]">
-            Spring Placement Season cohort benchmark target:{" "}
-            <span className="text-[#111111] font-medium">Tier-1 SDE Cutoff (80%)</span>. You are{" "}
-            <strong>2.0%</strong> away from the target threshold.
+            Daily prioritized drills and spaced review queue calibrated from your quiz performance.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <Button variant="secondary" size="sm" className="gap-2">
-            <Download className="w-3.5 h-3.5" strokeWidth={1.5} />
-            <span>Export Diagnostic</span>
-          </Button>
           <Link href="/practice">
             <Button size="sm" className="gap-2">
               <Play className="w-3.5 h-3.5 fill-current" />
-              <span>Start Practice</span>
+              <span>Practice Lobby</span>
+            </Button>
+          </Link>
+          <Link href="/review">
+            <Button variant="outline" size="sm" className="gap-2">
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>Review ({plan?.reviewDueCount ?? 0})</span>
             </Button>
           </Link>
         </div>
       </div>
 
-      {/* 2. Longitudinal Trajectory Chart Card */}
-      <Card>
-        <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-3">
-          <div>
-            <CardTitle className="text-[18px]">Placement Readiness Trajectory</CardTitle>
-            <p className="text-[13px] text-[#8A8A8A] mt-1">
-              Composite readiness index across mock evaluations, system design rounds, and active quizzes
-            </p>
-          </div>
-
-          {/* Time range switcher */}
-          <div className="inline-flex items-center p-1 rounded-lg bg-[#EEEEEE] border border-[#E5E5E5] mt-2 sm:mt-0">
-            {(["7d", "30d", "90d"] as const).map((range) => (
-              <button
-                key={range}
-                onClick={() => setTimeRange(range)}
-                className={`px-3 py-1 rounded text-[12px] font-medium transition-colors ${
-                  timeRange === range
-                    ? "bg-[#111111] text-white shadow-sm"
-                    : "text-[#555555] hover:text-[#111111]"
-                }`}
-              >
-                {range}
-              </button>
-            ))}
-          </div>
-        </CardHeader>
-
-        <CardContent className="pt-4">
-          <div className="w-full relative overflow-x-auto">
-            <div className="min-w-[680px] w-full">
-              <svg
-                className="w-full h-72 overflow-visible"
-                fill="none"
-                viewBox="0 0 900 280"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  <linearGradient id="curveGradient" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="#111111" stopOpacity="0.08" />
-                    <stop offset="100%" stopColor="#111111" stopOpacity="0.00" />
-                  </linearGradient>
-                </defs>
-
-                {/* Horizontal Grid lines & Y-Axis Labels */}
-                <line stroke="#EFEFEF" strokeDasharray="3 3" strokeWidth="1" x1="50" x2="880" y1="30" y2="30" />
-                <text className="font-mono text-[11px]" fill="#747878" textAnchor="end" x="40" y="34">100%</text>
-
-                {/* Tier-1 Cutoff Benchmark line (80%) */}
-                <line stroke="#111111" strokeDasharray="5 4" strokeOpacity="0.65" strokeWidth="1.2" x1="50" x2="880" y1="74" y2="74" />
-                <text className="font-mono text-[11px] font-medium" fill="#111111" textAnchor="end" x="880" y="66">
-                  Tier-1 Placement Cutoff (80%)
-                </text>
-                <text className="font-mono text-[11px]" fill="#747878" textAnchor="end" x="40" y="78">80%</text>
-
-                {/* 50% line */}
-                <line stroke="#EFEFEF" strokeDasharray="3 3" strokeWidth="1" x1="50" x2="880" y1="140" y2="140" />
-                <text className="font-mono text-[11px]" fill="#747878" textAnchor="end" x="40" y="144">50%</text>
-
-                {/* 25% line */}
-                <line stroke="#EFEFEF" strokeDasharray="3 3" strokeWidth="1" x1="50" x2="880" y1="195" y2="195" />
-                <text className="font-mono text-[11px]" fill="#747878" textAnchor="end" x="40" y="199">25%</text>
-
-                {/* Baseline */}
-                <line stroke="#E2E2E2" strokeWidth="1" x1="50" x2="880" y1="250" y2="250" />
-                <text className="font-mono text-[11px]" fill="#747878" textAnchor="end" x="40" y="254">0%</text>
-
-                {/* Area wash */}
-                <path
-                  d="M 60 110 C 120 108, 170 102, 220 98 C 280 94, 340 98, 400 90 C 460 82, 510 86, 560 76 C 620 66, 680 82, 730 70 C 780 60, 830 58, 870 52 L 870 250 L 60 250 Z"
-                  fill="url(#curveGradient)"
-                />
-
-                {/* Trajectory curve */}
-                <path
-                  d="M 60 110 C 120 108, 170 102, 220 98 C 280 94, 340 98, 400 90 C 460 82, 510 86, 560 76 C 620 66, 680 82, 730 70 C 780 60, 830 58, 870 52"
-                  fill="none"
-                  stroke="#111111"
-                  strokeLinecap="round"
-                  strokeWidth="2.2"
-                />
-
-                {/* Check points */}
-                <circle cx="60" cy="110" fill="#FFFFFF" r="3.5" stroke="#111111" strokeWidth="2" />
-                <circle cx="220" cy="98" fill="#FFFFFF" r="3.5" stroke="#111111" strokeWidth="2" />
-                <circle cx="400" cy="90" fill="#FFFFFF" r="3.5" stroke="#111111" strokeWidth="2" />
-                <circle cx="560" cy="76" fill="#FFFFFF" r="3.5" stroke="#111111" strokeWidth="2" />
-                <circle cx="730" cy="70" fill="#111111" r="4.5" stroke="#FFFFFF" strokeWidth="1.5" />
-                <circle cx="870" cy="52" fill="#111111" r="4.5" stroke="#FFFFFF" strokeWidth="1.5" />
-
-                {/* Tooltip Pin near Day 24 */}
-                <g transform="translate(620, 16)">
-                  <rect fill="#111111" height="38" rx="6" width="220" x="0" y="0" />
-                  <path d="M 110 38 L 110 44" stroke="#111111" strokeWidth="2" />
-                  <text className="font-sans text-[11px] font-medium" fill="#FFFFFF" x="12" y="16">
-                    Mock Drill #402: +5% gain
-                  </text>
-                  <text className="font-mono text-[10px]" fill="#A1A1AA" x="12" y="30">
-                    ConcurrentHashMap & Locks
-                  </text>
-                </g>
-
-                {/* X-axis ticks */}
-                <text className="font-mono text-[11px]" fill="#747878" textAnchor="middle" x="60" y="270">Day 1</text>
-                <text className="font-mono text-[11px]" fill="#747878" textAnchor="middle" x="220" y="270">Day 6</text>
-                <text className="font-mono text-[11px]" fill="#747878" textAnchor="middle" x="400" y="270">Day 12</text>
-                <text className="font-mono text-[11px]" fill="#747878" textAnchor="middle" x="560" y="270">Day 18</text>
-                <text className="font-mono text-[11px]" fill="#747878" textAnchor="middle" x="730" y="270">Day 24</text>
-                <text className="font-mono text-[11px] font-semibold" fill="#111111" textAnchor="middle" x="870" y="270">Today (Day 30)</text>
-              </svg>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-[#E5E5E5]/60 text-[12px] text-[#8A8A8A]">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <span className="w-3.5 h-0.5 bg-[#111111]" />
-                <span className="text-[#111111] font-medium">Your Trajectory (Composite 78%)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-3.5 h-0.5 border-t border-dashed border-[#111111]" />
-                <span>Tier-1 Cutoff Benchmark (80%)</span>
-              </div>
-            </div>
-            <span>Calculated from 18 verified sessions & mocks</span>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* 3. Actionable Next Steps & Daily Recommendations */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Recommended Daily Action */}
-        <Card className="md:col-span-2 border-[#111111]">
-          <CardHeader className="flex flex-row items-center justify-between pb-3">
-            <div className="flex items-center gap-2">
-              <Badge variant="primary" className="text-[11px]">TODAY'S PLAN</Badge>
-              <span className="text-[12px] text-[#8A8A8A] font-mono">Day 18 of 60</span>
-            </div>
-            <div className="flex items-center gap-1.5 text-[12px] font-medium text-[#111111]">
-              <Flame className="w-4 h-4 text-[#D97706] fill-[#D97706]" />
-              <span>{dailyPlan?.currentStreakDays ?? 18}-day streak</span>
-            </div>
+      {/* 2. Key Telemetry Metrics (4-Column Grid) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Metric 1: Streak */}
+        <Card
+          className={`flex flex-col justify-between transition-colors ${
+            streak?.atRisk
+              ? "border-[#D97706] bg-[#FEF3C7]/20"
+              : "border-[#E5E5E5] hover:border-[#111111]"
+          }`}
+        >
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <span className="text-[12px] font-mono text-[#8A8A8A] uppercase tracking-wider">
+              Practice Streak
+            </span>
+            <Flame
+              className={`w-4 h-4 ${
+                streak?.atRisk ? "text-[#D97706] fill-[#D97706]" : "text-[#111111]"
+              }`}
+            />
           </CardHeader>
-          <CardContent className="flex flex-col gap-4">
-            <div>
-              <h3 className="text-[18px] font-semibold text-[#111111]">
-                {dailyPlan?.recommendedAction.title ?? "Distributed Systems & Concurrency (8 Questions • ~15 mins)"}
-              </h3>
-              <p className="text-[13px] text-[#555555] mt-1">
-                Zero-AI code-graded rapid drill focused on high-yield placement concepts: thread safety, CAS primitives, and optimistic locking.
-              </p>
+          <CardContent className="flex flex-col gap-2">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-[28px] font-semibold text-[#111111] leading-none">
+                {streak?.current ?? 0}
+              </span>
+              <span className="text-[13px] text-[#8A8A8A]">
+                day{streak?.current === 1 ? "" : "s"}
+              </span>
             </div>
-
-            <div className="flex items-center justify-between pt-2 border-t border-[#E5E5E5]/60">
-              <div className="flex items-center gap-4 text-[12px] text-[#8A8A8A]">
-                <span className="flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5" /> 15 mins
-                </span>
-                <span>8 Questions</span>
-                <span className="text-[#16A34A] font-medium">+4% potential gain</span>
+            {streak?.atRisk ? (
+              <div className="flex items-center gap-1.5 text-[11px] font-medium text-[#D97706]">
+                <AlertTriangle className="w-3.5 h-3.5" />
+                <span>Practise today to keep your streak</span>
               </div>
-              <Link href="/practice">
-                <Button className="gap-2">
-                  <span>Start Today's Drill</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </Button>
-              </Link>
-            </div>
+            ) : (
+              <div className="text-[11px] text-[#8A8A8A] font-mono">
+                Longest: {streak?.longest ?? 0} days
+              </div>
+            )}
           </CardContent>
         </Card>
 
-        {/* Spaced Repetition Due Queue */}
-        <Card>
-          <CardHeader className="pb-3 flex flex-row items-center justify-between">
-            <CardTitle className="text-[16px]">Review Due Queue</CardTitle>
-            <Badge variant="warning">{reviewItems?.length ?? 3} Due</Badge>
+        {/* Metric 2: Daily Goal Progress */}
+        <Card className="flex flex-col justify-between hover:border-[#111111] transition-colors">
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <span className="text-[12px] font-mono text-[#8A8A8A] uppercase tracking-wider">
+              Daily Goal
+            </span>
+            <Target className="w-4 h-4 text-[#111111]" />
           </CardHeader>
-          <CardContent className="flex flex-col gap-3">
-            <p className="text-[13px] text-[#555555]">
-              Past mistakes scheduled for spaced repetition retention today.
-            </p>
-            <div className="flex flex-col gap-2">
-              {reviewItems?.slice(0, 2).map((item) => (
-                <div
-                  key={item.attemptId}
-                  className="p-2.5 rounded-lg bg-[#FAFAFA] border border-[#E5E5E5] text-[12px]"
-                >
-                  <p className="font-medium text-[#111111] line-clamp-1">
-                    {item.questionBody}
-                  </p>
-                  <div className="flex items-center justify-between text-[#8A8A8A] text-[11px] mt-1 font-mono">
-                    <span>{item.topicName}</span>
-                    <span className="text-[#DC2626]">Mistakes: {item.mistakeCount}</span>
-                  </div>
-                </div>
-              ))}
+          <CardContent className="flex flex-col gap-2">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-[28px] font-semibold text-[#111111] leading-none">
+                {plan?.todayQuestionsAnswered ?? 0}
+              </span>
+              <span className="text-[13px] text-[#8A8A8A]">
+                / {plan?.dailyGoal ?? 10} questions
+              </span>
             </div>
-            <Link href="/review" className="mt-1">
-              <Button variant="outline" size="sm" className="w-full gap-2">
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span>Revisit Queue ({reviewItems?.length ?? 3})</span>
-              </Button>
+            <Progress
+              value={
+                plan && plan.dailyGoal > 0
+                  ? Math.min(100, (plan.todayQuestionsAnswered / plan.dailyGoal) * 100)
+                  : 0
+              }
+              className="h-1.5"
+            />
+            <span className="text-[11px] text-[#8A8A8A]">
+              {(plan?.todayQuestionsAnswered ?? 0) >= (plan?.dailyGoal ?? 10)
+                ? "Daily goal reached!"
+                : `${(plan?.dailyGoal ?? 10) - (plan?.todayQuestionsAnswered ?? 0)} questions remaining`}
+            </span>
+          </CardContent>
+        </Card>
+
+        {/* Metric 3: Readiness Dial / Honest Empty State */}
+        <Card className="flex flex-col justify-between hover:border-[#111111] transition-colors">
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <span className="text-[12px] font-mono text-[#8A8A8A] uppercase tracking-wider">
+              Placement Readiness
+            </span>
+            <TrendingUp className="w-4 h-4 text-[#111111]" />
+          </CardHeader>
+          <CardContent className="flex flex-col gap-2">
+            {readiness?.percent == null ? (
+              <div className="flex flex-col gap-1.5">
+                <span className="text-[13px] font-medium text-[#111111]">
+                  Answer {readiness?.minAnswersRequired ?? 10} questions to see your readiness
+                </span>
+                <Progress
+                  value={
+                    readiness && readiness.minAnswersRequired > 0
+                      ? Math.min(
+                          100,
+                          (readiness.basedOnQuestions / readiness.minAnswersRequired) * 100
+                        )
+                      : 0
+                  }
+                  className="h-1.5"
+                />
+                <span className="text-[11px] text-[#8A8A8A] font-mono">
+                  {readiness?.basedOnQuestions ?? 0} / {readiness?.minAnswersRequired ?? 10} answered
+                </span>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-1">
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-[28px] font-semibold text-[#111111] leading-none">
+                    {readiness.percent}%
+                  </span>
+                </div>
+                <p className="text-[11px] text-[#555555] line-clamp-2">
+                  {readiness.reason}
+                </p>
+                <span className="text-[10px] text-[#8A8A8A] font-mono mt-0.5">
+                  Based on {readiness.basedOnQuestions} questions
+                </span>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Metric 4: Review Due Queue */}
+        <Card className="flex flex-col justify-between hover:border-[#111111] transition-colors">
+          <CardHeader className="pb-2 flex flex-row items-center justify-between">
+            <span className="text-[12px] font-mono text-[#8A8A8A] uppercase tracking-wider">
+              Due For Review
+            </span>
+            <RotateCcw className="w-4 h-4 text-[#111111]" />
+          </CardHeader>
+          <CardContent className="flex flex-col gap-2">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-[28px] font-semibold text-[#111111] leading-none">
+                {plan?.reviewDueCount ?? 0}
+              </span>
+              <span className="text-[13px] text-[#8A8A8A]">
+                item{plan?.reviewDueCount === 1 ? "" : "s"}
+              </span>
+            </div>
+            <p className="text-[11px] text-[#555555]">
+              Spaced repetition questions due for active recall today.
+            </p>
+            <Link href="/review" className="text-[12px] font-medium text-[#111111] underline">
+              Open review queue &rarr;
             </Link>
           </CardContent>
         </Card>
       </div>
 
-      {/* 4. Topic Readiness Matrix */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-3">
-          <div>
-            <CardTitle className="text-[18px]">Core Topic Readiness Matrix</CardTitle>
-            <p className="text-[13px] text-[#8A8A8A] mt-1">
-              Live mastery levels across Java Backend curriculum topics
-            </p>
+      {/* 3. Recommended Focus Callout */}
+      {recommendedFocus && (
+        <Card className="border-[#111111] bg-[#FAFAFA]">
+          <CardContent className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-2">
+                <Compass className="w-4 h-4 text-[#111111]" />
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#8A8A8A]">
+                  Recommended Diagnostic Focus
+                </span>
+                <Badge
+                  variant={
+                    recommendedFocus.kind === "NOT_STARTED"
+                      ? "default"
+                      : recommendedFocus.kind === "WEAK"
+                      ? "warning"
+                      : "critical"
+                  }
+                  className="text-[10px]"
+                >
+                  {recommendedFocus.kind === "NOT_STARTED"
+                    ? "Start here"
+                    : recommendedFocus.kind === "WEAK"
+                    ? "Needs work"
+                    : "Prerequisite blocked"}
+                </Badge>
+              </div>
+              <h3 className="text-[17px] font-semibold text-[#111111]">
+                {recommendedFocus.topicName}
+              </h3>
+              <p className="text-[13px] text-[#555555] max-w-3xl">
+                {recommendedFocus.reason}
+              </p>
+            </div>
+
+            <Link
+              href={`/practice?topicId=${recommendedFocus.topicId}&count=8`}
+              className="shrink-0"
+            >
+              <Button size="sm" className="gap-2">
+                <span>Start Practice Drill</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* 4. Today's Plan & Recent Sessions Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left Column: Today's Plan Items in Order */}
+        <div className="lg:col-span-7 flex flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <BookOpen className="w-4 h-4 text-[#111111]" />
+              <h2 className="text-[18px] font-semibold text-[#111111]">Today's Plan</h2>
+            </div>
+            <span className="text-[12px] font-mono text-[#8A8A8A]">
+              {items.length} prioritized action{items.length === 1 ? "" : "s"}
+            </span>
           </div>
-          <Link href="/skills">
-            <Button variant="ghost" size="sm" className="gap-1 text-[13px]">
-              <span>View Full Skill Map</span>
-              <ChevronRight className="w-4 h-4" />
-            </Button>
-          </Link>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-[#E5E5E5] text-[12px] font-medium text-[#8A8A8A] font-mono">
-                  <th className="pb-3 font-normal">TOPIC & DOMAIN</th>
-                  <th className="pb-3 font-normal">MASTERY LEVEL</th>
-                  <th className="pb-3 font-normal text-center">CONFIDENCE</th>
-                  <th className="pb-3 font-normal text-right">QUESTIONS</th>
-                  <th className="pb-3 font-normal text-right">ACTION</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#E5E5E5]/60 text-[13px]">
-                {masteryList?.map((topic) => (
-                  <tr key={topic.topicId} className="hover:bg-[#FAFAFA] transition-colors">
-                    <td className="py-3.5 pr-4">
-                      <div className="font-medium text-[#111111]">{topic.topicName}</div>
-                      <div className="text-[11px] font-mono text-[#8A8A8A]">{topic.domain}</div>
-                    </td>
-                    <td className="py-3.5 px-4 w-44">
-                      <div className="flex items-center gap-3">
-                        <Progress value={topic.masteryPercentage} className="h-1.5" />
-                        <span className="font-mono text-[12px] font-medium text-[#111111] w-8">
-                          {topic.masteryPercentage}%
-                        </span>
+
+          {items.length === 0 ? (
+            <Card className="p-8 text-center flex flex-col items-center justify-center gap-3">
+              <CheckCircle2 className="w-8 h-8 text-[#16A34A]" />
+              <div className="flex flex-col gap-1">
+                <h4 className="text-[15px] font-medium text-[#111111]">
+                  All caught up for today!
+                </h4>
+                <p className="text-[13px] text-[#555555]">
+                  No pending sessions or reviews. Start a new drill from the practice lobby whenever you're ready.
+                </p>
+              </div>
+              <Link href="/practice" className="mt-2">
+                <Button variant="outline" size="sm">
+                  Go to Practice Lobby
+                </Button>
+              </Link>
+            </Card>
+          ) : (
+            <div className="flex flex-col gap-3">
+              {items.map((item, index) => {
+                let targetUrl = "/practice";
+                let actionLabel = "Start Drill";
+
+                if (item.type === "RESUME" && item.sessionId) {
+                  targetUrl = `/practice/quiz/${item.sessionId}`;
+                  actionLabel = "Resume Session";
+                } else if (item.type === "REVIEW") {
+                  targetUrl = "/review";
+                  actionLabel = "Start Review";
+                } else if (item.type === "DRILL") {
+                  const params = new URLSearchParams();
+                  if (item.topicId) params.set("topicId", item.topicId.toString());
+                  if (item.questionCount) params.set("count", item.questionCount.toString());
+                  targetUrl = `/practice?${params.toString()}`;
+                  actionLabel = `Practice (${item.questionCount ?? 8} Qs)`;
+                }
+
+                return (
+                  <Card
+                    key={`${item.type}-${item.sessionId ?? item.topicId ?? index}`}
+                    className="p-4 hover:border-[#111111] transition-colors"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-center gap-2">
+                          <Badge
+                            variant={
+                              item.type === "RESUME"
+                                ? "primary"
+                                : item.type === "REVIEW"
+                                ? "warning"
+                                : "default"
+                            }
+                            className="text-[10px]"
+                          >
+                            {item.type}
+                          </Badge>
+                          <span className="text-[11px] font-mono text-[#8A8A8A] flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            ~{item.estimatedMinutes} mins
+                          </span>
+                        </div>
+                        <h4 className="text-[15px] font-semibold text-[#111111] mt-0.5">
+                          {item.title}
+                        </h4>
+                        <p className="text-[12px] text-[#555555]">
+                          {item.detail}
+                        </p>
                       </div>
-                    </td>
-                    <td className="py-3.5 px-4 text-center">
-                      {topic.confidenceLevel === "HIGH" ? (
-                        <Badge variant="success">Mastered</Badge>
-                      ) : topic.confidenceLevel === "MEDIUM" ? (
-                        <Badge variant="warning">Progressing</Badge>
-                      ) : (
-                        <Badge variant="critical">Needs Review</Badge>
-                      )}
-                    </td>
-                    <td className="py-3.5 px-4 text-right font-mono text-[12px] text-[#555555]">
-                      {topic.questionsAttempted} solved
-                    </td>
-                    <td className="py-3.5 pl-4 text-right">
-                      <Link href="/practice">
-                        <Button variant="ghost" size="sm" className="h-7 px-2 text-[12px]">
-                          Practice
+
+                      <Link href={targetUrl} className="shrink-0 self-start sm:self-auto">
+                        <Button size="sm" variant={item.type === "RESUME" ? "primary" : "outline"} className="gap-1.5">
+                          <span>{actionLabel}</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
                         </Button>
                       </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Right Column: Recent Sessions History (GET /sessions?size=5) */}
+        <div className="lg:col-span-5 flex flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <History className="w-4 h-4 text-[#111111]" />
+              <h2 className="text-[18px] font-semibold text-[#111111]">Recent Sessions</h2>
+            </div>
+            <Link href="/practice" className="text-[12px] text-[#555555] hover:text-[#111111] underline">
+              New session
+            </Link>
           </div>
-        </CardContent>
-      </Card>
+
+          {sessionsLoading ? (
+            <div className="flex flex-col gap-2 animate-pulse">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="h-16 rounded-xl border border-[#E5E5E5] bg-[#FAFAFA]" />
+              ))}
+            </div>
+          ) : recentSessions.length === 0 ? (
+            <Card className="p-6 text-center text-[13px] text-[#8A8A8A]">
+              No practice sessions recorded yet. Start a session to build your scorecard.
+            </Card>
+          ) : (
+            <div className="flex flex-col gap-2.5">
+              {recentSessions.map((session) => (
+                <div
+                  key={session.id}
+                  className="p-3.5 rounded-xl border border-[#E5E5E5] bg-white hover:border-[#111111] transition-colors flex items-center justify-between gap-3"
+                >
+                  <div className="flex flex-col gap-0.5">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[13px] font-semibold text-[#111111]">
+                        {session.trackName}
+                      </span>
+                      <Badge
+                        variant={session.status === "COMPLETED" ? "success" : "default"}
+                        className="text-[10px]"
+                      >
+                        {session.status}
+                      </Badge>
+                    </div>
+                    <span className="text-[11px] font-mono text-[#8A8A8A]">
+                      {session.answeredCount} of {session.totalQuestions} questions •{" "}
+                      {session.scorePercent != null ? `${session.scorePercent}% score` : "In progress"}
+                    </span>
+                  </div>
+
+                  {session.status === "COMPLETED" ? (
+                    <Link href={`/practice/quiz/${session.id}/report`}>
+                      <Button variant="ghost" size="sm" className="h-7 text-[12px] px-2">
+                        View Report
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Link href={`/practice/quiz/${session.id}`}>
+                      <Button variant="outline" size="sm" className="h-7 text-[12px] px-2">
+                        Resume
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

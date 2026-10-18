@@ -5,12 +5,20 @@ import {
   SessionResponse,
   AnswerRequest,
   AnswerResponse,
-  SessionReport,
-  TopicMastery,
-  SkillGapItem,
-  DailyPlan,
-  ReviewQueueItem,
+  SessionDetailResponse,
+  SessionCompleteResponse,
+  SessionReportResponse,
+  SessionListItem,
+  PagedResponse,
+  TodayPlanResponse,
+  SkillProfileResponse,
+  SkillGapsResponse,
+  DueReviewsResponse,
+  ReviewAnswerRequest,
+  ReviewAnswerResponse,
+  ProgressResponse,
   AiUsageInfo,
+  ApiErrorResponse,
 } from "./types";
 import {
   MOCK_TRACKS,
@@ -22,10 +30,38 @@ import {
   MOCK_SESSION_RESPONSE,
   MOCK_SESSION_REPORT,
   MOCK_AI_USAGE,
+  MOCK_PROGRESS,
 } from "./mock-data";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080/api/v1";
+
+const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS === "true";
+
+export class ApiError extends Error {
+  status: number;
+  code: string;
+  details?: string[];
+  traceId?: string;
+  meta?: Record<string, unknown>;
+
+  constructor(
+    status: number,
+    message: string,
+    code?: string,
+    details?: string[],
+    traceId?: string,
+    meta?: Record<string, unknown>
+  ) {
+    super(message);
+    this.name = "ApiError";
+    this.status = status;
+    this.code = code || "UNKNOWN_ERROR";
+    this.details = details;
+    this.traceId = traceId;
+    this.meta = meta;
+  }
+}
 
 // Helper for generating client UUIDs
 export function generateUUID(): string {
@@ -44,6 +80,11 @@ async function request<T>(
   options: RequestInit = {},
   fallbackData?: T
 ): Promise<T> {
+  // If mocking is explicitly enabled, return mock data immediately
+  if (USE_MOCKS && fallbackData !== undefined) {
+    return fallbackData;
+  }
+
   const url = `${API_BASE_URL}${path}`;
   const headers = new Headers(options.headers || {});
 
@@ -53,31 +94,58 @@ async function request<T>(
   if (!headers.has("Accept")) {
     headers.set("Accept", "application/json");
   }
-  headers.set("X-Trace-Id", generateUUID());
+  if (!headers.has("X-Trace-Id")) {
+    headers.set("X-Trace-Id", generateUUID());
+  }
 
+  let response: Response;
   try {
-    const response = await fetch(url, {
+    response = await fetch(url, {
       ...options,
       headers,
     });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.warn(`[API] HTTP ${response.status} from ${url}:`, errorText);
-      if (fallbackData !== undefined) {
-        return fallbackData;
-      }
-      throw new Error(`API Error ${response.status}: ${errorText}`);
-    }
-
-    return (await response.json()) as T;
-  } catch (error) {
-    console.warn(`[API] Request to ${url} failed; using fallback.`, error);
-    if (fallbackData !== undefined) {
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : "Network error";
+    // Mocks ONLY behind NEXT_PUBLIC_USE_MOCKS=true
+    if (USE_MOCKS && fallbackData !== undefined) {
       return fallbackData;
     }
-    throw error;
+    throw new ApiError(0, errorMsg, "NETWORK_ERROR");
   }
+
+  if (!response.ok) {
+    let errorData: Partial<ApiErrorResponse> = {};
+    let errorText = "";
+    try {
+      errorText = await response.text();
+      errorData = JSON.parse(errorText);
+    } catch {
+      // response body was not JSON
+    }
+
+    if (USE_MOCKS && fallbackData !== undefined) {
+      return fallbackData;
+    }
+
+    const message =
+      errorData.message ||
+      (errorText ? errorText : `Request failed with status ${response.status}`);
+
+    throw new ApiError(
+      response.status,
+      message,
+      errorData.code,
+      errorData.details,
+      errorData.traceId || headers.get("X-Trace-Id") || undefined,
+      errorData.meta
+    );
+  }
+
+  if (response.status === 204) {
+    return {} as T;
+  }
+
+  return (await response.json()) as T;
 }
 
 // Phase 1: Track Catalog
@@ -86,7 +154,9 @@ export async function getTracks(): Promise<TrackSummary[]> {
 }
 
 // Phase 2: Topics in Track
-export async function getTopicsForTrack(trackId: number | string): Promise<TopicInTrack[]> {
+export async function getTopicsForTrack(
+  trackId: number | string
+): Promise<TopicInTrack[]> {
   return request<TopicInTrack[]>(`/tracks/${trackId}/topics`, {}, MOCK_TOPICS);
 }
 
@@ -111,16 +181,19 @@ export async function createPracticeSession(
 // Phase 4: Submit Answer (Idempotent)
 export async function submitQuizAnswer(
   sessionId: number | string,
-  selectedOptionId: number | string
+  selectedOptionId: number,
+  idempotencyKey?: string,
+  timeSpentSec?: number
 ): Promise<AnswerResponse> {
-  const idempotencyKey = generateUUID();
+  const key = idempotencyKey || generateUUID();
   const payload: AnswerRequest = {
     selectedOptionId,
-    idempotencyKey,
+    idempotencyKey: key,
+    timeSpentSec,
   };
 
   const headers: Record<string, string> = {
-    "Idempotency-Key": idempotencyKey,
+    "Idempotency-Key": key,
   };
 
   const mockAnswerResponse: AnswerResponse = {
@@ -131,20 +204,7 @@ export async function submitQuizAnswer(
     sessionStatus: "IN_PROGRESS",
     currentIndex: 3,
     totalQuestions: 8,
-    nextQuestion: {
-      id: 1025,
-      type: "MCQ",
-      topicId: 103,
-      topicName: "Thread Pools & ExecutorService",
-      difficulty: 2,
-      body: "When tasks are submitted to a `ThreadPoolExecutor` with a `LinkedBlockingQueue` (unbounded capacity), which condition causes `maxPoolSize` threads to be created?",
-      options: [
-        { id: 1, position: 1, text: "Threads beyond corePoolSize are created as soon as all core threads are busy." },
-        { id: 2, position: 2, text: "Threads beyond corePoolSize are never created because the queue never becomes full." },
-        { id: 3, position: 3, text: "Threads beyond corePoolSize are spawned when CPU utilization crosses 80%." },
-        { id: 4, position: 4, text: "The executor creates threads up to maxPoolSize upfront on initialization." },
-      ],
-    },
+    nextQuestion: null,
   };
 
   return request<AnswerResponse>(
@@ -158,40 +218,131 @@ export async function submitQuizAnswer(
   );
 }
 
-// Phase 5: Complete Session & Fetch Report
-export async function completeSession(sessionId: number | string): Promise<{ status: string }> {
-  return request<{ status: string }>(
-    `/sessions/${sessionId}/complete`,
-    { method: "POST" },
-    { status: "COMPLETED" }
-  );
+// Phase 5: Session Detail, Complete, Report & History
+export async function getSession(
+  sessionId: number | string
+): Promise<SessionDetailResponse> {
+  return request<SessionDetailResponse>(`/sessions/${sessionId}`);
 }
 
-export async function getSessionReport(sessionId: number | string): Promise<SessionReport> {
-  return request<SessionReport>(
+export async function completeSession(
+  sessionId: number | string
+): Promise<SessionCompleteResponse> {
+  return request<SessionCompleteResponse>(`/sessions/${sessionId}/complete`, {
+    method: "POST",
+  });
+}
+
+export async function getSessionReport(
+  sessionId: number | string
+): Promise<SessionReportResponse> {
+  return request<SessionReportResponse>(
     `/sessions/${sessionId}/report`,
     {},
     MOCK_SESSION_REPORT
   );
 }
 
-// Phase 6: Skill Mastery, Gap Analysis, Daily Plan, Review Due
-export async function getSkillMastery(): Promise<TopicMastery[]> {
-  return request<TopicMastery[]>("/me/skills", {}, MOCK_SKILL_MASTERY);
+export async function getSessionHistory(params?: {
+  page?: number;
+  size?: number;
+  status?: string;
+  mode?: string;
+  trackId?: number;
+}): Promise<PagedResponse<SessionListItem>> {
+  const searchParams = new URLSearchParams();
+  if (params?.page !== undefined) searchParams.set("page", params.page.toString());
+  if (params?.size !== undefined) searchParams.set("size", params.size.toString());
+  if (params?.status) searchParams.set("status", params.status);
+  if (params?.mode) searchParams.set("mode", params.mode);
+  if (params?.trackId !== undefined) searchParams.set("trackId", params.trackId.toString());
+
+  const query = searchParams.toString() ? `?${searchParams.toString()}` : "";
+  return request<PagedResponse<SessionListItem>>(`/sessions${query}`, {}, {
+    items: [],
+    page: 0,
+    size: params?.size ?? 5,
+    total: 0,
+    totalPages: 0,
+  });
 }
 
-export async function getSkillGaps(): Promise<SkillGapItem[]> {
-  return request<SkillGapItem[]>("/me/skills/gaps", {}, MOCK_SKILL_GAPS);
+// Phase 6: Learning Loop (Plan, Skills, Gaps, Review, Progress)
+export async function getTodayPlan(): Promise<TodayPlanResponse> {
+  return request<TodayPlanResponse>("/me/plan/today", {}, MOCK_DAILY_PLAN);
 }
 
-export async function getDailyPlan(): Promise<DailyPlan> {
-  return request<DailyPlan>("/me/plan/today", {}, MOCK_DAILY_PLAN);
+export async function getSkills(
+  trackId?: number | null
+): Promise<SkillProfileResponse> {
+  const query = trackId ? `?trackId=${trackId}` : "";
+  return request<SkillProfileResponse>(`/me/skills${query}`, {}, {
+    trackId: trackId ?? 1,
+    trackName: "Java Backend Engineer",
+    topics: MOCK_SKILL_MASTERY,
+  });
 }
 
-export async function getReviewQueue(): Promise<ReviewQueueItem[]> {
-  return request<ReviewQueueItem[]>("/me/review/due", {}, MOCK_REVIEW_QUEUE);
+export async function getSkillGaps(
+  trackId?: number | null,
+  limit?: number
+): Promise<SkillGapsResponse> {
+  const params = new URLSearchParams();
+  if (trackId) params.set("trackId", trackId.toString());
+  if (limit) params.set("limit", limit.toString());
+  const query = params.toString() ? `?${params.toString()}` : "";
+  return request<SkillGapsResponse>(`/me/skills/gaps${query}`, {}, {
+    trackId: trackId ?? 1,
+    gaps: MOCK_SKILL_GAPS,
+  });
 }
 
+export async function getDueReviews(
+  limit?: number
+): Promise<DueReviewsResponse> {
+  const query = limit ? `?limit=${limit}` : "";
+  return request<DueReviewsResponse>(`/me/review/due${query}`, {}, {
+    dueCount: MOCK_REVIEW_QUEUE.length,
+    items: MOCK_REVIEW_QUEUE,
+  });
+}
+
+export async function submitReviewAnswer(
+  reviewId: number,
+  payload: ReviewAnswerRequest
+): Promise<ReviewAnswerResponse> {
+  return request<ReviewAnswerResponse>(
+    `/me/review/${reviewId}/answer`,
+    {
+      method: "POST",
+      body: JSON.stringify(payload),
+    },
+    {
+      reviewId,
+      correct: payload.selectedOptionId === 2,
+      selectedOptionId: payload.selectedOptionId,
+      correctOptionId: 2,
+      explanation: "CAS bucket insertion provides lock-free put.",
+      selectedOptionExplanation: "Option analysis benchmark explanation.",
+      schedule: {
+        step: 2,
+        intervalDays: 3,
+        nextDueOn: "2026-10-20",
+        graduated: false,
+      },
+      dueRemaining: 0,
+    }
+  );
+}
+
+export async function getProgress(
+  range?: number
+): Promise<ProgressResponse> {
+  const query = range ? `?range=${range}` : "";
+  return request<ProgressResponse>(`/me/progress${query}`, {}, MOCK_PROGRESS);
+}
+
+// Phase 8 / Settings placeholders (Disabled/Mock only)
 export async function getAiUsage(): Promise<AiUsageInfo> {
   return request<AiUsageInfo>("/me/usage", {}, MOCK_AI_USAGE);
 }

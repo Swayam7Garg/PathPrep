@@ -2,12 +2,13 @@ import {
   TrackSummary,
   TopicInTrack,
   SessionResponse,
-  TopicMastery,
-  SkillGapItem,
-  DailyPlan,
-  ReviewQueueItem,
-  SessionReport,
+  TopicSkillView,
+  SkillGapView,
+  TodayPlanResponse,
+  DueReviewItem,
+  SessionReportResponse,
   AiUsageInfo,
+  ProgressResponse,
 } from "./types";
 
 export const MOCK_TRACKS: TrackSummary[] = [
@@ -43,38 +44,192 @@ export const MOCK_TOPICS: TopicInTrack[] = [
   { topicId: 106, name: "Distributed Locking & Redis", domain: "DISTRIBUTED SYSTEMS", weight: 1.2, questionCount: 14, prerequisiteIds: [103] },
 ];
 
-export const MOCK_DAILY_PLAN: DailyPlan = {
-  date: "2026-10-13",
-  currentStreakDays: 18,
-  targetMinutes: 25,
-  completedMinutes: 15,
-  recommendedAction: {
-    type: "DRILL",
-    title: "Distributed Systems & Concurrency (8 Questions • ~15 mins)",
-    trackId: 1,
-    topicId: 101,
+export const MOCK_DAILY_PLAN: TodayPlanResponse = {
+  date: "2026-10-17",
+  timeZone: "Asia/Kolkata",
+  streak: {
+    current: 4,
+    longest: 7,
+    activeToday: true,
+    atRisk: false,
   },
+  dailyGoal: 10,
+  todayQuestionsAnswered: 4,
+  readiness: {
+    percent: 68.5,
+    reason: "Consistent progress across core Java concurrency",
+    basedOnQuestions: 32,
+    minAnswersRequired: 10,
+  },
+  reviewDueCount: 3,
+  activeSessionId: null,
+  recommendedFocus: {
+    topicId: 103,
+    topicName: "Thread Pools & ExecutorService",
+    kind: "WEAK",
+    reason: "Lowest accuracy in high-weight concurrency module",
+  },
+  items: [
+    {
+      type: "DRILL",
+      title: "Thread Pools & ExecutorService",
+      detail: "High-yield placement drill (8 questions)",
+      estimatedMinutes: 15,
+      topicId: 103,
+      sessionId: null,
+      questionCount: 8,
+    },
+    {
+      type: "REVIEW",
+      title: "Spaced Repetition Review",
+      detail: "3 items scheduled for today",
+      estimatedMinutes: 5,
+      topicId: null,
+      sessionId: null,
+      questionCount: 3,
+    },
+  ],
 };
 
-export const MOCK_SKILL_MASTERY: TopicMastery[] = [
-  { topicId: 101, topicName: "Collections & ConcurrentHashMap", domain: "JAVA INTERNALS", masteryPercentage: 92, confidenceLevel: "HIGH", questionsAttempted: 42, lastPracticedAt: "2026-10-12T14:30:00Z" },
-  { topicId: 102, topicName: "JVM Memory Model & GC Tuning", domain: "JAVA INTERNALS", masteryPercentage: 81, confidenceLevel: "HIGH", questionsAttempted: 30, lastPracticedAt: "2026-10-11T16:00:00Z" },
-  { topicId: 103, topicName: "Thread Pools & ExecutorService", domain: "CONCURRENCY", masteryPercentage: 74, confidenceLevel: "MEDIUM", questionsAttempted: 28, lastPracticedAt: "2026-10-10T11:20:00Z" },
-  { topicId: 104, topicName: "Spring Transactional & Isolation", domain: "SPRING FRAMEWORK", masteryPercentage: 68, confidenceLevel: "MEDIUM", questionsAttempted: 22, lastPracticedAt: "2026-10-09T09:15:00Z" },
-  { topicId: 105, topicName: "Database Indexing (B-Tree vs Hash)", domain: "DATABASE DESIGN", masteryPercentage: 54, confidenceLevel: "LOW", questionsAttempted: 18, lastPracticedAt: "2026-10-07T18:45:00Z" },
-  { topicId: 106, topicName: "Distributed Locking & Redis", domain: "DISTRIBUTED SYSTEMS", masteryPercentage: 48, confidenceLevel: "LOW", questionsAttempted: 12, lastPracticedAt: "2026-10-05T12:00:00Z" },
+export const MOCK_SKILL_MASTERY: TopicSkillView[] = [
+  {
+    topicId: 101,
+    name: "Collections & ConcurrentHashMap",
+    domain: "JAVA INTERNALS",
+    weight: 1.5,
+    questionCount: 24,
+    masteryPercent: 92,
+    attemptsCount: 42,
+    correctCount: 39,
+    confidence: "HIGH",
+    status: "MASTERED",
+    prerequisitesMet: true,
+    unmetPrerequisites: [],
+    lastPracticedAt: "2026-10-15T14:30:00Z",
+  },
+  {
+    topicId: 102,
+    name: "JVM Memory Model & GC Tuning",
+    domain: "JAVA INTERNALS",
+    weight: 1.4,
+    questionCount: 20,
+    masteryPercent: 81,
+    attemptsCount: 30,
+    correctCount: 24,
+    confidence: "HIGH",
+    status: "MASTERED",
+    prerequisitesMet: true,
+    unmetPrerequisites: [],
+    lastPracticedAt: "2026-10-14T16:00:00Z",
+  },
+  {
+    topicId: 103,
+    name: "Thread Pools & ExecutorService",
+    domain: "CONCURRENCY",
+    weight: 1.6,
+    questionCount: 18,
+    masteryPercent: 74,
+    attemptsCount: 28,
+    correctCount: 20,
+    confidence: "MEDIUM",
+    status: "IN_PROGRESS",
+    prerequisitesMet: true,
+    unmetPrerequisites: [],
+    lastPracticedAt: "2026-10-13T11:20:00Z",
+  },
+  {
+    topicId: 104,
+    name: "Spring Transactional & Isolation",
+    domain: "SPRING FRAMEWORK",
+    weight: 1.5,
+    questionCount: 22,
+    masteryPercent: 68,
+    attemptsCount: 22,
+    correctCount: 15,
+    confidence: "MEDIUM",
+    status: "IN_PROGRESS",
+    prerequisitesMet: true,
+    unmetPrerequisites: [],
+    lastPracticedAt: "2026-10-12T09:15:00Z",
+  },
+  {
+    topicId: 105,
+    name: "Database Indexing (B-Tree vs Hash)",
+    domain: "DATABASE DESIGN",
+    weight: 1.3,
+    questionCount: 16,
+    masteryPercent: 54,
+    attemptsCount: 18,
+    correctCount: 10,
+    confidence: "LOW",
+    status: "IN_PROGRESS",
+    prerequisitesMet: true,
+    unmetPrerequisites: [],
+    lastPracticedAt: "2026-10-10T18:45:00Z",
+  },
+  {
+    topicId: 106,
+    name: "Distributed Locking & Redis",
+    domain: "DISTRIBUTED SYSTEMS",
+    weight: 1.2,
+    questionCount: 14,
+    masteryPercent: null,
+    attemptsCount: 0,
+    correctCount: 0,
+    confidence: "LOW",
+    status: "NOT_STARTED",
+    prerequisitesMet: false,
+    unmetPrerequisites: [
+      { topicId: 103, name: "Thread Pools & ExecutorService", masteryPercent: 74 },
+    ],
+    lastPracticedAt: null,
+  },
 ];
 
-export const MOCK_SKILL_GAPS: SkillGapItem[] = [
-  { topicId: 106, topicName: "Distributed Locking & Redis", gapWeight: 1.45, missingPrerequisites: ["Thread Pools & ExecutorService"], recommendedDrillCount: 8 },
-  { topicId: 105, topicName: "Database Indexing (B-Tree vs Hash)", gapWeight: 1.30, missingPrerequisites: [], recommendedDrillCount: 6 },
-  { topicId: 104, topicName: "Spring Transactional & Isolation", gapWeight: 1.15, missingPrerequisites: ["Collections & ConcurrentHashMap"], recommendedDrillCount: 6 },
+export const MOCK_SKILL_GAPS: SkillGapView[] = [
+  {
+    topicId: 106,
+    topicName: "Distributed Locking & Redis",
+    kind: "NOT_STARTED",
+    masteryPercent: null,
+    weight: 1.2,
+    impactScore: 120.0,
+    reason: "Untapped high-impact topic in target track",
+    suggestedAction: { type: "DRILL", topicId: 106, questionCount: 8 },
+  },
+  {
+    topicId: 105,
+    topicName: "Database Indexing (B-Tree vs Hash)",
+    kind: "WEAK",
+    masteryPercent: 54,
+    weight: 1.3,
+    impactScore: 59.8,
+    reason: "Low mastery accuracy in database internals",
+    suggestedAction: { type: "DRILL", topicId: 105, questionCount: 6 },
+  },
 ];
 
-export const MOCK_REVIEW_QUEUE: ReviewQueueItem[] = [
-  { attemptId: "att-1", questionId: 501, questionBody: "Why does ConcurrentHashMap avoid locking the entire map during put operations in Java 8+?", topicName: "Collections & ConcurrentHashMap", lastAttemptedAt: "2 days ago", mistakeCount: 2, intervalDays: 3 },
-  { attemptId: "att-2", questionId: 502, questionBody: "What happens when an exception is thrown inside a `@Transactional(propagation = Propagation.REQUIRES_NEW)` block?", topicName: "Spring Transactional & Isolation", lastAttemptedAt: "3 days ago", mistakeCount: 1, intervalDays: 5 },
-  { attemptId: "att-3", questionId: 503, questionBody: "Compare clustered vs non-clustered index lookup B-tree traversal overhead.", topicName: "Database Indexing", lastAttemptedAt: "4 days ago", mistakeCount: 3, intervalDays: 1 },
+export const MOCK_REVIEW_QUEUE: DueReviewItem[] = [
+  {
+    reviewId: 1,
+    step: 1,
+    intervalDays: 3,
+    lastMissedAt: "2026-10-14T10:00:00Z",
+    question: {
+      id: 501,
+      type: "MCQ",
+      topicId: 101,
+      topicName: "Collections & ConcurrentHashMap",
+      difficulty: 2,
+      body: "Why does `ConcurrentHashMap` avoid locking the entire map during `put()` operations in Java 8+?",
+      options: [
+        { id: 1, position: 1, text: "It uses a global synchronized block around the table array during write." },
+        { id: 2, position: 2, text: "It uses CAS for empty bucket heads and synchronizes only on the head Node when collisions occur." },
+        { id: 3, position: 3, text: "It divides the hash table into 16 distinct ReentrantLock Segments." },
+        { id: 4, position: 4, text: "It uses optimistic read stamps with StampedLock across all buckets." },
+      ],
+    },
+  },
 ];
 
 export const MOCK_SESSION_RESPONSE: SessionResponse = {
@@ -101,25 +256,100 @@ export const MOCK_SESSION_RESPONSE: SessionResponse = {
   warnings: [],
 };
 
-export const MOCK_SESSION_REPORT: SessionReport = {
+export const MOCK_SESSION_REPORT: SessionReportResponse = {
   sessionId: 402,
+  trackId: 1,
   trackName: "Java Backend Engineer",
-  mode: "QUIZ",
-  overallScore: 78,
-  criteriaScores: [
-    { criterionId: "crit-1", name: "Technical Depth & Concurrency", score: 4, evidenceQuote: "Identified CAS bucket insertion and synchronized collision resolution." },
-    { criterionId: "crit-2", name: "Memory Model & Volatile Semantics", score: 3, evidenceQuote: "Understood visibility guarantee, missed Happens-Before write-read edge." },
-    { criterionId: "crit-3", name: "System Architecture Rationale", score: 4, evidenceQuote: "Clearly explained trade-offs between global locks and bucket striping." },
+  difficulty: "MIXED",
+  status: "COMPLETED",
+  completionReason: "ALL_QUESTIONS_ANSWERED",
+  startedAt: "2026-10-17T09:00:00Z",
+  completedAt: "2026-10-17T09:12:00Z",
+  elapsedSec: 720,
+  activeTimeSec: 640,
+  summary: {
+    totalQuestions: 8,
+    answeredCount: 8,
+    correctCount: 6,
+    unansweredCount: 0,
+    scorePercent: 75.0,
+    accuracyOfAnsweredPercent: 75.0,
+  },
+  previousScorePercent: 62.5,
+  topics: [
+    {
+      topicId: 101,
+      topicName: "Collections & ConcurrentHashMap",
+      questionsInTopic: 4,
+      answered: 4,
+      correct: 3,
+      accuracyPercent: 75.0,
+      label: "COMPETENT",
+    },
   ],
-  missedKeyPoints: [
-    "Difference between Java 7 Segment locks and Java 8 synchronized head node mechanism",
-    "CounterCell striped adder optimization used in size() calculation",
+  questions: [
+    {
+      position: 1,
+      questionId: 1024,
+      topicId: 101,
+      topicName: "Collections & ConcurrentHashMap",
+      body: "In Java 8+, how does `ConcurrentHashMap` achieve high concurrency during `put()` operations without segment locks?",
+      answered: true,
+      correct: true,
+      selectedOptionId: 2,
+      correctOptionId: 2,
+      explanation: "CAS is used for empty bins, and synchronized node locks for collisions.",
+      selectedOptionExplanation: "Correct! CAS allows lock-free initial insertion.",
+      timeSpentSec: 45,
+      options: [
+        { id: 1, position: 1, text: "It uses a global synchronized block." },
+        { id: 2, position: 2, text: "It uses CAS for empty heads and synchronized on head Node." },
+      ],
+    },
   ],
-  modelAnswer:
-    "Java 8 ConcurrentHashMap eliminates the Segment[] hierarchy entirely. When inserting into an empty bin, CAS is used lock-free. When collisions occur, it synchronizes solely on the first Node (head) of that specific bin list or TreeBin, providing bin-level granularity.",
-  recommendedTopics: [
-    { topicId: 103, topicName: "Thread Pools & ExecutorService", action: "PRACTICE" },
-    { topicId: 106, topicName: "Distributed Locking & Redis", action: "REVIEW" },
+  recommendations: [
+    {
+      type: "DRILL",
+      topicId: 103,
+      topicName: "Thread Pools & ExecutorService",
+      reason: "Reinforce thread rejection policies and unbounded queue limits.",
+      suggestedQuestionCount: 8,
+    },
+  ],
+};
+
+export const MOCK_PROGRESS: ProgressResponse = {
+  range: 30,
+  totals: {
+    sessionsCompleted: 14,
+    questionsAnswered: 112,
+    correctAnswers: 86,
+    accuracyPercent: 76.8,
+    activeMinutes: 184,
+  },
+  streak: {
+    current: 4,
+    longest: 7,
+    activeToday: true,
+    atRisk: false,
+  },
+  days: [
+    {
+      date: "2026-10-17",
+      questionsAnswered: 8,
+      correctAnswers: 6,
+      reviewsAnswered: 2,
+      sessionsCompleted: 1,
+      activeMinutes: 18,
+    },
+  ],
+  recentSessions: [
+    {
+      sessionId: 402,
+      trackName: "Java Backend Engineer",
+      scorePercent: 75.0,
+      completedAt: "2026-10-17T09:12:00Z",
+    },
   ],
 };
 

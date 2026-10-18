@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import {
   Code2,
@@ -13,6 +14,8 @@ import {
   ArrowRight,
   ShieldCheck,
   HelpCircle,
+  AlertCircle,
+  RotateCcw,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -21,20 +24,41 @@ import {
   getTracks,
   getTopicsForTrack,
   createPracticeSession,
+  ApiError,
 } from "@/lib/api";
 import { queryKeys } from "@/lib/query-keys";
 import { SessionMode, QuizDifficulty, SessionStyle } from "@/lib/types";
 
-export default function PracticeLobbyPage() {
+function PracticeLobbyContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Search params prefill
+  const paramTrackId = searchParams.get("trackId");
+  const paramTopicId = searchParams.get("topicId");
+  const paramCount = searchParams.get("count");
 
   // Selected State
-  const [selectedTrackId, setSelectedTrackId] = useState<number | string>(1);
+  const [selectedTrackId, setSelectedTrackId] = useState<number>(
+    paramTrackId ? Number(paramTrackId) : 1
+  );
   const [selectedMode, setSelectedMode] = useState<SessionMode>("QUIZ");
   const [difficulty, setDifficulty] = useState<QuizDifficulty>("MIXED");
-  const [questionCount, setQuestionCount] = useState<number>(8);
+  const [questionCount, setQuestionCount] = useState<number>(
+    paramCount ? Number(paramCount) : 8
+  );
   const [interviewStyle, setInterviewStyle] = useState<SessionStyle>("LIVE");
-  const [selectedTopicIds, setSelectedTopicIds] = useState<(number | string)[]>([101, 102, 103, 104]);
+  const [selectedTopicIds, setSelectedTopicIds] = useState<number[]>(
+    paramTopicId ? [Number(paramTopicId)] : [101, 102, 103, 104]
+  );
+  const [activeSessionConflict, setActiveSessionConflict] = useState<number | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (paramTrackId) setSelectedTrackId(Number(paramTrackId));
+    if (paramTopicId) setSelectedTopicIds([Number(paramTopicId)]);
+    if (paramCount) setQuestionCount(Number(paramCount));
+  }, [paramTrackId, paramTopicId, paramCount]);
 
   // Queries
   const { data: tracks = [] } = useQuery({
@@ -57,14 +81,21 @@ export default function PracticeLobbyPage() {
         router.push(`/interviews/${session.id}`);
       }
     },
-    onError: (err) => {
-      console.error("Failed to start session:", err);
-      // Fallback navigation
-      router.push(`/practice/quiz/402`);
+    onError: (err: unknown) => {
+      if (err instanceof ApiError) {
+        if (err.status === 409 && (err.code === "ACTIVE_SESSION_EXISTS" || err.meta?.activeSessionId)) {
+          setActiveSessionConflict(Number(err.meta?.activeSessionId));
+          setErrorMessage(err.message || "You already have an in-progress session.");
+          return;
+        }
+        setErrorMessage(err.message || "Failed to start session.");
+      } else {
+        setErrorMessage("An unexpected error occurred while starting the session.");
+      }
     },
   });
 
-  const handleToggleTopic = (topicId: number | string) => {
+  const handleToggleTopic = (topicId: number) => {
     setSelectedTopicIds((prev) =>
       prev.includes(topicId)
         ? prev.filter((id) => id !== topicId)
@@ -76,16 +107,18 @@ export default function PracticeLobbyPage() {
     if (selectedTopicIds.length === topics.length) {
       setSelectedTopicIds([]);
     } else {
-      setSelectedTopicIds(topics.map((t) => t.topicId));
+      setSelectedTopicIds(topics.map((t) => Number(t.topicId)));
     }
   };
 
   const handleStartSession = () => {
+    setErrorMessage(null);
+    setActiveSessionConflict(null);
     createSessionMutation.mutate({
       trackId: selectedTrackId,
       mode: selectedMode,
       style: selectedMode === "INTERVIEW" ? interviewStyle : null,
-      topicIds: selectedTopicIds,
+      topicIds: selectedTopicIds.length > 0 ? selectedTopicIds : undefined,
       questionCount,
       difficulty,
     });
@@ -422,6 +455,24 @@ export default function PracticeLobbyPage() {
             </div>
           )}
 
+          {/* Error / Conflict Banner */}
+          {errorMessage && (
+            <div className="p-4 rounded-xl border border-[#DC2626] bg-[#FEE2E2]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[13px]">
+              <div className="flex items-center gap-2 text-[#DC2626]">
+                <AlertCircle className="w-5 h-5 shrink-0" />
+                <span>{errorMessage}</span>
+              </div>
+              {activeSessionConflict && (
+                <Link href={`/practice/quiz/${activeSessionConflict}`}>
+                  <Button size="sm" className="gap-1.5 shrink-0">
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span>Resume Session #{activeSessionConflict}</span>
+                  </Button>
+                </Link>
+              )}
+            </div>
+          )}
+
           {/* Action Row */}
           <div className="p-4 rounded-lg bg-[#FAFAFA] border border-[#E5E5E5] flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-2">
             <div className="flex items-center gap-2 text-[12px] text-[#555555]">
@@ -446,3 +497,19 @@ export default function PracticeLobbyPage() {
     </div>
   );
 }
+
+export default function PracticeLobbyPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="w-full max-w-[1200px] mx-auto px-6 py-8 flex flex-col gap-6 animate-pulse">
+          <div className="h-6 w-48 bg-[#EEEEEE] rounded" />
+          <div className="h-10 w-72 bg-[#EEEEEE] rounded" />
+        </div>
+      }
+    >
+      <PracticeLobbyContent />
+    </Suspense>
+  );
+}
+
