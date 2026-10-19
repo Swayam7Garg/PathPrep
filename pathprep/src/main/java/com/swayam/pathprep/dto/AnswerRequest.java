@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 /**
- * Request body for {@code POST /api/v1/sessions/{id}/answers}.
+ * Request body for submitting an answer choice and time spent for a question in an active session.
  */
 public record AnswerRequest(
 

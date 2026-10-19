@@ -12,6 +12,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a technical assessment question belonging to a topic, storing prompt content, difficulty, type, and explanation.
+ */
 @Entity
 @Table(name = "questions")
 @Getter

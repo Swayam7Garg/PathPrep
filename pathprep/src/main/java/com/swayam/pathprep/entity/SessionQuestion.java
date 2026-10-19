@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Join entity mapping a question to a practice session in a specific sequence order with its delivered state.
+ */
 @Entity
 @Table(name = "session_questions")
 @Getter

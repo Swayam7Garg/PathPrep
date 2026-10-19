@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Defines a directed prerequisite dependency between two topics, enforcing structured curriculum learning orders.
+ */
 @Entity
 @Table(name = "topic_prereqs")
 @Getter

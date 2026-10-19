@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Spring Data JPA repository for managing the sequence of questions linked to a practice session.
+ */
 @Repository
 public interface SessionQuestionRepository extends JpaRepository<SessionQuestion, SessionQuestionId> {
 

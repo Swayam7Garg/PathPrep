@@ -8,6 +8,9 @@ import com.swayam.pathprep.enums.SessionStyle;
 
 import java.time.Instant;
 
+/**
+ * Detailed response payload representing an active or completed practice session and its questions.
+ */
 public record SessionDetailResponse(
         Long id,
         SessionMode mode,

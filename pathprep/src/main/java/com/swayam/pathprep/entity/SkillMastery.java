@@ -10,6 +10,9 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.time.Instant;
 
+/**
+ * Tracks a student's longitudinal skill and mastery score (0-100) for a specific topic, updating with continuous quiz performance.
+ */
 @Entity
 @Table(name = "skill_mastery", uniqueConstraints = {
         @UniqueConstraint(name = "uk_skill_mastery_user_topic", columnNames = {"user_id", "topic_id"})

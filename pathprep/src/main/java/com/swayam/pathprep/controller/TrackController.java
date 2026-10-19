@@ -3,6 +3,7 @@ package com.swayam.pathprep.controller;
 import com.swayam.pathprep.dto.TopicInTrack;
 import com.swayam.pathprep.dto.TrackSummary;
 import com.swayam.pathprep.service.TrackService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,13 +15,11 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class TrackController {
 
     private final TrackService trackService;
 
-    public TrackController(TrackService trackService) {
-        this.trackService = trackService;
-    }
 
     @GetMapping("/tracks")
     public List<TrackSummary> list() {

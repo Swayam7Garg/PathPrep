@@ -71,7 +71,7 @@ public class PlanService {
         if (track != null) {
             List<TopicRow> topics = topicRepository.findTopicsForTrack(track.getId());
             List<Long> topicIds = topics.stream().map(TopicRow::getId).toList();
-            Map<Long, SkillMastery> masteryMap = skillMasteryRepository.findByUserIdAndTopicIdIn(userId, topicIds)
+            Map<Long, SkillMastery> masteryMap = skillMasteryRepository.findByUserIdAndTopicIdIn(userId, topicIds) //TODO: to understand in depth after understaning db design
                     .stream()
                     .collect(Collectors.toMap(sm -> sm.getTopic().getId(), sm -> sm));
 

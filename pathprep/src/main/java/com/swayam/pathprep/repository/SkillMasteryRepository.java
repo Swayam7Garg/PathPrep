@@ -12,6 +12,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Spring Data JPA repository for querying and updating student topic mastery scores and proficiency tiers.
+ */
 @Repository
 public interface SkillMasteryRepository extends JpaRepository<SkillMastery, Long> {
 

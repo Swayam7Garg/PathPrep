@@ -11,6 +11,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Spring Data JPA repository for managing daily student learning activity and computing practice streaks.
+ */
 @Repository
 public interface DailyActivityRepository extends JpaRepository<DailyActivity, Long> {
 

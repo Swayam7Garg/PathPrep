@@ -6,6 +6,9 @@ import lombok.*;
 
 import java.io.Serializable;
 
+/**
+ * Composite primary key for the SessionQuestion join entity, combining session ID and question ID.
+ */
 @Embeddable
 @Getter
 @Setter

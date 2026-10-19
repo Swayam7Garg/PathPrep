@@ -11,6 +11,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Spring Data JPA repository for fetching active questions, candidate pools for sessions, and topic-level question counts.
+ */
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 

@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Spring Data JPA repository for querying curriculum topics and module metadata.
+ */
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, Long> {
 

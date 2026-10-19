@@ -6,6 +6,9 @@ import lombok.*;
 
 import java.io.Serializable;
 
+/**
+ * Composite primary key for the TrackTopic join entity, combining track ID and topic ID.
+ */
 @Embeddable
 @Getter
 @Setter

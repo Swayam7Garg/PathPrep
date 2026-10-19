@@ -1,20 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import {
   Key,
   Zap,
   Check,
   ShieldCheck,
-  Copy,
-  Eye,
-  EyeOff,
   User,
   GraduationCap,
   Building,
   Save,
-  Hourglass,
   Clock,
   Sparkles,
 } from "lucide-react";
@@ -31,28 +27,46 @@ export default function SettingsPage() {
     queryFn: getAiUsage,
   });
 
-  const [groqKey, setGroqKey] = useState("gsk_9K2p8L110vMc1QhuEe9K465aKvAn-HuPcRiYFxblt");
-  const [showKey, setShowKey] = useState(false);
+  const [groqKey, setGroqKey] = useState("");
   const [keySaved, setKeySaved] = useState(false);
   const [profileSaved, setProfileSaved] = useState(false);
 
-  // Profile form state
-  const [fullName, setFullName] = useState("Ananya Sharma");
-  const [college, setCollege] = useState("National Institute of Technology, Trichy");
-  const [branch, setBranch] = useState("Computer Science & Engineering");
-  const [gradYear, setGradYear] = useState("2026 (Pre-final Year)");
-  const [targetTrack, setTargetTrack] = useState("Java Backend SDE");
+  // Profile form state (empty defaults, with local persistence)
+  const [fullName, setFullName] = useState("");
+  const [college, setCollege] = useState("");
+  const [branch, setBranch] = useState("");
+  const [gradYear, setGradYear] = useState("");
+  const [targetTrack, setTargetTrack] = useState("");
+  const [targetTier, setTargetTier] = useState("");
 
-  const saveKeyMutation = useMutation({
-    mutationFn: saveGroqApiKey,
-    onSuccess: () => {
-      setKeySaved(true);
-      setTimeout(() => setKeySaved(false), 3000);
-    },
-  });
+  // Load saved profile from localStorage if present
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("pathprep_user_profile");
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (data.fullName) setFullName(data.fullName);
+        if (data.college) setCollege(data.college);
+        if (data.branch) setBranch(data.branch);
+        if (data.gradYear) setGradYear(data.gradYear);
+        if (data.targetTrack) setTargetTrack(data.targetTrack);
+        if (data.targetTier) setTargetTier(data.targetTier);
+      }
+    } catch {
+      // Ignore storage errors
+    }
+  }, []);
 
   const handleSaveProfile = (e: React.FormEvent) => {
     e.preventDefault();
+    try {
+      localStorage.setItem(
+        "pathprep_user_profile",
+        JSON.stringify({ fullName, college, branch, gradYear, targetTrack, targetTier })
+      );
+    } catch {
+      // Ignore
+    }
     setProfileSaved(true);
     setTimeout(() => setProfileSaved(false), 3000);
   };
@@ -84,8 +98,8 @@ export default function SettingsPage() {
               Used to calibrate placement benchmark cutoffs and target company rubrics
             </p>
           </div>
-          <Badge variant="default" className="text-[11px] self-start sm:self-auto">
-            Verified NIT Trichy EduID
+          <Badge variant="outline" className="text-[11px] font-mono self-start sm:self-auto">
+            Academic Profile
           </Badge>
         </CardHeader>
 
@@ -100,7 +114,8 @@ export default function SettingsPage() {
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="px-3.5 py-2.5 rounded-lg border border-[#E5E5E5] focus:border-[#111111] focus:outline-none text-[14px] bg-white text-[#111111]"
+                  placeholder="e.g. John Doe"
+                  className="px-3.5 py-2.5 rounded-lg border border-[#E5E5E5] focus:border-[#111111] focus:outline-none text-[14px] bg-white text-[#111111] placeholder:text-[#AAAAAA]"
                 />
               </div>
 
@@ -112,7 +127,8 @@ export default function SettingsPage() {
                   type="text"
                   value={college}
                   onChange={(e) => setCollege(e.target.value)}
-                  className="px-3.5 py-2.5 rounded-lg border border-[#E5E5E5] focus:border-[#111111] focus:outline-none text-[14px] bg-white text-[#111111]"
+                  placeholder="e.g. Indian Institute of Technology"
+                  className="px-3.5 py-2.5 rounded-lg border border-[#E5E5E5] focus:border-[#111111] focus:outline-none text-[14px] bg-white text-[#111111] placeholder:text-[#AAAAAA]"
                 />
               </div>
 
@@ -123,12 +139,17 @@ export default function SettingsPage() {
                 <select
                   value={branch}
                   onChange={(e) => setBranch(e.target.value)}
-                  className="px-3.5 py-2.5 rounded-lg border border-[#E5E5E5] focus:border-[#111111] focus:outline-none text-[14px] bg-white text-[#111111]"
+                  className={`px-3.5 py-2.5 rounded-lg border border-[#E5E5E5] focus:border-[#111111] focus:outline-none text-[14px] bg-white ${
+                    branch ? "text-[#111111]" : "text-[#8A8A8A]"
+                  }`}
                 >
-                  <option>Computer Science & Engineering</option>
-                  <option>Information Technology</option>
-                  <option>Electronics & Communication Engineering</option>
-                  <option>Data Science & Artificial Intelligence</option>
+                  <option value="" disabled>Select Branch / Major</option>
+                  <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+                  <option value="Information Technology">Information Technology</option>
+                  <option value="Electronics & Communication Engineering">Electronics & Communication Engineering</option>
+                  <option value="Data Science & Artificial Intelligence">Data Science & Artificial Intelligence</option>
+                  <option value="Electrical Engineering">Electrical Engineering</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
 
@@ -139,11 +160,15 @@ export default function SettingsPage() {
                 <select
                   value={gradYear}
                   onChange={(e) => setGradYear(e.target.value)}
-                  className="px-3.5 py-2.5 rounded-lg border border-[#E5E5E5] focus:border-[#111111] focus:outline-none text-[14px] bg-white text-[#111111]"
+                  className={`px-3.5 py-2.5 rounded-lg border border-[#E5E5E5] focus:border-[#111111] focus:outline-none text-[14px] bg-white ${
+                    gradYear ? "text-[#111111]" : "text-[#8A8A8A]"
+                  }`}
                 >
-                  <option>2025 (Final Year)</option>
-                  <option>2026 (Pre-final Year)</option>
-                  <option>2027 (Sophomore)</option>
+                  <option value="" disabled>Select Graduation Year</option>
+                  <option value="2025 (Final Year)">2025 (Final Year)</option>
+                  <option value="2026 (Pre-final Year)">2026 (Pre-final Year)</option>
+                  <option value="2027 (Sophomore)">2027 (Sophomore)</option>
+                  <option value="2028 (Freshman)">2028 (Freshman)</option>
                 </select>
               </div>
 
@@ -154,11 +179,14 @@ export default function SettingsPage() {
                 <select
                   value={targetTrack}
                   onChange={(e) => setTargetTrack(e.target.value)}
-                  className="px-3.5 py-2.5 rounded-lg border border-[#E5E5E5] focus:border-[#111111] focus:outline-none text-[14px] bg-white text-[#111111]"
+                  className={`px-3.5 py-2.5 rounded-lg border border-[#E5E5E5] focus:border-[#111111] focus:outline-none text-[14px] bg-white ${
+                    targetTrack ? "text-[#111111]" : "text-[#8A8A8A]"
+                  }`}
                 >
-                  <option>Java Backend SDE</option>
-                  <option>Web Frontend SDE</option>
-                  <option>General SDE (Campus Core)</option>
+                  <option value="" disabled>Select Target Career Track</option>
+                  <option value="Java Backend">Java Backend SDE</option>
+                  <option value="Web Frontend">Web Frontend SDE</option>
+                  <option value="General SDE">General SDE (Campus Core)</option>
                 </select>
               </div>
 
@@ -166,17 +194,25 @@ export default function SettingsPage() {
                 <label className="text-[13px] font-medium text-[#111111]">
                   Target Placement Tier
                 </label>
-                <select className="px-3.5 py-2.5 rounded-lg border border-[#E5E5E5] focus:border-[#111111] focus:outline-none text-[14px] bg-white text-[#111111]">
-                  <option>Tier-1 Product (₹24+ LPA)</option>
-                  <option>Tier-1 Core Product / Cloud (₹16 - ₹24 LPA)</option>
-                  <option>Tier-2 High-Growth FinTech (₹10 - ₹16 LPA)</option>
+                <select
+                  value={targetTier}
+                  onChange={(e) => setTargetTier(e.target.value)}
+                  className={`px-3.5 py-2.5 rounded-lg border border-[#E5E5E5] focus:border-[#111111] focus:outline-none text-[14px] bg-white ${
+                    targetTier ? "text-[#111111]" : "text-[#8A8A8A]"
+                  }`}
+                >
+                  <option value="" disabled>Select Target Placement Tier</option>
+                  <option value="Tier-1 Product (₹24+ LPA)">Tier-1 Product (₹24+ LPA)</option>
+                  <option value="Tier-1 Core Product / Cloud (₹16 - ₹24 LPA)">Tier-1 Core Product / Cloud (₹16 - ₹24 LPA)</option>
+                  <option value="Tier-2 High-Growth FinTech (₹10 - ₹16 LPA)">Tier-2 High-Growth FinTech (₹10 - ₹16 LPA)</option>
+                  <option value="Tier-3 Enterprise / Services (₹5 - ₹10 LPA)">Tier-3 Enterprise / Services (₹5 - ₹10 LPA)</option>
                 </select>
               </div>
             </div>
 
             <div className="flex items-center justify-between pt-4 border-t border-[#E5E5E5]/60 mt-2">
               <span className="font-mono text-[11px] text-[#8A8A8A]">
-                Last synced 2 days ago (Cloud DB)
+                Profile preferences stored locally
               </span>
               <div className="flex items-center gap-3">
                 {profileSaved && (
@@ -207,7 +243,7 @@ export default function SettingsPage() {
             </p>
           </div>
           <Badge variant="warning" className="text-[11px] self-start sm:self-auto">
-            Not available yet (Phase 8)
+            Coming in Phase 8
           </Badge>
         </CardHeader>
 
@@ -234,7 +270,7 @@ export default function SettingsPage() {
                 <span className="flex items-center gap-1">
                   <Clock className="w-3 h-3" /> Offline
                 </span>
-                <span className="text-[#8A8A8A]">Feature in development</span>
+                <span className="text-[#8A8A8A]">Activates in Phase 8</span>
               </div>
             </div>
 
@@ -259,7 +295,7 @@ export default function SettingsPage() {
                 <span className="flex items-center gap-1">
                   <Clock className="w-3 h-3" /> Offline
                 </span>
-                <span className="text-[#8A8A8A]">Feature in development</span>
+                <span className="text-[#8A8A8A]">Activates in Phase 8</span>
               </div>
             </div>
           </div>
@@ -279,7 +315,7 @@ export default function SettingsPage() {
             </p>
           </div>
           <Badge variant="warning" className="text-[11px] self-start sm:self-auto">
-            Not available yet (Phase 8)
+            Coming in Phase 8
           </Badge>
         </CardHeader>
 
@@ -295,7 +331,7 @@ export default function SettingsPage() {
             <input
               type="password"
               disabled
-              placeholder="gsk_•••••••••••••••••••••••••••••••• (Not available yet)"
+              placeholder="gsk_•••••••••••••••••••••••••••••••• (Enabled in Phase 8)"
               className="w-full px-3.5 py-2.5 rounded-lg border border-[#E5E5E5] bg-[#FAFAFA] text-[13px] font-mono text-[#8A8A8A] cursor-not-allowed"
             />
           </div>

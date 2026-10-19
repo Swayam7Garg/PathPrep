@@ -8,6 +8,9 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
+/**
+ * Comprehensive diagnostic report returned after session completion, breaking down score, topic accuracy, and review schedule.
+ */
 public record SessionReportResponse(
         Long sessionId,
         Long trackId,

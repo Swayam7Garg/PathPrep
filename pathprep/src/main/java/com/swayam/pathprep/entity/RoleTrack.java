@@ -9,6 +9,9 @@ import lombok.Setter;
 
 import java.time.Instant;
 
+/**
+ * Represents a career specialization track (e.g., Java Backend, Frontend, Fullstack) containing topics and placement curricula.
+ */
 @Entity
 @Table(name = "role_tracks")
 @Getter

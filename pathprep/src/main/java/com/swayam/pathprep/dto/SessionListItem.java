@@ -7,6 +7,9 @@ import com.swayam.pathprep.enums.SessionStatus;
 import java.math.BigDecimal;
 import java.time.Instant;
 
+/**
+ * Summary view of a past practice session for display in user session history lists.
+ */
 public record SessionListItem(
         Long id,
         SessionMode mode,

@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Spring Data JPA repository for persisting and querying student quiz answer attempts.
+ */
 @Repository
 public interface AttemptRepository extends JpaRepository<Attempt, Long> {
 

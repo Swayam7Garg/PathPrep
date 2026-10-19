@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Spring Data JPA repository for fetching career tracks and catalog summaries.
+ */
 @Repository
 public interface RoleTrackRepository extends JpaRepository<RoleTrack, Long> {
 

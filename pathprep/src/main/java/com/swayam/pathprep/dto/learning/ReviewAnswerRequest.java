@@ -4,6 +4,9 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * Request body for submitting a recall rating / answer for a spaced repetition review flashcard.
+ */
 public record ReviewAnswerRequest(
         @NotNull(message = "selectedOptionId is required")
         Long selectedOptionId,

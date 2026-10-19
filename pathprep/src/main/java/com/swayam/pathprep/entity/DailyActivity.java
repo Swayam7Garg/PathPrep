@@ -12,6 +12,9 @@ import java.time.LocalDate;
 @Table(name = "daily_activity", uniqueConstraints = {
         @UniqueConstraint(name = "uk_daily_activity_user_date", columnNames = {"user_id", "activity_date"})
 })
+/**
+ * Tracks aggregated daily learning engagement for a student (questions answered, correct count, time spent) to maintain active streaks.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

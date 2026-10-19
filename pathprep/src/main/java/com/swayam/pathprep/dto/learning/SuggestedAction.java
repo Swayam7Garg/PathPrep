@@ -1,5 +1,8 @@
 package com.swayam.pathprep.dto.learning;
 
+/**
+ * Actionable suggestion guiding the student to their next most effective learning task.
+ */
 public record SuggestedAction(
         String type,
         Long topicId,

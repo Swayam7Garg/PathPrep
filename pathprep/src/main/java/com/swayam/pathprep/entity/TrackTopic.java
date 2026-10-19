@@ -8,6 +8,9 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
+/**
+ * Maps a topic to a career track with a curriculum display order and weighting factor for readiness calculation.
+ */
 @Entity
 @Table(name = "track_topics")
 @Getter

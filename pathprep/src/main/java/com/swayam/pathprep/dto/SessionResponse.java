@@ -6,6 +6,9 @@ import com.swayam.pathprep.enums.SessionStyle;
 
 import java.util.List;
 
+/**
+ * Core response payload returned upon session creation containing session ID, mode, and assigned questions.
+ */
 public record SessionResponse(
     long id,
     SessionMode mode,

@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Represents an individual answer choice for a multiple-choice question, indicating whether it is the correct answer and storing rationale.
+ */
 @Entity
 @Table(name = "question_options")
 @Getter

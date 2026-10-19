@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Spring Data JPA repository for querying topic mappings, weights, and ordering within career tracks.
+ */
 @Repository
 public interface TrackTopicRepository extends JpaRepository<TrackTopic, TrackTopicId> {
 

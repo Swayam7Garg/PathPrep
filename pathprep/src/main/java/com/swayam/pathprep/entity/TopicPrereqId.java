@@ -6,6 +6,9 @@ import lombok.*;
 
 import java.io.Serializable;
 
+/**
+ * Composite primary key for the TopicPrereq join entity, combining topic ID and prerequisite topic ID.
+ */
 @Embeddable
 @Getter
 @Setter

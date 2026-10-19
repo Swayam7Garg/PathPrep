@@ -6,7 +6,7 @@ import lombok.*;
 import java.time.Instant;
 
 /**
- * Represents a single MCQ answer submitted by a student during a quiz session (Phase 4).
+ * Represents a single MCQ answer submitted by a student during a quiz session, recording choice, correctness, and latency.
  */
 @Entity
 @Table(name = "attempts")

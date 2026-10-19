@@ -13,6 +13,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Spring Data JPA repository for querying and updating SM-2 spaced repetition queue items due for review.
+ */
 @Repository
 public interface ReviewQueueRepository extends JpaRepository<ReviewQueueItem, Long> {
 

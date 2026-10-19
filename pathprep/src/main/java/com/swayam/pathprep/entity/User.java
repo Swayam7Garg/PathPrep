@@ -9,6 +9,9 @@ import lombok.Setter;
 
 import java.time.Instant;
 
+/**
+ * Represents a registered platform user (student or admin), holding profile details, institutional metadata, and credentials.
+ */
 @Entity
 @Table(name = "users")
 @Getter

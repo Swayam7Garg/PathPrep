@@ -8,6 +8,9 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
+/**
+ * Request payload for configuring and starting a new practice session (track, mode, topics, difficulty, count).
+ */
 public record SessionCreateRequest(
     @NotNull(message = "Mode is required")
     SessionMode mode,

@@ -8,6 +8,9 @@ import lombok.Setter;
 
 import java.time.Instant;
 
+/**
+ * Records the result of a spaced repetition review attempt for a question, tracking recall performance, interval shifts, and easiness factors.
+ */
 @Entity
 @Table(name = "review_attempts")
 @Getter

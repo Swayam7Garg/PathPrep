@@ -17,6 +17,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Spring Data JPA repository for creating, retrieving, and managing practice session state and user session histories.
+ */
 @Repository
 public interface PracticeSessionRepository extends JpaRepository<PracticeSession, Long> {
 

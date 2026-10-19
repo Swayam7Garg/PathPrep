@@ -16,6 +16,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents an interactive practice session (QUIZ or INTERVIEW) initiated by a student, managing lifecycle, topic scopes, and scoring.
+ */
 @Entity
 @Table(name = "sessions")
 @Getter

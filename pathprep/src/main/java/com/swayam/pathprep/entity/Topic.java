@@ -8,6 +8,9 @@ import lombok.Setter;
 
 import java.time.Instant;
 
+/**
+ * Represents a specific syllabus concept or module (e.g., JVM Memory Model, Indexing) within career tracks.
+ */
 @Entity
 @Table(name = "topics")
 @Getter

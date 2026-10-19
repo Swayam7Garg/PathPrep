@@ -14,6 +14,9 @@ import java.time.LocalDate;
 @Table(name = "review_queue", uniqueConstraints = {
         @UniqueConstraint(name = "uk_review_queue_user_question", columnNames = {"user_id", "question_id"})
 })
+/**
+ * Represents a scheduled spaced-repetition flashcard in a student's review queue, tracking SM-2 intervals, next due date, and mastery status.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

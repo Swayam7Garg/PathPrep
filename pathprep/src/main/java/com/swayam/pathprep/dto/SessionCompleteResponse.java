@@ -5,6 +5,9 @@ import com.swayam.pathprep.enums.SessionStatus;
 
 import java.math.BigDecimal;
 
+/**
+ * Response payload returned when an active practice session is finalized, summarizing completion status.
+ */
 public record SessionCompleteResponse(
         Long sessionId,
         SessionStatus status,
