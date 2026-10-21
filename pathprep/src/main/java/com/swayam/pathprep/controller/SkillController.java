@@ -1,7 +1,7 @@
 package com.swayam.pathprep.controller;
 
-import com.swayam.pathprep.dto.learning.SkillGapsResponse;
-import com.swayam.pathprep.dto.learning.SkillProfileResponse;
+import com.swayam.pathprep.dto.learning.response.SkillGapsResponse;
+import com.swayam.pathprep.dto.learning.response.SkillProfileResponse;
 import com.swayam.pathprep.service.SkillService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

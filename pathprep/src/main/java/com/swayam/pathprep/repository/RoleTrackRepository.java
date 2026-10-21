@@ -14,13 +14,25 @@ import java.util.List;
 @Repository
 public interface RoleTrackRepository extends JpaRepository<RoleTrack, Long> {
 
+    /**
+     * Loads all role tracks with aggregated topic and quiz-eligible question counts.
+     * questionCount = PUBLISHED MCQ with >= 2 options and exactly 1 correct option.
+     * This definition must stay in sync with QuizEligibility.SQL_CONDITION.
+     */
     @Query(value = """
-        SELECT 
-            t.id AS id,
-            t.name AS name,
+        SELECT
+            t.id          AS id,
+            t.name        AS name,
             t.description AS description,
             COUNT(DISTINCT tt.topic_id) AS topicCount,
-            COUNT(DISTINCT CASE WHEN q.status = 'PUBLISHED' THEN q.id ELSE NULL END) AS questionCount
+            COUNT(DISTINCT CASE
+                WHEN q.status = 'PUBLISHED'
+                  AND q.type = 'MCQ'
+                  AND (SELECT COUNT(*) FROM question_options qo WHERE qo.question_id = q.id) >= 2
+                  AND (SELECT COUNT(*) FROM question_options qo WHERE qo.question_id = q.id AND qo.is_correct = 1) = 1
+                THEN q.id
+                ELSE NULL
+            END) AS questionCount
         FROM role_tracks t
         LEFT JOIN track_topics tt ON tt.track_id = t.id
         LEFT JOIN questions q ON q.topic_id = tt.topic_id
@@ -29,3 +41,4 @@ public interface RoleTrackRepository extends JpaRepository<RoleTrack, Long> {
         """, nativeQuery = true)
     List<TrackRow> findAllWithCounts();
 }
+

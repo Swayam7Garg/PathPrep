@@ -11,6 +11,7 @@ spring:
   flyway:
     enabled: true
     clean-disabled: false
+    validate-on-migrate: false
 
 logging:
   pattern:

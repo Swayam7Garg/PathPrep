@@ -23,6 +23,8 @@ public interface AttemptRepository extends JpaRepository<Attempt, Long> {
 
     long countBySessionId(Long sessionId);
 
+    boolean existsByQuestionId(Long questionId);
+
     long countBySessionIdAndCorrectTrue(Long sessionId);
 
     @Query("SELECT COALESCE(SUM(a.timeSpentSec), 0) FROM Attempt a WHERE a.session.id = :sessionId")

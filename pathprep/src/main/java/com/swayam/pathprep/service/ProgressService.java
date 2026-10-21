@@ -1,6 +1,7 @@
 package com.swayam.pathprep.service;
 
-import com.swayam.pathprep.dto.learning.*;
+import com.swayam.pathprep.dto.learning.request.*;
+import com.swayam.pathprep.dto.learning.response.*;
 import com.swayam.pathprep.entity.DailyActivity;
 import com.swayam.pathprep.entity.PracticeSession;
 import com.swayam.pathprep.enums.SessionStatus;

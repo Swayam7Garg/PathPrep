@@ -1,7 +1,8 @@
 package com.swayam.pathprep.service;
 
 import com.swayam.pathprep.config.LearningProperties;
-import com.swayam.pathprep.dto.learning.*;
+import com.swayam.pathprep.dto.learning.request.*;
+import com.swayam.pathprep.dto.learning.response.*;
 import com.swayam.pathprep.entity.PracticeSession;
 import com.swayam.pathprep.entity.RoleTrack;
 import com.swayam.pathprep.entity.SkillMastery;

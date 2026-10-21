@@ -1,6 +1,7 @@
 package com.swayam.pathprep.controller;
 
-import com.swayam.pathprep.dto.*;
+import com.swayam.pathprep.dto.request.*;
+import com.swayam.pathprep.dto.response.*;
 import com.swayam.pathprep.enums.SessionMode;
 import com.swayam.pathprep.enums.SessionStatus;
 import com.swayam.pathprep.service.SessionService;

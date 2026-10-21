@@ -29,10 +29,35 @@ public interface ReviewQueueRepository extends JpaRepository<ReviewQueueItem, Lo
     @Query("SELECT rq FROM ReviewQueueItem rq WHERE rq.user.id = :userId AND rq.question.id = :questionId")
     Optional<ReviewQueueItem> findByUserIdAndQuestionId(@Param("userId") Long userId, @Param("questionId") Long questionId);
 
-    @Query("SELECT COUNT(rq) FROM ReviewQueueItem rq WHERE rq.user.id = :userId AND rq.status = 'PENDING' AND rq.dueOn <= :today AND rq.question.status = 'PUBLISHED'")
+    boolean existsByQuestionId(Long questionId);
+
+    @Query("""
+        SELECT COUNT(rq)
+        FROM ReviewQueueItem rq
+        WHERE rq.user.id = :userId
+          AND rq.status = 'PENDING'
+          AND rq.dueOn <= :today
+          AND rq.question.status = com.swayam.pathprep.enums.QuestionStatus.PUBLISHED
+          AND rq.question.type = com.swayam.pathprep.enums.QuestionType.MCQ
+          AND SIZE(rq.question.options) >= 2
+          AND (SELECT COUNT(qo) FROM QuestionOption qo WHERE qo.question = rq.question AND qo.isCorrect = true) = 1
+        """)
     long countDueByUserId(@Param("userId") Long userId, @Param("today") LocalDate today);
 
-    @Query("SELECT rq FROM ReviewQueueItem rq JOIN FETCH rq.question q LEFT JOIN FETCH rq.lastAttempt la WHERE rq.user.id = :userId AND rq.status = 'PENDING' AND rq.dueOn <= :today AND q.status = 'PUBLISHED' ORDER BY rq.dueOn ASC, rq.id ASC")
+    @Query("""
+        SELECT rq
+        FROM ReviewQueueItem rq
+        JOIN FETCH rq.question q
+        LEFT JOIN FETCH rq.lastAttempt la
+        WHERE rq.user.id = :userId
+          AND rq.status = 'PENDING'
+          AND rq.dueOn <= :today
+          AND q.status = com.swayam.pathprep.enums.QuestionStatus.PUBLISHED
+          AND q.type = com.swayam.pathprep.enums.QuestionType.MCQ
+          AND SIZE(q.options) >= 2
+          AND (SELECT COUNT(qo) FROM QuestionOption qo WHERE qo.question = q AND qo.isCorrect = true) = 1
+        ORDER BY rq.dueOn ASC, rq.id ASC
+        """)
     List<ReviewQueueItem> findDueItems(@Param("userId") Long userId, @Param("today") LocalDate today, Pageable pageable);
 
     @Query("SELECT COUNT(rq) FROM ReviewQueueItem rq WHERE rq.user.id = :userId")

@@ -1,7 +1,7 @@
 package com.swayam.pathprep.controller;
 
-import com.swayam.pathprep.dto.TopicInTrack;
-import com.swayam.pathprep.dto.TrackSummary;
+import com.swayam.pathprep.dto.response.TopicInTrack;
+import com.swayam.pathprep.dto.response.TrackSummary;
 import com.swayam.pathprep.service.TrackService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,8 +1,9 @@
 package com.swayam.pathprep.service;
 
 import com.swayam.pathprep.config.LearningProperties;
-import com.swayam.pathprep.dto.QuestionView;
-import com.swayam.pathprep.dto.learning.*;
+import com.swayam.pathprep.dto.response.QuestionView;
+import com.swayam.pathprep.dto.learning.request.*;
+import com.swayam.pathprep.dto.learning.response.*;
 import com.swayam.pathprep.entity.*;
 import com.swayam.pathprep.enums.QuestionStatus;
 import com.swayam.pathprep.enums.ReviewStatus;

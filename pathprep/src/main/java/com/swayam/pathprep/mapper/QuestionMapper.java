@@ -1,8 +1,8 @@
 package com.swayam.pathprep.mapper;
 
-import com.swayam.pathprep.dto.OptionView;
-import com.swayam.pathprep.dto.QuestionView;
-import com.swayam.pathprep.dto.SessionResponse;
+import com.swayam.pathprep.dto.response.OptionView;
+import com.swayam.pathprep.dto.response.QuestionView;
+import com.swayam.pathprep.dto.response.SessionResponse;
 import com.swayam.pathprep.entity.PracticeSession;
 import com.swayam.pathprep.entity.Question;
 import com.swayam.pathprep.entity.QuestionOption;

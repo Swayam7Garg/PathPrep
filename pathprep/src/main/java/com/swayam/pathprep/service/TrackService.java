@@ -1,7 +1,7 @@
 package com.swayam.pathprep.service;
 
-import com.swayam.pathprep.dto.TopicInTrack;
-import com.swayam.pathprep.dto.TrackSummary;
+import com.swayam.pathprep.dto.response.TopicInTrack;
+import com.swayam.pathprep.dto.response.TrackSummary;
 import com.swayam.pathprep.entity.TopicPrereq;
 import com.swayam.pathprep.exception.NotFoundException;
 import com.swayam.pathprep.mapper.TrackMapper;

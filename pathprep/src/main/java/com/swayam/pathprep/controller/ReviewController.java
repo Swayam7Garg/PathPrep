@@ -1,8 +1,8 @@
 package com.swayam.pathprep.controller;
 
-import com.swayam.pathprep.dto.learning.DueReviewsResponse;
-import com.swayam.pathprep.dto.learning.ReviewAnswerRequest;
-import com.swayam.pathprep.dto.learning.ReviewAnswerResponse;
+import com.swayam.pathprep.dto.learning.response.DueReviewsResponse;
+import com.swayam.pathprep.dto.learning.request.ReviewAnswerRequest;
+import com.swayam.pathprep.dto.learning.response.ReviewAnswerResponse;
 import com.swayam.pathprep.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -43,7 +43,7 @@ class TrackEndpointIntegrationTest {
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[0].name", is("General SDE")))
                 .andExpect(jsonPath("$[1].name", is("Java Backend")))
-                .andExpect(jsonPath("$[1].topicCount", is(4)))
+                .andExpect(jsonPath("$[1].topicCount", is(10)))
                 .andExpect(jsonPath("$[1].questionCount", is(2)))
                 .andExpect(jsonPath("$[2].name", is("Web Frontend")));
     }
@@ -54,10 +54,9 @@ class TrackEndpointIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(header().exists("X-Trace-Id"))
-                .andExpect(jsonPath("$", hasSize(4)))
-                .andExpect(jsonPath("$[0].name", is("Spring Boot Basics")))
-                .andExpect(jsonPath("$[0].weight", is(2.0)))
-                .andExpect(jsonPath("$[0].prerequisiteIds[0]", is((int) JAVA_FUNDAMENTALS_TOPIC_ID)));
+                .andExpect(jsonPath("$", hasSize(10)))
+                .andExpect(jsonPath("$[0].name", is("Collections & Generics")))
+                .andExpect(jsonPath("$[0].weight", is(2.0)));
     }
 
     @Test

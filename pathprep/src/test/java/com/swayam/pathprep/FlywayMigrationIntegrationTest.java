@@ -19,10 +19,10 @@ class FlywayMigrationIntegrationTest {
     private JdbcTemplate jdbcTemplate;
 
     @Test
-    void flyway_migratesThroughV8Cleanly() {
+    void flyway_migratesThroughV10Cleanly() {
         MigrationInfo current = flyway.info().current();
         assertThat(current).isNotNull();
-        assertThat(current.getVersion().getVersion()).isEqualTo("8");
+        assertThat(current.getVersion().getVersion()).isEqualTo("10");
         assertThat(current.getState().isApplied()).isTrue();
 
         // Verify sessions columns added by V7
@@ -32,7 +32,7 @@ class FlywayMigrationIntegrationTest {
         );
         assertThat(answeredCountCol).isEqualTo(1);
 
-                Integer activeMarkerCol = jdbcTemplate.queryForObject(
+        Integer activeMarkerCol = jdbcTemplate.queryForObject(
                 "SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'sessions' AND COLUMN_NAME = 'active_marker'",
                 Integer.class
         );
@@ -56,5 +56,24 @@ class FlywayMigrationIntegrationTest {
                 Integer.class
         );
         assertThat(dailyActivityTable).isEqualTo(1);
+
+        // Verify V9 admin content schema
+        Integer questionReportsTable = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'question_reports'",
+                Integer.class
+        );
+        assertThat(questionReportsTable).isEqualTo(1);
+
+        Integer subtopicCol = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'questions' AND COLUMN_NAME = 'subtopic'",
+                Integer.class
+        );
+        assertThat(subtopicCol).isEqualTo(1);
+
+        Integer sourceCol = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'questions' AND COLUMN_NAME = 'source'",
+                Integer.class
+        );
+        assertThat(sourceCol).isEqualTo(1);
     }
 }

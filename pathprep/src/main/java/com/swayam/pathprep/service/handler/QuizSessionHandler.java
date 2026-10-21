@@ -1,8 +1,8 @@
 package com.swayam.pathprep.service.handler;
 
-import com.swayam.pathprep.dto.AnswerRequest;
-import com.swayam.pathprep.dto.AnswerResponse;
-import com.swayam.pathprep.dto.QuestionView;
+import com.swayam.pathprep.dto.request.AnswerRequest;
+import com.swayam.pathprep.dto.response.AnswerResponse;
+import com.swayam.pathprep.dto.response.QuestionView;
 import com.swayam.pathprep.entity.*;
 import com.swayam.pathprep.enums.SessionMode;
 import com.swayam.pathprep.enums.SessionStatus;

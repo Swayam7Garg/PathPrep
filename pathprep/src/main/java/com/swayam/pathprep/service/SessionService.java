@@ -1,7 +1,8 @@
 package com.swayam.pathprep.service;
 
 import com.swayam.pathprep.config.SessionProperties;
-import com.swayam.pathprep.dto.*;
+import com.swayam.pathprep.dto.request.*;
+import com.swayam.pathprep.dto.response.*;
 import com.swayam.pathprep.entity.*;
 import com.swayam.pathprep.enums.CompletionReason;
 import com.swayam.pathprep.enums.QuizDifficulty;

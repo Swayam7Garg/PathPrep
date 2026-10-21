@@ -51,3 +51,7 @@ app:
   cors:
     allowed-origins:
       - "http://localhost:3000"
+  admin:
+    # TODO: Replace with ROLE_ADMIN JWT check in Phase 7.
+    # Set ADMIN_API_KEY env var to enable admin endpoints. Blank = disabled (fail-closed).
+    api-key: ${ADMIN_API_KEY:}

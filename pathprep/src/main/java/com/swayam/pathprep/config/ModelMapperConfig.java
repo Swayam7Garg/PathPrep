@@ -1,6 +1,6 @@
 package com.swayam.pathprep.config;
 
-import com.swayam.pathprep.dto.OptionView;
+import com.swayam.pathprep.dto.response.OptionView;
 import com.swayam.pathprep.entity.QuestionOption;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;

@@ -1,6 +1,6 @@
 package com.swayam.pathprep.controller;
 
-import com.swayam.pathprep.dto.learning.TodayPlanResponse;
+import com.swayam.pathprep.dto.learning.response.TodayPlanResponse;
 import com.swayam.pathprep.service.PlanService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

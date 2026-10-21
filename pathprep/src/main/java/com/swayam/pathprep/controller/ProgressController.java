@@ -1,6 +1,6 @@
 package com.swayam.pathprep.controller;
 
-import com.swayam.pathprep.dto.learning.ProgressResponse;
+import com.swayam.pathprep.dto.learning.response.ProgressResponse;
 import com.swayam.pathprep.service.ProgressService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

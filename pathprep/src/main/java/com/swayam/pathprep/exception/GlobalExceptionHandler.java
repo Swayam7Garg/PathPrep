@@ -1,6 +1,6 @@
 package com.swayam.pathprep.exception;
 
-import com.swayam.pathprep.dto.ApiErrorResponse;
+import com.swayam.pathprep.dto.response.ApiErrorResponse;
 import com.swayam.pathprep.filter.TraceIdFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

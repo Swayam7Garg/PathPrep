@@ -1,5 +1,6 @@
 package com.swayam.pathprep.entity;
 
+import com.swayam.pathprep.enums.QuestionSource;
 import com.swayam.pathprep.enums.QuestionStatus;
 import com.swayam.pathprep.enums.QuestionType;
 import jakarta.persistence.*;
@@ -13,7 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a technical assessment question belonging to a topic, storing prompt content, difficulty, type, and explanation.
+ * Represents a technical assessment question belonging to a topic.
+ *
+ * <p>Admin-only fields (source, subtopic, contentHash, importBatch, flagReason, reviewedAt) are
+ * never included in student-facing DTOs. The quiz-eligibility rule (status=PUBLISHED, type=MCQ,
+ * ≥2 options, exactly 1 correct) is enforced centrally in {@link com.swayam.pathprep.util.QuizEligibility}.
  */
 @Entity
 @Table(name = "questions")
@@ -54,6 +59,39 @@ public class Question {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
     private QuestionStatus status = QuestionStatus.DRAFT;
+
+    // ── Admin tracking columns (V9) ───────────────────────────────────────────
+
+    /** Provenance: how the question was created. */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "source", nullable = false, length = 20)
+    private QuestionSource source = QuestionSource.MANUAL;
+
+    /**
+     * Optional finer grouping within a topic (e.g. "HashMap" inside "Collections & Generics").
+     * Admin-only; not included in student-facing responses or content_hash.
+     */
+    @Column(name = "subtopic", length = 100)
+    private String subtopic;
+
+    /**
+     * SHA-256 of normalised body + options text. Used by the import pipeline to detect
+     * duplicates. NULL on pre-V9 rows; computed on first edit/import thereafter.
+     */
+    @Column(name = "content_hash", length = 64, unique = true)
+    private String contentHash;
+
+    /** Free-text batch label set at import time (e.g. "java-batch-oct-2026"). */
+    @Column(name = "import_batch", length = 64)
+    private String importBatch;
+
+    /** Reason provided by admin when flagging a question. */
+    @Column(name = "flag_reason", length = 500)
+    private String flagReason;
+
+    /** Timestamp when an admin last reviewed and published this question. */
+    @Column(name = "reviewed_at")
+    private Instant reviewedAt;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("position ASC")

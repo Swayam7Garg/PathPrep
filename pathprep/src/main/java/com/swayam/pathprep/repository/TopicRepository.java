@@ -21,7 +21,14 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
             t.name AS name,
             t.domain AS domain,
             tt.weight AS weight,
-            COUNT(DISTINCT CASE WHEN q.status = 'PUBLISHED' THEN q.id ELSE NULL END) AS questionCount
+            COUNT(DISTINCT CASE 
+                WHEN q.status = 'PUBLISHED' 
+                  AND q.type = 'MCQ'
+                  AND (SELECT COUNT(*) FROM question_options qo WHERE qo.question_id = q.id) >= 2
+                  AND (SELECT COUNT(*) FROM question_options qo WHERE qo.question_id = q.id AND qo.is_correct = 1) = 1
+                THEN q.id 
+                ELSE NULL 
+            END) AS questionCount
         FROM track_topics tt
         JOIN topics t ON t.id = tt.topic_id
         LEFT JOIN questions q ON q.topic_id = t.id
