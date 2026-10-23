@@ -49,7 +49,7 @@ function PracticeLobbyContent() {
   );
   const [interviewStyle, setInterviewStyle] = useState<SessionStyle>("LIVE");
   const [selectedTopicIds, setSelectedTopicIds] = useState<number[]>(
-    paramTopicId ? [Number(paramTopicId)] : [101, 102, 103, 104]
+    paramTopicId ? [Number(paramTopicId)] : []
   );
   const [activeSessionConflict, setActiveSessionConflict] = useState<number | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -70,6 +70,13 @@ function PracticeLobbyContent() {
     queryKey: queryKeys.tracks.topics(selectedTrackId),
     queryFn: () => getTopicsForTrack(selectedTrackId),
   });
+
+  // Auto-select valid topics for the selected track when topics load
+  useEffect(() => {
+    if (!paramTopicId && topics.length > 0) {
+      setSelectedTopicIds(topics.map((t) => Number(t.topicId)));
+    }
+  }, [topics, paramTopicId]);
 
   // Mutation
   const createSessionMutation = useMutation({

@@ -253,6 +253,99 @@ Turns finished quiz sessions into persistent scorecards, enables resuming in-pro
   - `GapRanker`: Multi-factor gap ranking.
 - **Event-Driven Integration**: `LearningEventListener` listens to `AttemptGradedEvent` and `SessionCompletedEvent` inside transactions for atomic updates to mastery, queue, and daily metrics.
 
+---
+
+### Phase 7 (Completed): Authentication & Authorization (Zero AI)
+#### Endpoints Implemented
+1. **POST `/api/v1/auth/google`**
+   - Verifies Google ID tokens using Google's public keys via Nimbus JWT.
+   - Strictly enforces Google Client ID (no client secret anywhere in code, configuration, or logs).
+   - Domain whitelisting against `ADMIN_EMAILS`, `ALLOW_ANY_GOOGLE_ACCOUNT`, `ALLOWED_EMAIL_DOMAINS`, and `institutions.email_domain`.
+   - Idempotently provisions or updates `User` records with unique conflict recovery on concurrent first logins.
+   - Promotes emails in `ADMIN_EMAILS` to `ADMIN` without silently demoting existing `OFFICER` roles.
+   - Issues 15-minute HS256 access token in JSON body and 30-day rotating opaque refresh token in HttpOnly `pp_refresh` cookie.
+
+2. **POST `/api/v1/auth/refresh`**
+   - Rotates refresh token using database pessimistic write locks (`SELECT ... FOR UPDATE`).
+   - Token reuse detection: if a previously revoked refresh token is presented, the entire family is immediately revoked, an audit log is emitted, and 401 `REFRESH_REUSED` is returned.
+   - Mints a new access token and replaces the refresh cookie with a newly rotated token in the same family.
+   - Protected against CSRF via strict `X-Requested-With: pathprep` validation and CORS origin verification.
+
+3. **POST `/api/v1/auth/logout`**
+   - Revokes the entire refresh token family and clears the `pp_refresh` cookie. Idempotent.
+
+4. **POST `/api/v1/auth/dev-login`**
+   - Fast-track development login endpoint strictly isolated to `dev` and `test` profiles (fails production startup if enabled).
+
+5. **GET `/api/v1/me`**
+   - Returns the authenticated user's profile (`email`, `name`, `role`, `pictureUrl`, `branch`, `gradYear`, `targetTrackId`, `onboardingCompleted`).
+   - Cache-Control: `no-store`.
+
+6. **PATCH `/api/v1/me`**
+   - Updates student onboarding fields: `name`, `branch`, `gradYear` (validated 2025..2032), `targetTrackId` (validated against tracks repository).
+   - Rejects unknown fields with 400 `MALFORMED_REQUEST`.
+   - Computes `onboardingCompleted` (requires `branch`, `gradYear`, and `targetTrackId`).
+
+7. **DELETE `/api/v1/me`**
+   - Hard-deletes all user data across all 11 user tables in reverse foreign-key dependency order (`review_attempts` -> `review_queue` -> `skill_mastery` -> `daily_activity` -> `evaluations` -> `attempts` -> `sessions` -> `question_reports` -> `institution_memberships` -> `refresh_tokens` -> `users`).
+   - Requires body `{"confirm": "DELETE"}`. Clears refresh cookie upon deletion.
+   - Coverage verified against MySQL `information_schema.KEY_COLUMN_USAGE`.
+
+#### Security Architecture
+- **Token Model**:
+  - Access Token: Stateless HS256 signed JWT (15-minute TTL). Signed with minimum 32-byte secret. Claims: `sub` (userId), `role`, `iss` ("pathprep").
+  - Refresh Token: Cryptographically secure 32-byte random opaque token, stored as SHA-256 hex hash (30-day TTL).
+  - Rotation: Each refresh invalidates the used token and issues a new token in the same family.
+  - Known Limitation: Access tokens are stateless and remain valid until their 15-minute expiry even after logout or token family revocation. Refresh tokens are immediately revoked.
+- **Dual-Auth Filter (`AdminKeyFilter`)**:
+  - Validates `X-Admin-Key` for `/api/v1/admin/**` endpoints when configured.
+  - If header is absent or key mode disabled, passes request down the filter chain to JWT authentication (`ROLE_ADMIN` authority required).
+- **Production Startup Validator (`AuthStartupValidator`)**:
+  - Enforces at startup under `prod` profile: JWT secret >= 32 bytes, Google Client ID non-blank, refresh cookie secure=true, dev-login-enabled=false.
+- **Current User Resolution (`CurrentUser` / `JwtCurrentUser`)**:
+  - User ID is always extracted from the authenticated principal (`sub` claim).
+  - In `dev` and `test` profiles, safely falls back to `DevCurrentUser` for test harness convenience when unauthenticated.
+  - In `prod`, rejects unauthenticated access with 401 `UNAUTHENTICATED`.
+- **Rate Limiting**: Sliding-window rate limiter (20 req/min per IP on `/auth/**`), returning 429 `RATE_LIMITED` with `Retry-After` header.
+
+---
+
+### Phase 8 (Planned): User-Defined Daily Plan & Interactive Checklist
+#### Concept & Goals
+Replace the static daily goal block with an interactive, student-driven daily study timetable widget ("Today's Plan") on the Dashboard and Practice screens:
+- **Student Agency**: Daily goals are defined by the student, resetting every morning at 12:00 AM local time.
+- **Two Item Types**:
+  1. *Custom / External Task*: Freeform text (e.g. "Solve 3 DSA questions on LeetCode", "Revise OS virtual memory notes"). Manually checked off by the student.
+  2. *In-App Practice Quiz Task*: Structured quiz assignment (e.g. "Quiz: Spring Boot Dependency Injection, 5 Qs"). Renders with a 1-click `[Take Quiz]` button and auto-checks off upon session completion.
+- **Dynamic Goal Bar**: Header progress indicator showing completion count and percentage (`2 of 3 completed • 67%`).
+- **Cross-Screen Practice Integration**: Scheduled quizzes appear pinned at the top of `/practice` under "Scheduled for Today" alongside the regular full catalog.
+- **Smart Rollover**: Prompt to carry over yesterday's unfinished items with a single click.
+
+#### Database Architecture (`V12__daily_plan.sql`)
+- Table `daily_plan_items`:
+  - `id` (BIGINT AUTO_INCREMENT PRIMARY KEY)
+  - `user_id` (BIGINT NOT NULL, FK to `users.id` ON DELETE CASCADE)
+  - `plan_date` (DATE NOT NULL)
+  - `title` (VARCHAR(255) NOT NULL)
+  - `item_type` (VARCHAR(32) NOT NULL: `CUSTOM`, `QUIZ`)
+  - `track_id` (BIGINT NULL, FK to `role_tracks.id`)
+  - `topic_id` (BIGINT NULL, FK to `topics.id`)
+  - `question_count` (INT NULL)
+  - `session_id` (BIGINT NULL, FK to `practice_sessions.id`)
+  - `completed` (BOOLEAN NOT NULL DEFAULT FALSE)
+  - `completed_at` (TIMESTAMP NULL)
+  - `sort_order` (INT NOT NULL DEFAULT 0)
+  - `created_at` (TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP)
+  - Index: `idx_daily_plan_user_date (user_id, plan_date)`
+
+#### Backend Endpoints (`/api/v1/me/plan`)
+- `GET /api/v1/me/plan`: Returns today's plan items, progress stats (`totalItems`, `completedItems`, `progressPercent`), and `hasUnfinishedYesterdayTasks`.
+- `POST /api/v1/me/plan/items`: Adds a task (`CUSTOM` with title, or `QUIZ` with trackId, topicId, questionCount).
+- `PATCH /api/v1/me/plan/items/{id}/toggle`: Toggles completion status for manual tasks.
+- `DELETE /api/v1/me/plan/items/{id}`: Deletes an item from today's plan.
+- `POST /api/v1/me/plan/rollover`: Carries forward yesterday's incomplete items to today.
+- **Auto-Complete Hook**: `SessionCompletedEvent` in `LearningEventListener` marks matching open `QUIZ` items completed and binds `session_id`.
+
 ## 9. Testing expectations
 - Every endpoint gets a MockMvc integration test against a Testcontainers MySQL, including each error row in its spec.
 - Pure logic (like `QuestionSelector`, mastery updates, quota checks) gets plain unit tests.
@@ -295,3 +388,17 @@ Turns finished quiz sessions into persistent scorecards, enables resuming in-pro
   - `LearningEventListener` handles concurrent initial insert race on `skill_mastery` via pessimistic retry.
   - `QuestionMapper` record mapping without ModelMapper reflection.
   - 83/83 unit and integration tests passing covering full review ladder, atomicity, replay invariance, and single-active-session constraints.
+- [x] Phase 7 Authentication & Authorization:
+  - V11 migration: `google_sub`, `picture_url`, `last_login_at` on `users`; `refresh_tokens` table with required indexes, family tracking, and foreign key cascades.
+  - Production `SecurityConfig` replacing `DevSecurityConfig`: stateless sessions, JWT resource server validation, custom JSON entry points (`401 UNAUTHENTICATED`, `403 FORBIDDEN`), and custom CORS filter returning `403 ORIGIN_NOT_ALLOWED` in standard error format.
+  - Dual-mode `AdminKeyFilter` supporting both `X-Admin-Key` and JWT `ROLE_ADMIN` access.
+  - Rotating refresh token engine with pessimistic locking concurrency control and reuse attack detection revoking entire token families.
+  - Scheduled cleanup job purging expired refresh tokens.
+  - Endpoints: `POST /auth/google`, `POST /auth/refresh`, `POST /auth/logout`, `POST /auth/dev-login` (dev/test only), `GET /me`, `PATCH /me`, `DELETE /me` (full 11-table cascading hard-deletion).
+  - 132/132 unit and integration tests passing cleanly across the entire codebase.
+- [ ] Phase 8 User-Defined Daily Plan & Interactive Checklist:
+  - V12 migration: `daily_plan_items` table with foreign keys, types (`CUSTOM`, `QUIZ`), and `(user_id, plan_date)` index.
+  - Endpoints: `GET /api/v1/me/plan`, `POST /api/v1/me/plan/items`, `PATCH /api/v1/me/plan/items/{id}/toggle`, `DELETE /api/v1/me/plan/items/{id}`, `POST /api/v1/me/plan/rollover`.
+  - Auto-complete hook via `SessionCompletedEvent` in `LearningEventListener`.
+  - Frontend: Replace static goal block on dashboard with interactive "Today's Plan" timetable card & goal bar; pinned banner on `/practice`.
+

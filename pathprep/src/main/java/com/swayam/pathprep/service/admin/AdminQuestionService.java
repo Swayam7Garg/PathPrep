@@ -55,7 +55,7 @@ public class AdminQuestionService {
         question.setType(request.typeOrDefault());
         question.setDifficulty(request.difficulty());
         question.setBody(request.body().trim());
-        question.setKeyPoints(request.keyPoints());
+        question.setKeyPoints(formatKeyPointsJson(request.keyPoints()));
         question.setModelAnswer(request.modelAnswer());
         // POST /admin/questions must ALWAYS create DRAFT
         question.setStatus(QuestionStatus.DRAFT);
@@ -144,7 +144,7 @@ public class AdminQuestionService {
             question.setBody(request.body().trim());
         }
         if (request.keyPoints() != null) {
-            question.setKeyPoints(request.keyPoints());
+            question.setKeyPoints(formatKeyPointsJson(request.keyPoints()));
         }
         if (request.modelAnswer() != null) {
             question.setModelAnswer(request.modelAnswer());
@@ -175,7 +175,7 @@ public class AdminQuestionService {
             throw new ConflictException("QUESTION_ARCHIVED", "Cannot publish an archived question: " + id);
         }
 
-        List<String> violations = QuizEligibility.violations(question);
+        List<String> violations = QuizEligibility.violationsForPublishing(question);
         if (!violations.isEmpty()) {
             throw new UnprocessableException("QUESTION_INVALID", "Question does not meet quiz eligibility criteria", violations);
         }
@@ -222,7 +222,7 @@ public class AdminQuestionService {
                 continue;
             }
 
-            List<String> violations = QuizEligibility.violations(q);
+            List<String> violations = QuizEligibility.violationsForPublishing(q);
             if (!violations.isEmpty()) {
                 results.add(BulkPublishItemResult.invalid(id, violations));
                 invalidCount++;
@@ -386,7 +386,7 @@ public class AdminQuestionService {
             q.setType(item.typeOrDefault());
             q.setDifficulty(item.difficulty());
             q.setBody(item.body().trim());
-            q.setKeyPoints(item.keyPoints());
+            q.setKeyPoints(formatKeyPointsJson(item.keyPoints()));
             q.setModelAnswer(item.modelAnswer());
             q.setStatus(item.statusOrDefault());
             q.setSource(QuestionSource.IMPORTED);
@@ -407,7 +407,7 @@ public class AdminQuestionService {
             }
 
             if (q.getStatus() == QuestionStatus.PUBLISHED) {
-                List<String> violations = QuizEligibility.violations(q);
+                List<String> violations = QuizEligibility.violationsForPublishing(q);
                 if (!violations.isEmpty()) {
                     results.add(ImportItemResult.invalid(i, violations));
                     invalidCount++;
@@ -482,5 +482,38 @@ public class AdminQuestionService {
                 q.getCreatedAt(),
                 q.getUpdatedAt()
         );
+    }
+
+    private String formatKeyPointsJson(String input) {
+        if (input == null || input.isBlank()) {
+            return null;
+        }
+        String trimmed = input.trim();
+        if ((trimmed.startsWith("[") && trimmed.endsWith("]")) ||
+            (trimmed.startsWith("{") && trimmed.endsWith("}"))) {
+            return trimmed;
+        }
+        StringBuilder sb = new StringBuilder("[\"");
+        for (int i = 0; i < trimmed.length(); i++) {
+            char c = trimmed.charAt(i);
+            switch (c) {
+                case '"' -> sb.append("\\\"");
+                case '\\' -> sb.append("\\\\");
+                case '\b' -> sb.append("\\b");
+                case '\f' -> sb.append("\\f");
+                case '\n' -> sb.append("\\n");
+                case '\r' -> sb.append("\\r");
+                case '\t' -> sb.append("\\t");
+                default -> {
+                    if (c < ' ') {
+                        sb.append(String.format("\\u%04x", (int) c));
+                    } else {
+                        sb.append(c);
+                    }
+                }
+            }
+        }
+        sb.append("\"]");
+        return sb.toString();
     }
 }

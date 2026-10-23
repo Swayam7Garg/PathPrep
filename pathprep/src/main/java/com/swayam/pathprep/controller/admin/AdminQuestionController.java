@@ -96,6 +96,7 @@ public class AdminQuestionController {
 
     @PostMapping("/import")
     public ResponseEntity<BulkImportResponse> bulkImport(
+            @RequestParam(required = false) Boolean dryRun,
             @Valid @RequestBody BulkImportRequest request,
             HttpServletRequest httpRequest
     ) {
@@ -103,8 +104,11 @@ public class AdminQuestionController {
         if (contentLength > MAX_IMPORT_BYTES) {
             throw new BadRequestException("PAYLOAD_TOO_LARGE", "Import payload exceeds 1 MB limit (size: " + contentLength + " bytes)");
         }
-        log.info("Admin bulk importing {} questions, batch={}", request.questions().size(), request.batch());
-        BulkImportResponse response = adminQuestionService.bulkImport(request);
+        BulkImportRequest effectiveRequest = (dryRun != null)
+                ? new BulkImportRequest(request.batch(), dryRun, request.questions())
+                : request;
+        log.info("Admin bulk importing {} questions, batch={}, dryRun={}", effectiveRequest.questions().size(), effectiveRequest.batch(), effectiveRequest.isDryRun());
+        BulkImportResponse response = adminQuestionService.bulkImport(effectiveRequest);
         return ResponseEntity.ok(response);
     }
 }

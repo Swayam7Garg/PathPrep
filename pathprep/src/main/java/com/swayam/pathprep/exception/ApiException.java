@@ -9,21 +9,27 @@ public abstract class ApiException extends RuntimeException {
     private final HttpStatus httpStatus;
     private final List<String> details;
     private final Map<String, Object> meta;
+    private final Long retryAfterSeconds;
 
     protected ApiException(String code, HttpStatus httpStatus, String message) {
-        this(code, httpStatus, message, List.of(), null);
+        this(code, httpStatus, message, List.of(), null, null);
     }
 
     protected ApiException(String code, HttpStatus httpStatus, String message, List<String> details) {
-        this(code, httpStatus, message, details, null);
+        this(code, httpStatus, message, details, null, null);
     }
 
     protected ApiException(String code, HttpStatus httpStatus, String message, List<String> details, Map<String, Object> meta) {
+        this(code, httpStatus, message, details, meta, null);
+    }
+
+    protected ApiException(String code, HttpStatus httpStatus, String message, List<String> details, Map<String, Object> meta, Long retryAfterSeconds) {
         super(message);
         this.code = code;
         this.httpStatus = httpStatus;
         this.details = details != null ? details : List.of();
         this.meta = meta;
+        this.retryAfterSeconds = retryAfterSeconds;
     }
 
     public String getCode() {
@@ -40,5 +46,9 @@ public abstract class ApiException extends RuntimeException {
 
     public Map<String, Object> getMeta() {
         return meta;
+    }
+
+    public Long getRetryAfterSeconds() {
+        return retryAfterSeconds;
     }
 }

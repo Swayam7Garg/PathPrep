@@ -11,6 +11,50 @@ export type SkillStatus = "NOT_STARTED" | "IN_PROGRESS" | "MASTERED";
 export type ConfidenceLevel = "LOW" | "MEDIUM" | "HIGH";
 export type GapKind = "NOT_STARTED" | "WEAK" | "PREREQUISITE_BLOCKED";
 export type PlanItemType = "RESUME" | "REVIEW" | "DRILL";
+export type UserRole = "STUDENT" | "OFFICER" | "ADMIN";
+
+// Phase 7: Authentication & User Profile
+export interface InstitutionSummary {
+  id: number;
+  name: string;
+}
+
+export interface UserProfile {
+  id: number;
+  email: string;
+  name: string | null;
+  pictureUrl: string | null;
+  role: UserRole;
+  branch: string | null;
+  gradYear: number | null;
+  targetTrackId: number | null;
+  targetTrackName: string | null;
+  institution: InstitutionSummary | null;
+  onboardingCompleted: boolean;
+  createdAt: string;
+}
+
+export interface AuthResponse {
+  accessToken: string;
+  tokenType: string;
+  expiresInSec: number;
+  user: UserProfile;
+}
+
+export interface GoogleLoginRequest {
+  credential: string;
+}
+
+export interface UpdateUserRequest {
+  name?: string;
+  branch?: string;
+  gradYear?: number;
+  targetTrackId?: number;
+}
+
+export interface DeleteUserRequest {
+  confirm: "DELETE";
+}
 
 // Phase 1: Track Catalog
 export interface TrackSummary {

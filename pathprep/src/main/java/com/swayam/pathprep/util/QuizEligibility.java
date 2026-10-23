@@ -62,17 +62,13 @@ public final class QuizEligibility {
     }
 
     /**
-     * Returns a human-readable list of reasons why {@code q} is not quiz-eligible.
-     * Returns an empty list if the question passes all checks.
+     * Validates whether a question can be published (all eligibility criteria except status).
      *
      * @param q the question to validate (options must be loaded)
-     * @return list of violation descriptions; empty means valid
+     * @return list of violation descriptions; empty means valid for publishing
      */
-    public static java.util.List<String> violations(Question q) {
+    public static java.util.List<String> violationsForPublishing(Question q) {
         var errors = new java.util.ArrayList<String>();
-        if (q.getStatus() != QuestionStatus.PUBLISHED) {
-            errors.add("status must be PUBLISHED (current: " + q.getStatus() + ")");
-        }
         if (q.getType() != QuestionType.MCQ) {
             errors.add("type must be MCQ (current: " + q.getType() + ")");
         }
@@ -86,6 +82,22 @@ public final class QuizEligibility {
             if (correct == 0) errors.add("requires exactly 1 correct option (found 0)");
             else if (correct > 1) errors.add("requires exactly 1 correct option (found " + correct + ")");
         }
+        return errors;
+    }
+
+    /**
+     * Returns a human-readable list of reasons why {@code q} is not quiz-eligible.
+     * Returns an empty list if the question passes all checks.
+     *
+     * @param q the question to validate (options must be loaded)
+     * @return list of violation descriptions; empty means valid
+     */
+    public static java.util.List<String> violations(Question q) {
+        var errors = new java.util.ArrayList<String>();
+        if (q.getStatus() != QuestionStatus.PUBLISHED) {
+            errors.add("status must be PUBLISHED (current: " + q.getStatus() + ")");
+        }
+        errors.addAll(violationsForPublishing(q));
         return errors;
     }
 }

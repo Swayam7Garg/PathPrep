@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
                 ex.getCode(),
                 ex.getMessage(),
                 ex.getDetails(),
-                null,
+                ex.getRetryAfterSeconds(),
                 traceId,
                 ex.getMeta()
         );

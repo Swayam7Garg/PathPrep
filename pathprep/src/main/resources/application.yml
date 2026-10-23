@@ -1,7 +1,13 @@
 server:
   port: 8080
+  # Configure forward headers strategy so client IP resolution behind reverse proxy uses X-Forwarded-For.
+  # Proxy-trust assumption: The application runs behind a trusted reverse proxy (e.g. Nginx, Cloudflare, AWS ALB)
+  # that strips or normalizes incoming X-Forwarded-For headers from untrusted clients before setting the real client IP.
+  forward-headers-strategy: framework
 
 spring:
+  profiles:
+    active: dev
   application:
     name: pathprep
   threads:
@@ -51,7 +57,23 @@ app:
   cors:
     allowed-origins:
       - "http://localhost:3000"
+  auth:
+    google:
+      client-id: ${GOOGLE_CLIENT_ID:1012901304842-qi5cgegchnle6uif6r1fvj6cflqpr7gc.apps.googleusercontent.com}
+    jwt:
+      secret: ${JWT_SECRET:super-secret-dev-jwt-key-minimum-32-bytes-long!}
+      issuer: pathprep
+      access-ttl: 15m
+      refresh-ttl: 30d
+    refresh-cookie:
+      name: pp_refresh
+      secure: ${REFRESH_COOKIE_SECURE:false}
+      same-site: Lax
+      path: /api/v1/auth
+    admin-emails: ${ADMIN_EMAILS:admin@nie.edu.in ,swayamgarg117@gmail.com}
+    allowed-email-domains: ${ALLOWED_EMAIL_DOMAINS:nie.edu.in}
+    allow-any-google-account: ${ALLOW_ANY_GOOGLE_ACCOUNT:true}
+    dev-login-enabled: ${DEV_LOGIN_ENABLED:true}
   admin:
-    # TODO: Replace with ROLE_ADMIN JWT check in Phase 7.
-    # Set ADMIN_API_KEY env var to enable admin endpoints. Blank = disabled (fail-closed).
-    api-key: ${ADMIN_API_KEY:}
+    # Set ADMIN_API_KEY env var in production. Defaults to dev-admin-secret for local development.
+    api-key: ${ADMIN_API_KEY:dev-admin-secret}

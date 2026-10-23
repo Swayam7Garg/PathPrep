@@ -19,6 +19,10 @@ import {
   ProgressResponse,
   AiUsageInfo,
   ApiErrorResponse,
+  UserProfile,
+  AuthResponse,
+  UpdateUserRequest,
+  DeleteUserRequest,
 } from "./types";
 import {
   MOCK_TRACKS,
@@ -32,6 +36,7 @@ import {
   MOCK_AI_USAGE,
   MOCK_PROGRESS,
 } from "./mock-data";
+import { getAccessToken, setAccessToken } from "./auth-token";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080/api/v1";
@@ -75,9 +80,34 @@ export function generateUUID(): string {
   });
 }
 
+// In-flight refresh deduplication promise
+let activeRefreshPromise: Promise<string | null> | null = null;
+
+export async function getOrRefreshAccessToken(): Promise<string | null> {
+  if (activeRefreshPromise) {
+    return activeRefreshPromise;
+  }
+  activeRefreshPromise = (async () => {
+    try {
+      const res = await refreshToken();
+      return res.accessToken;
+    } catch {
+      setAccessToken(null);
+      return null;
+    } finally {
+      activeRefreshPromise = null;
+    }
+  })();
+  return activeRefreshPromise;
+}
+
+interface RequestOptions extends RequestInit {
+  _isRetry?: boolean;
+}
+
 async function request<T>(
   path: string,
-  options: RequestInit = {},
+  options: RequestOptions = {},
   fallbackData?: T
 ): Promise<T> {
   // If mocking is explicitly enabled, return mock data immediately
@@ -98,10 +128,17 @@ async function request<T>(
     headers.set("X-Trace-Id", generateUUID());
   }
 
+  // Attach in-memory access token if present
+  const token = getAccessToken();
+  if (token && !headers.has("Authorization")) {
+    headers.set("Authorization", `Bearer ${token}`);
+  }
+
   let response: Response;
   try {
     response = await fetch(url, {
       ...options,
+      credentials: options.credentials || "include",
       headers,
     });
   } catch (err: unknown) {
@@ -111,6 +148,24 @@ async function request<T>(
       return fallbackData;
     }
     throw new ApiError(0, errorMsg, "NETWORK_ERROR");
+  }
+
+  // Handle 401 with silent token refresh and single retry
+  if (response.status === 401 && !options._isRetry && !path.startsWith("/auth/")) {
+    const newToken = await getOrRefreshAccessToken();
+    if (newToken) {
+      const retryHeaders = new Headers(options.headers || {});
+      retryHeaders.set("Authorization", `Bearer ${newToken}`);
+      return request<T>(
+        path,
+        {
+          ...options,
+          headers: retryHeaders,
+          _isRetry: true,
+        },
+        fallbackData
+      );
+    }
   }
 
   if (!response.ok) {
@@ -357,3 +412,89 @@ export async function saveGroqApiKey(apiKey: string): Promise<{ success: boolean
     { success: true }
   );
 }
+
+// Phase 7: Authentication & User Profile
+export async function loginWithGoogle(credential: string): Promise<AuthResponse> {
+  const res = await request<AuthResponse>("/auth/google", {
+    method: "POST",
+    headers: {
+      "X-Requested-With": "pathprep",
+    },
+    body: JSON.stringify({ credential }),
+  });
+  setAccessToken(res.accessToken);
+  return res;
+}
+
+export async function refreshToken(): Promise<AuthResponse> {
+  const res = await request<AuthResponse>("/auth/refresh", {
+    method: "POST",
+    headers: {
+      "X-Requested-With": "pathprep",
+    },
+  });
+  setAccessToken(res.accessToken);
+  return res;
+}
+
+export async function logout(): Promise<void> {
+  try {
+    await request<void>("/auth/logout", {
+      method: "POST",
+      headers: {
+        "X-Requested-With": "pathprep",
+      },
+    });
+  } finally {
+    setAccessToken(null);
+  }
+}
+
+export async function logoutAll(): Promise<void> {
+  try {
+    await request<void>("/auth/logout-all", {
+      method: "POST",
+      headers: {
+        "X-Requested-With": "pathprep",
+      },
+    });
+  } finally {
+    setAccessToken(null);
+  }
+}
+
+export async function devLogin(email?: string): Promise<AuthResponse> {
+  const res = await request<AuthResponse>("/auth/dev-login", {
+    method: "POST",
+    headers: {
+      "X-Requested-With": "pathprep",
+    },
+    body: email ? JSON.stringify({ email }) : undefined,
+  });
+  setAccessToken(res.accessToken);
+  return res;
+}
+
+export async function getMe(): Promise<UserProfile> {
+  return request<UserProfile>("/me");
+}
+
+export async function updateMe(payload: UpdateUserRequest): Promise<UserProfile> {
+  return request<UserProfile>("/me", {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function deleteMe(): Promise<void> {
+  try {
+    const payload: DeleteUserRequest = { confirm: "DELETE" };
+    await request<void>("/me", {
+      method: "DELETE",
+      body: JSON.stringify(payload),
+    });
+  } finally {
+    setAccessToken(null);
+  }
+}
+

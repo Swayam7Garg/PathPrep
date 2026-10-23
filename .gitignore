@@ -3,6 +3,11 @@
 Thumbs.db
 desktop.ini
 
+# Environment variables
+.env
+.env.*
+!.env.example
+
 # IDEs
 .idea/
 .vscode/

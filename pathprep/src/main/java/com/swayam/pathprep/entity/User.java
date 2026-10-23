@@ -47,6 +47,15 @@ public class User {
     @Column(name = "target_track_id")
     private Long targetTrackId;
 
+    @Column(name = "google_sub", length = 64, unique = true)
+    private String googleSub;
+
+    @Column(name = "picture_url", length = 500)
+    private String pictureUrl;
+
+    @Column(name = "last_login_at")
+    private Instant lastLoginAt;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 
