@@ -40,3 +40,7 @@ frontend/yarn-error.log*
 scratch/
 *.patch
 
+# Content / questions
+content/
+
+
