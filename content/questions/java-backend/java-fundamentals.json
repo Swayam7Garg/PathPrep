@@ -1,0 +1,675 @@
+{
+  "batch": "java-fundamentals-batch-1",
+  "questions": [
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "Pass-by-Value Semantics",
+      "difficulty": 2,
+      "body": "In Java, what happens when an object reference is passed as an argument to a method and reassigned inside that method?",
+      "keyPoints": "Java is strictly pass-by-value; reference values are copied.",
+      "options": [
+        {
+          "position": 0,
+          "text": "The caller's reference remains unchanged because Java is strictly pass-by-value; a copy of the reference address is passed.",
+          "isCorrect": true,
+          "explanation": "Java is strictly pass-by-value. When an object is passed, a copy of the reference address is passed. Reassigning the copy inside the callee method does not affect the caller's variable."
+        },
+        {
+          "position": 1,
+          "text": "The caller's reference points to the new object because references in Java are passed by reference.",
+          "isCorrect": false,
+          "explanation": "Java does not have pass-by-reference. Only the reference value (pointer address) is passed by value."
+        },
+        {
+          "position": 2,
+          "text": "A compile-time error occurs unless the method parameter is explicitly declared final.",
+          "isCorrect": false,
+          "explanation": "Method parameters do not have to be final to be reassigned inside method scope."
+        },
+        {
+          "position": 3,
+          "text": "Both the caller and callee reference point to null after the method invocation completes.",
+          "isCorrect": false,
+          "explanation": "The caller reference remains untouched pointing to its original object."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "String Pool & Immutability",
+      "difficulty": 2,
+      "body": "Consider the following statements:\n```java\nString s1 = \"hello\";\nString s2 = new String(\"hello\");\nString s3 = s2.intern();\n```\nWhich of the following Boolean expressions evaluates to true?",
+      "keyPoints": "intern() returns the string constant pool canonical reference.",
+      "options": [
+        {
+          "position": 0,
+          "text": "s1 == s3 && s1.equals(s2) && s1 != s2",
+          "isCorrect": true,
+          "explanation": "s1 points to the pool instance. s2 creates an explicit new heap object (s1 != s2). s2.intern() returns the canonical instance from the pool (s1 == s3). Content comparison via equals() is true."
+        },
+        {
+          "position": 1,
+          "text": "s1 == s2 && s1 == s3",
+          "isCorrect": false,
+          "explanation": "s1 == s2 is false because s2 was created using new String() on the heap."
+        },
+        {
+          "position": 2,
+          "text": "s1 != s3 && s1.equals(s2)",
+          "isCorrect": false,
+          "explanation": "s1 != s3 is false because s2.intern() returns the existing pool object s1."
+        },
+        {
+          "position": 3,
+          "text": "s2 == s3 && s1 != s2",
+          "isCorrect": false,
+          "explanation": "s2 == s3 is false because s2 is on the regular heap while s3 points to the pool."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "Autoboxing & Wrapper Caching",
+      "difficulty": 2,
+      "body": "What is the console output when executing the following snippet in Java 8+?\n```java\nInteger a = 127;\nInteger b = 127;\nInteger c = 128;\nInteger d = 128;\nSystem.out.println((a == b) + \" \" + (c == d));\n```",
+      "keyPoints": "IntegerCache caches boxed values between -128 and 127 inclusive.",
+      "options": [
+        {
+          "position": 0,
+          "text": "true false",
+          "isCorrect": true,
+          "explanation": "Autoboxing utilizes Integer.valueOf(), which caches values in the range [-128, 127]. Thus a and b refer to the exact same cached object (true). Values above 127 allocate distinct objects on the heap (false)."
+        },
+        {
+          "position": 1,
+          "text": "true true",
+          "isCorrect": false,
+          "explanation": "Values above 127 are not cached by default and create separate object references."
+        },
+        {
+          "position": 2,
+          "text": "false false",
+          "isCorrect": false,
+          "explanation": "Values within [-128, 127] are guaranteed to be cached, so a == b evaluates to true."
+        },
+        {
+          "position": 3,
+          "text": "false true",
+          "isCorrect": false,
+          "explanation": "Caching applies to lower numbers, not higher numbers."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "equals() and hashCode() Contract",
+      "difficulty": 3,
+      "body": "What adverse behavior occurs if an entity class overrides `equals(Object o)` to compare business fields, but fails to override `hashCode()`?",
+      "keyPoints": "Equal objects must have equal hash codes; failure breaks hash-based collections.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Equal instances may produce distinct hash codes, preventing HashMap or HashSet from locating previously stored keys.",
+          "isCorrect": true,
+          "explanation": "The hashCode contract requires that if a.equals(b), then a.hashCode() == b.hashCode(). Without an override, default identity hash code places equal instances into different buckets, causing contains() and get() to return null/false."
+        },
+        {
+          "position": 1,
+          "text": "The Java compiler emits a compilation error requiring both methods to be overridden simultaneously.",
+          "isCorrect": false,
+          "explanation": "The compiler does not enforce the contract; it is a logical and behavioral runtime contract."
+        },
+        {
+          "position": 2,
+          "text": "HashMap throws an IllegalStateException upon invoking map.put().",
+          "isCorrect": false,
+          "explanation": "HashMap executes normally without throwing an exception, leading to silent bugs."
+        },
+        {
+          "position": 3,
+          "text": "The equals() method will always return false when invoked by collections.",
+          "isCorrect": false,
+          "explanation": "equals() itself functions as written, but it will never be called if the hash code lands in an empty or different bucket."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "Static Keyword & Class Loading",
+      "difficulty": 2,
+      "body": "When is a `static` initialization block (`static { ... }`) executed in a Java class?",
+      "keyPoints": "Static initializers run once per class loading and initialization.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Exactly once when the class is loaded and initialized by the JVM class loader.",
+          "isCorrect": true,
+          "explanation": "Static blocks execute when the class is initialized by the class loader, prior to any instances being created or static methods/fields being accessed."
+        },
+        {
+          "position": 1,
+          "text": "Every time a new instance of the class is instantiated with the new keyword.",
+          "isCorrect": false,
+          "explanation": "Instance initialization blocks run on every constructor call, not static initialization blocks."
+        },
+        {
+          "position": 2,
+          "text": "Immediately before every static method invocation on that class.",
+          "isCorrect": false,
+          "explanation": "Static blocks run only once upon class initialization, not before every method call."
+        },
+        {
+          "position": 3,
+          "text": "When the class is loaded into memory by the garbage collector.",
+          "isCorrect": false,
+          "explanation": "Garbage collection manages memory deallocation, not class loading initialization."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "Final Keyword Semantics",
+      "difficulty": 1,
+      "body": "What guarantee is provided when a reference variable is declared as `final` in Java?",
+      "keyPoints": "final prevents reference reassignment; it does not make the object mutable fields immutable.",
+      "options": [
+        {
+          "position": 0,
+          "text": "The reference variable cannot be reassigned to point to another object after initialization.",
+          "isCorrect": true,
+          "explanation": "A final reference variable cannot be rebound to another instance. However, if the underlying object is mutable (e.g. ArrayList), its internal state can still be modified."
+        },
+        {
+          "position": 1,
+          "text": "The referenced object becomes deeply immutable and its internal fields cannot be changed.",
+          "isCorrect": false,
+          "explanation": "final on a variable only restricts reference reassignment, not object state mutation."
+        },
+        {
+          "position": 2,
+          "text": "The object is allocated in the thread stack instead of the heap.",
+          "isCorrect": false,
+          "explanation": "Objects are allocated on the heap regardless of whether the reference variable is final."
+        },
+        {
+          "position": 3,
+          "text": "The variable can be accessed by multiple threads without any memory visibility issues.",
+          "isCorrect": false,
+          "explanation": "While final fields in constructed objects have safe publication guarantees, declaring a local or shared reference final does not replace general thread synchronization."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "Numeric Promotion & Casting",
+      "difficulty": 1,
+      "body": "What happens when compiling and running the following code?\n```java\nbyte b = 10;\nb = b + 1;\n```",
+      "keyPoints": "Binary arithmetic promotions promote operands smaller than int to int.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Compilation failure: cannot convert from int to byte without an explicit cast.",
+          "isCorrect": true,
+          "explanation": "In Java binary arithmetic (+), operands smaller than int (byte, short, char) are promoted to int. Therefore, (b + 1) produces an int, which cannot be assigned to byte without explicit cast (byte)(b + 1) or compound operator (b++ / b += 1)."
+        },
+        {
+          "position": 1,
+          "text": "Compiles successfully and b becomes 11.",
+          "isCorrect": false,
+          "explanation": "Automatic narrowing from int to byte is not performed for arithmetic expressions without explicit cast."
+        },
+        {
+          "position": 2,
+          "text": "Throws an ArithmeticException at runtime.",
+          "isCorrect": false,
+          "explanation": "This is a compile-time type mismatch error, not a runtime arithmetic exception."
+        },
+        {
+          "position": 3,
+          "text": "b wraps around to -128 due to byte boundary overflow.",
+          "isCorrect": false,
+          "explanation": "Overflow only occurs when the value exceeds byte range after valid assignment."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "Exception Hierarchy",
+      "difficulty": 2,
+      "body": "Which of the following exceptions is an unchecked exception in Java that does not require mandatory catch or throws declaration?",
+      "keyPoints": "Subclasses of RuntimeException are unchecked.",
+      "options": [
+        {
+          "position": 0,
+          "text": "IllegalArgumentException",
+          "isCorrect": true,
+          "explanation": "IllegalArgumentException directly inherits from RuntimeException, categorizing it as an unchecked exception. It signals improper argument usage without mandatory throws declarations."
+        },
+        {
+          "position": 1,
+          "text": "IOException",
+          "isCorrect": false,
+          "explanation": "IOException directly extends java.lang.Exception and is a checked exception requiring explicit handling."
+        },
+        {
+          "position": 2,
+          "text": "SQLException",
+          "isCorrect": false,
+          "explanation": "SQLException extends java.lang.Exception and is a checked exception."
+        },
+        {
+          "position": 3,
+          "text": "ClassNotFoundException",
+          "isCorrect": false,
+          "explanation": "ClassNotFoundException extends java.lang.Exception and is a checked exception."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "JVM Memory Areas",
+      "difficulty": 3,
+      "body": "In the standard HotSpot JVM runtime data area, where are local primitive variables and method activation records stored?",
+      "keyPoints": "Method frames and local primitive variables reside on the thread's JVM stack.",
+      "options": [
+        {
+          "position": 0,
+          "text": "In the thread-private JVM Stack frame.",
+          "isCorrect": true,
+          "explanation": "Each Java thread possesses its own JVM Stack. When a method is called, a frame is pushed onto the stack containing local variables (primitives and object reference pointers) and operand stacks."
+        },
+        {
+          "position": 1,
+          "text": "In the shared Heap memory space.",
+          "isCorrect": false,
+          "explanation": "The Heap stores actual object instances and arrays shared across all threads."
+        },
+        {
+          "position": 2,
+          "text": "In Metaspace alongside class metadata.",
+          "isCorrect": false,
+          "explanation": "Metaspace stores class definitions, method bytecode, and static constant pools."
+        },
+        {
+          "position": 3,
+          "text": "In the Program Counter register.",
+          "isCorrect": false,
+          "explanation": "The PC register merely maintains the address of the currently executing JVM instruction."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "Garbage Collection Roots",
+      "difficulty": 3,
+      "body": "Which of the following is considered an active Garbage Collection (GC) Root in Java?",
+      "keyPoints": "Active thread local variables, JNI references, and system classes serve as GC roots.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Local variables and parameter references currently active in a thread's call stack frame.",
+          "isCorrect": true,
+          "explanation": "Objects referenced by active stack frames in any executing thread are GC Roots. If an object is reachable via a chain of references starting from a GC Root, it cannot be collected."
+        },
+        {
+          "position": 1,
+          "text": "Any two objects referencing each other in a circular chain with no external references.",
+          "isCorrect": false,
+          "explanation": "Circular references without a path from a real GC Root are isolated islands and are collected by tracing GC."
+        },
+        {
+          "position": 2,
+          "text": "WeakReference objects whose referent has not been marked as phantom.",
+          "isCorrect": false,
+          "explanation": "Weak references do not prevent referents from being reclaimed during garbage collection."
+        },
+        {
+          "position": 3,
+          "text": "Transient fields of a non-serialized object residing in the old generation.",
+          "isCorrect": false,
+          "explanation": "Field modifiers like transient affect serialization, not GC root status."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "Autoboxing and Cache",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What does the expression `Integer a = 127; Integer b = 127; System.out.println(a == b);` print versus `Integer c = 128; Integer d = 128; System.out.println(c == d);`?",
+      "keyPoints": "IntegerCache caches values between -128 and 127.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`true` followed by `false`",
+          "isCorrect": true,
+          "explanation": "Java's `IntegerCache` pre-caches Integer objects in the range `[-128, 127]`. For 127, both reference the cached instance (== is true). For 128, new distinct objects are allocated (== is false)."
+        },
+        {
+          "position": 1,
+          "text": "`true` followed by `true`",
+          "isCorrect": false,
+          "explanation": "128 falls outside the default byte-range IntegerCache."
+        },
+        {
+          "position": 2,
+          "text": "`false` followed by `false`",
+          "isCorrect": false,
+          "explanation": "Values up to 127 are cached."
+        },
+        {
+          "position": 3,
+          "text": "`false` followed by `true`",
+          "isCorrect": false,
+          "explanation": "The cached range is below 128."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "Primitive Data Types and Memory",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What is the size and default value of a `char` primitive in Java?",
+      "keyPoints": "16-bit unsigned Unicode character; default value is '\\u0000'.",
+      "options": [
+        {
+          "position": 0,
+          "text": "16-bit (2 bytes) unsigned integer, with default value `'\\u0000'` (0).",
+          "isCorrect": true,
+          "explanation": "Java `char` is a 16-bit unsigned Unicode character (range 0 to 65,535). Its default value is the null character `'\\u0000'`."
+        },
+        {
+          "position": 1,
+          "text": "8-bit (1 byte) ASCII character, with default value `' '` (space).",
+          "isCorrect": false,
+          "explanation": "Java uses 16-bit Unicode characters, not 8-bit ASCII."
+        },
+        {
+          "position": 2,
+          "text": "32-bit (4 bytes) UTF-32 code point, with default value `null`.",
+          "isCorrect": false,
+          "explanation": "Primitives cannot be null and char is 16 bits."
+        },
+        {
+          "position": 3,
+          "text": "8-bit signed integer, with default value `0`.",
+          "isCorrect": false,
+          "explanation": "`byte` is 8-bit signed; `char` is 16-bit unsigned."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "Bitwise Shift Operators",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the difference between the `>>` and `>>>` operators in Java?",
+      "keyPoints": ">> is signed shift (preserves sign bit); >>> is unsigned shift (fills top bits with zeros).",
+      "options": [
+        {
+          "position": 0,
+          "text": "`>>` is an arithmetic signed right shift (preserves the sign bit); `>>>` is a logical unsigned right shift (fills leftmost vacated bits with 0s regardless of sign).",
+          "isCorrect": true,
+          "explanation": "For negative numbers, `>>` propagates 1s to preserve negativity. `>>>` shifts zeros into the high-order bits, converting negative numbers into large positive numbers."
+        },
+        {
+          "position": 1,
+          "text": "`>>>` shifts by 3 bits at a time; `>>` shifts by 2 bits.",
+          "isCorrect": false,
+          "explanation": "Both shift by the number of bit positions specified by the right operand."
+        },
+        {
+          "position": 2,
+          "text": "`>>>` can only be applied to floating point numbers.",
+          "isCorrect": false,
+          "explanation": "Bitwise shift operators cannot be applied to floats or doubles."
+        },
+        {
+          "position": 3,
+          "text": "`>>` is deprecated in Java 17.",
+          "isCorrect": false,
+          "explanation": "Both shift operators are standard Java language features."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "Final, Finally, Finalize",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "Which statement accurately describes the distinct uses of `final`, `finally`, and `finalize` in Java?",
+      "keyPoints": "final is a keyword modifier; finally is a try-catch block; finalize is a deprecated Object method.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`final` is a keyword to restrict modification (constants, non-overridable methods, un-extendable classes); `finally` is a block in exception handling; `finalize` is a deprecated method in `Object` for cleanup.",
+          "isCorrect": true,
+          "explanation": "`final` applies to variables/methods/classes. `finally` executes after try/catch. `finalize()` is deprecated for removal since Java 9/18 in favor of `Cleaner` and `AutoCloseable`."
+        },
+        {
+          "position": 1,
+          "text": "`final` and `finally` are exact synonyms.",
+          "isCorrect": false,
+          "explanation": "One is a declaration modifier; the other is control-flow syntax."
+        },
+        {
+          "position": 2,
+          "text": "`finalize` is called every time a variable goes out of scope.",
+          "isCorrect": false,
+          "explanation": "`finalize()` was invoked nondeterministically by the GC before reclamation."
+        },
+        {
+          "position": 3,
+          "text": "`finally` blocks are skipped if an unhandled exception occurs.",
+          "isCorrect": false,
+          "explanation": "`finally` blocks execute even when exceptions are thrown."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "Type Casting and Widening/Narrowing",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What happens when an `int` value `130` is explicitly cast to a `byte` in Java (`byte b = (byte) 130;`)?",
+      "keyPoints": "Narrowing primitive conversion truncates to lowest 8 bits: 130 becomes -126 in two's complement.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`b` becomes `-126` due to two's complement overflow of the 8-bit signed byte range `[-128, 127]`.",
+          "isCorrect": true,
+          "explanation": "`130` in binary is `...0000 1000 0010`. Truncating to 8 bits gives `1000 0010`. The leading 1 denotes negative; two's complement calculation gives `-128 + 2 = -126`."
+        },
+        {
+          "position": 1,
+          "text": "A runtime `ArithmeticException` is thrown.",
+          "isCorrect": false,
+          "explanation": "Java primitive casts wrap silently without throwing exceptions."
+        },
+        {
+          "position": 2,
+          "text": "`b` is clamped to the maximum byte value of `127`.",
+          "isCorrect": false,
+          "explanation": "Java does not perform saturating arithmetic; it truncates bits."
+        },
+        {
+          "position": 3,
+          "text": "`b` becomes `130`.",
+          "isCorrect": false,
+          "explanation": "A signed byte cannot hold values above 127."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "Switch Expressions (Java 14+)",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "In modern Java switch expressions (`switch (...) -> ...`), what keyword is used to return a value from a multi-line block branch?",
+      "keyPoints": "yield is used to produce a value from a switch block.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`yield`",
+          "isCorrect": true,
+          "explanation": "Java 14 introduced switch expressions. Inside a multi-line `{ ... }` block of a switch case, the `yield` statement specifies the evaluated return value of the switch expression."
+        },
+        {
+          "position": 1,
+          "text": "`return`",
+          "isCorrect": false,
+          "explanation": "`return` exits the enclosing method, not just the switch expression."
+        },
+        {
+          "position": 2,
+          "text": "`break`",
+          "isCorrect": false,
+          "explanation": "`break` was used in preview versions, but finalized Java syntax uses `yield`."
+        },
+        {
+          "position": 3,
+          "text": "`output`",
+          "isCorrect": false,
+          "explanation": "`output` is not a Java keyword."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "Records (Java 16+)",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What does declaring a `record Person(String name, int age) {}` automatically provide in Java 16+?",
+      "keyPoints": "Immutable data carrier class with private final fields, constructor, getters (name(), age()), equals, hashCode, and toString.",
+      "options": [
+        {
+          "position": 0,
+          "text": "An immutable class with private final fields, canonical constructor, accessor methods (`name()`, `age()`), and auto-generated `equals()`, `hashCode()`, and `toString()` implementations.",
+          "isCorrect": true,
+          "explanation": "Java records are transparent, immutable data carriers that eliminate boilerplate for value classes. All fields are private final and records cannot extend other classes (they implicitly extend `java.lang.Record`)."
+        },
+        {
+          "position": 1,
+          "text": "A mutable JavaBean with `getName()` and `setName()` methods.",
+          "isCorrect": false,
+          "explanation": "Record fields are immutable and accessors omit the 'get' prefix (e.g. `person.name()`)."
+        },
+        {
+          "position": 2,
+          "text": "A database table entity mapped directly to JPA.",
+          "isCorrect": false,
+          "explanation": "Records are pure language-level data constructs, not JPA entities."
+        },
+        {
+          "position": 3,
+          "text": "A class that can be extended by other classes.",
+          "isCorrect": false,
+          "explanation": "Records are implicitly `final` and cannot be extended."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "TextBlock Syntax (Java 15+)",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What delimiter is used to declare multi-line Text Blocks in Java 15+?",
+      "keyPoints": "Triple double-quotes: \"\"\" followed by a line terminator.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Triple double quotes: `\"\"\"`",
+          "isCorrect": true,
+          "explanation": "Text blocks are enclosed in `\"\"\"` and must be followed by a newline on the opening line, preserving internal formatting and stripping common incidental whitespace."
+        },
+        {
+          "position": 1,
+          "text": "Backticks: ```",
+          "isCorrect": false,
+          "explanation": "Backticks are used in JavaScript and Go, not Java."
+        },
+        {
+          "position": 2,
+          "text": "Triple single quotes: `'''`",
+          "isCorrect": false,
+          "explanation": "Single quotes in Java are exclusively for `char` literals."
+        },
+        {
+          "position": 3,
+          "text": "`<<TEXT ... TEXT` heredoc syntax.",
+          "isCorrect": false,
+          "explanation": "Heredoc syntax is used in Bash/PHP/Perl, not Java."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "Variable Arity (Varargs)",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What are the rules regarding the placement and number of Varargs parameters (`Type... args`) in a Java method signature?",
+      "keyPoints": "Only one varargs parameter is permitted, and it MUST be the last parameter.",
+      "options": [
+        {
+          "position": 0,
+          "text": "A method can have at most ONE varargs parameter, and it MUST be the last parameter in the method signature.",
+          "isCorrect": true,
+          "explanation": "Java enforces `void foo(int a, String... names)`. If varargs were permitted in earlier positions or multiple times, argument binding would be ambiguous."
+        },
+        {
+          "position": 1,
+          "text": "A method can have multiple varargs parameters as long as they have different types.",
+          "isCorrect": false,
+          "explanation": "Only one varargs parameter is permitted per method."
+        },
+        {
+          "position": 2,
+          "text": "The varargs parameter must be the FIRST parameter in the signature.",
+          "isCorrect": false,
+          "explanation": "It must strictly be the last parameter."
+        },
+        {
+          "position": 3,
+          "text": "Varargs parameters can only accept primitive types.",
+          "isCorrect": false,
+          "explanation": "Varargs work with both primitives and object references."
+        }
+      ]
+    },
+    {
+      "topicName": "Java Fundamentals",
+      "subtopic": "Pattern Matching for instanceof (Java 16+)",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "How does Pattern Matching for `instanceof` (Java 16+) simplify conditional type casts?",
+      "keyPoints": "Binds a typed pattern variable directly in the condition: if (obj instanceof String s).",
+      "options": [
+        {
+          "position": 0,
+          "text": "It binds a typed pattern variable directly in the `if` condition: `if (obj instanceof String s) { s.length(); }`, eliminating redundant explicit casting.",
+          "isCorrect": true,
+          "explanation": "Pattern matching for `instanceof` tests the type and scopes a pattern variable `s` whose scope flows into true branches, avoiding boilerplate like `String s = (String) obj;`."
+        },
+        {
+          "position": 1,
+          "text": "It converts runtime casts to compile-time macros.",
+          "isCorrect": false,
+          "explanation": "It tests types at runtime and automatically introduces the typed variable."
+        },
+        {
+          "position": 2,
+          "text": "It allows matching against regular expressions.",
+          "isCorrect": false,
+          "explanation": "It matches object types, not text regexes."
+        },
+        {
+          "position": 3,
+          "text": "It replaces `try...catch` blocks.",
+          "isCorrect": false,
+          "explanation": "It is an enhancement to the `instanceof` operator."
+        }
+      ]
+    }
+  ]
+}

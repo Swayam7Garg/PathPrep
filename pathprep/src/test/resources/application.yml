@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: test
   datasource:
     url: jdbc:mysql://localhost:3306/pathprep_test?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: root
@@ -21,6 +23,11 @@ logging:
 
 app:
   time-zone: Asia/Kolkata
+  ai:
+    provider: MOCK
+    daily-free-call-limit: 15
+    daily-free-token-limit: 25000
+    shared-pool-daily-token-budget: 250000
   learning:
     daily-goal: 10
     mastery-window: 20
@@ -42,3 +49,22 @@ app:
   cors:
     allowed-origins:
       - "http://localhost:3000"
+  auth:
+    google:
+      client-id: test-google-client-id.apps.googleusercontent.com
+    jwt:
+      secret: test-jwt-secret-min-32-chars-for-testing-suite!!
+      issuer: pathprep
+      access-ttl: 15m
+      refresh-ttl: 30d
+    refresh-cookie:
+      name: pp_refresh
+      secure: false
+      same-site: Lax
+      path: /api/v1/auth
+    admin-emails: admin@nie.edu.in
+    allowed-email-domains: nie.edu.in
+    allow-any-google-account: false
+    dev-login-enabled: true
+  admin:
+    api-key: test-admin-key

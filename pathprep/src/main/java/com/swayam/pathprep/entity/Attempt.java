@@ -34,8 +34,15 @@ public class Attempt {
     private Question question;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "selected_option_id", nullable = false)
+    @JoinColumn(name = "selected_option_id")
     private QuestionOption selectedOption;
+
+    @Column(name = "answer_text", columnDefinition = "TEXT")
+    private String answerText;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_attempt_id")
+    private Attempt parentAttempt;
 
     @Column(name = "correct", nullable = false)
     private boolean correct;

@@ -1,0 +1,685 @@
+{
+  "batch": "async-javascript-batch-1",
+  "questions": [
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "Event Loop Architecture",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "In what order does the JavaScript runtime event loop process tasks?",
+      "keyPoints": "Execute synchronous stack, drain entire microtask queue, then take one macrotask from task queue.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Execute call stack -> Drain all microtasks (Promises, queueMicrotask) -> Execute one macrotask (setTimeout, I/O) -> Repeat.",
+          "isCorrect": true,
+          "explanation": "After synchronous code finishes, the microtask queue is completely drained before rendering or taking the next macrotask from the task queue."
+        },
+        {
+          "position": 1,
+          "text": "Execute macrotask -> Execute all microtasks -> Execute call stack.",
+          "isCorrect": false,
+          "explanation": "Synchronous call stack runs first."
+        },
+        {
+          "position": 2,
+          "text": "Microtasks and macrotasks run concurrently in parallel threads.",
+          "isCorrect": false,
+          "explanation": "JavaScript main thread execution is single-threaded."
+        },
+        {
+          "position": 3,
+          "text": "`setTimeout` tasks have higher priority than Promise `.then()` callbacks.",
+          "isCorrect": false,
+          "explanation": "Promise callbacks are microtasks and have strictly higher priority than `setTimeout` macrotasks."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "Microtask Queue Execution",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What will be the console output order of the following snippet?\n```js\nconsole.log('1');\nsetTimeout(() => console.log('2'), 0);\nPromise.resolve().then(() => console.log('3'));\nconsole.log('4');\n```",
+      "keyPoints": "Synchronous (1, 4), then Microtask (3), then Macrotask (2).",
+      "options": [
+        {
+          "position": 0,
+          "text": "`1`, `4`, `3`, `2`",
+          "isCorrect": true,
+          "explanation": "Synchronous code logs `1` and `4`. The microtask queue runs next (`3`), followed by the timer macrotask queue (`2`)."
+        },
+        {
+          "position": 1,
+          "text": "`1`, `2`, `3`, `4`",
+          "isCorrect": false,
+          "explanation": "Async callbacks never run before synchronous code completes."
+        },
+        {
+          "position": 2,
+          "text": "`1`, `4`, `2`, `3`",
+          "isCorrect": false,
+          "explanation": "Promise microtasks run before setTimeout macrotasks."
+        },
+        {
+          "position": 3,
+          "text": "`1`, `3`, `4`, `2`",
+          "isCorrect": false,
+          "explanation": "Synchronous `4` logs before any microtasks queued during that tick."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "Promise States",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What are the three mutually exclusive states of a JavaScript Promise?",
+      "keyPoints": "Pending, Fulfilled, Rejected.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`pending`, `fulfilled`, and `rejected`",
+          "isCorrect": true,
+          "explanation": "A Promise starts in `pending` and can transition either to `fulfilled` (with a value) or `rejected` (with a reason). Once settled, it cannot change states."
+        },
+        {
+          "position": 1,
+          "text": "`waiting`, `resolved`, and `failed`",
+          "isCorrect": false,
+          "explanation": "The spec terms are pending, fulfilled, and rejected."
+        },
+        {
+          "position": 2,
+          "text": "`idle`, `running`, and `completed`",
+          "isCorrect": false,
+          "explanation": "Those are process or thread states."
+        },
+        {
+          "position": 3,
+          "text": "`active`, `paused`, and `stopped`",
+          "isCorrect": false,
+          "explanation": "Not valid Promise lifecycle states."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "Promise.all vs Promise.allSettled",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What happens when one promise rejects in `Promise.all` versus `Promise.allSettled`?",
+      "keyPoints": "Promise.all rejects immediately upon first rejection (fail-fast); Promise.allSettled waits for all to settle.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`Promise.all` immediately rejects with that rejection reason (fail-fast), while `Promise.allSettled` waits for all promises to finish and returns their outcomes.",
+          "isCorrect": true,
+          "explanation": "`Promise.all` is fail-fast on the first rejection. `Promise.allSettled` guarantees waiting for all promises to settle and returns an array of status/value/reason objects."
+        },
+        {
+          "position": 1,
+          "text": "Both reject immediately upon encountering the first rejected promise.",
+          "isCorrect": false,
+          "explanation": "`Promise.allSettled` never rejects; it always resolves with an array of outcomes."
+        },
+        {
+          "position": 2,
+          "text": "`Promise.allSettled` ignores the rejected promise and returns only fulfilled values.",
+          "isCorrect": false,
+          "explanation": "It includes rejected outcomes as `{ status: 'rejected', reason: ... }` in the array."
+        },
+        {
+          "position": 3,
+          "text": "`Promise.all` retries the failed promise up to 3 times automatically.",
+          "isCorrect": false,
+          "explanation": "Native Promises do not include built-in automatic retries."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "Promise.race vs Promise.any",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the difference between `Promise.race()` and `Promise.any()`?",
+      "keyPoints": "Promise.race settles with the first promise to settle (fulfill or reject); Promise.any settles with the first to fulfill.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`Promise.race` settles with the first promise that settles (whether fulfilled or rejected), while `Promise.any` waits for the first promise to fulfill.",
+          "isCorrect": true,
+          "explanation": "`Promise.race` takes the first outcome (fulfill or reject). `Promise.any` ignores rejections until one fulfills; if all reject, it rejects with an `AggregateError`."
+        },
+        {
+          "position": 1,
+          "text": "`Promise.any` cancels all other running network requests when one resolves.",
+          "isCorrect": false,
+          "explanation": "Promises in JS cannot be cancelled natively without `AbortController`."
+        },
+        {
+          "position": 2,
+          "text": "`Promise.race` requires all promises to be of the same type.",
+          "isCorrect": false,
+          "explanation": "Both accept any iterable of promises."
+        },
+        {
+          "position": 3,
+          "text": "They are identical aliases of each other.",
+          "isCorrect": false,
+          "explanation": "Their rejection handling semantics are fundamentally different."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "async/await Error Handling",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "How are rejections from an `await` expression captured inside an `async` function?",
+      "keyPoints": "await converts a rejected promise into a thrown exception caught by try/catch.",
+      "options": [
+        {
+          "position": 0,
+          "text": "By wrapping the `await` expression inside a standard `try...catch` block.",
+          "isCorrect": true,
+          "explanation": "`await` unwraps rejected promises into thrown exceptions, which are caught using standard synchronous `try...catch` blocks."
+        },
+        {
+          "position": 1,
+          "text": "By passing a callback to `await.catch()`.",
+          "isCorrect": false,
+          "explanation": "`await` is an operator keyword, not an object with methods."
+        },
+        {
+          "position": 2,
+          "text": "Rejections cannot be caught inside async functions.",
+          "isCorrect": false,
+          "explanation": "Handling rejections with try/catch is the primary pattern of async/await."
+        },
+        {
+          "position": 3,
+          "text": "By checking if the awaited variable equals `Error`.",
+          "isCorrect": false,
+          "explanation": "A rejection throws an exception rather than returning an error object."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "Async Function Return Values",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What does a function declared with `async` always return?",
+      "keyPoints": "An async function always returns a Promise resolving to the return value.",
+      "options": [
+        {
+          "position": 0,
+          "text": "A Promise.",
+          "isCorrect": true,
+          "explanation": "An `async` function always returns a Promise. If a non-promise value is returned, it is automatically wrapped in `Promise.resolve()`."
+        },
+        {
+          "position": 1,
+          "text": "The raw evaluated return value synchronously.",
+          "isCorrect": false,
+          "explanation": "Return values are always wrapped in a Promise."
+        },
+        {
+          "position": 2,
+          "text": "A Generator object.",
+          "isCorrect": false,
+          "explanation": "Generators use `function*`; async functions return Promises."
+        },
+        {
+          "position": 3,
+          "text": "`undefined` if no `await` expression was used inside the body.",
+          "isCorrect": false,
+          "explanation": "Even without `await`, returning a value wraps it in `Promise.resolve(value)`."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "Promise Chaining Return",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What happens if a `.then()` handler returns a rejected promise:\n```js\np.then(() => Promise.reject('error')).catch(err => ...)\n```?",
+      "keyPoints": "Returning a rejected promise inside .then causes the returned promise to reject, routing to .catch.",
+      "options": [
+        {
+          "position": 0,
+          "text": "The chained promise transitions to `rejected` state and passes control to the nearest downstream `.catch()` handler.",
+          "isCorrect": true,
+          "explanation": "Returning a promise in a `.then` handler adopts its state. Returning a rejected promise forwards the rejection down the chain to the `.catch()` handler."
+        },
+        {
+          "position": 1,
+          "text": "The rejection is treated as an uncaught exception that halts script execution.",
+          "isCorrect": false,
+          "explanation": "The downstream `.catch()` catches it cleanly."
+        },
+        {
+          "position": 2,
+          "text": "The chained promise remains pending indefinitely.",
+          "isCorrect": false,
+          "explanation": "It settles immediately with rejection."
+        },
+        {
+          "position": 3,
+          "text": "It converts the error into a fulfilled value of `'error'`.",
+          "isCorrect": false,
+          "explanation": "Returning `Promise.reject` maintains rejection status."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "AbortController & Fetch Cancellation",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "How can an in-flight `fetch()` request be programmatically cancelled in modern JavaScript?",
+      "keyPoints": "Pass an AbortSignal from an AbortController instance to fetch options.",
+      "options": [
+        {
+          "position": 0,
+          "text": "By instantiating an `AbortController` and passing its `signal` into the `fetch(url, { signal })` options, then calling `controller.abort()`.",
+          "isCorrect": true,
+          "explanation": "`AbortController` provides a `signal` property passed to `fetch`. Calling `controller.abort()` cancels the network request and rejects the promise with an `AbortError`."
+        },
+        {
+          "position": 1,
+          "text": "By calling `fetch.cancel()` on the returned promise.",
+          "isCorrect": false,
+          "explanation": "Native promises do not have a `.cancel()` method."
+        },
+        {
+          "position": 2,
+          "text": "By closing the browser tab programmatically.",
+          "isCorrect": false,
+          "explanation": "Not a valid cancellation mechanism."
+        },
+        {
+          "position": 3,
+          "text": "By setting `window.stop()`.",
+          "isCorrect": false,
+          "explanation": "`window.stop()` stops page loading, but `AbortController` is the granular API for fetches."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "Sequential vs Parallel Await",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the performance difference between:\n`await a(); await b();`\nversus\n`const p1 = a(); const p2 = b(); await Promise.all([p1, p2]);`?",
+      "keyPoints": "Awaiting sequentially creates a waterfall; starting promises concurrently allows parallel network execution.",
+      "options": [
+        {
+          "position": 0,
+          "text": "The first executes sequentially (waterfall), while the second initiates both promises concurrently in parallel.",
+          "isCorrect": true,
+          "explanation": "`await a(); await b();` waits for `a()` to finish before even invoking `b()`. Initiating both and using `Promise.all` allows both async tasks to proceed concurrently."
+        },
+        {
+          "position": 1,
+          "text": "Both execute sequentially because JavaScript is single-threaded.",
+          "isCorrect": false,
+          "explanation": "Underlying I/O (network/disk/timers) runs concurrently in the browser/OS."
+        },
+        {
+          "position": 2,
+          "text": "`Promise.all` spawns two new Web Worker OS threads.",
+          "isCorrect": false,
+          "explanation": "Promises represent asynchronous task coordination, not OS threads."
+        },
+        {
+          "position": 3,
+          "text": "The sequential await executes faster due to V8 inline caching.",
+          "isCorrect": false,
+          "explanation": "Sequential await takes total time = time(a) + time(b), which is slower."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "queueMicrotask API",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What does the browser `queueMicrotask(callback)` function do?",
+      "keyPoints": "Explicitly queues a microtask on the microtask queue without creating a promise.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It schedules a callback function to run on the microtask queue before the browser yields control back to the event loop macrotask queue.",
+          "isCorrect": true,
+          "explanation": "`queueMicrotask()` provides a standardized way to schedule a microtask reliably without the overhead of creating and resolving a dummy `Promise.resolve().then()`."
+        },
+        {
+          "position": 1,
+          "text": "It queues a task to run after the next screen repaint.",
+          "isCorrect": false,
+          "explanation": "`requestAnimationFrame()` runs before paint; `requestIdleCallback` runs during idle time."
+        },
+        {
+          "position": 2,
+          "text": "It creates a new background Web Worker.",
+          "isCorrect": false,
+          "explanation": "It executes on the current JavaScript thread's microtask queue."
+        },
+        {
+          "position": 3,
+          "text": "It runs the callback with zero-millisecond setTimeout priority.",
+          "isCorrect": false,
+          "explanation": "Microtasks run strictly before timer macrotasks."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "Top-Level Await",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "Where is top-level `await` permitted in modern JavaScript without wrapping it in an `async function`?",
+      "keyPoints": "Top-level await is permitted at the top level of ES Modules.",
+      "options": [
+        {
+          "position": 0,
+          "text": "At the top level of ES Modules (`<script type='module'>` or `.mjs` files).",
+          "isCorrect": true,
+          "explanation": "Top-level `await` is an ES2022 feature supported exclusively at the top level of ECMAScript modules, allowing modules to act as async dependencies."
+        },
+        {
+          "position": 1,
+          "text": "In any CommonJS file or classic script tag.",
+          "isCorrect": false,
+          "explanation": "Classic scripts and CommonJS files throw `SyntaxError: await is only valid in async functions and the top level of modules`."
+        },
+        {
+          "position": 2,
+          "text": "Inside HTML inline `onclick` attributes.",
+          "isCorrect": false,
+          "explanation": "Inline handlers are classic script functions."
+        },
+        {
+          "position": 3,
+          "text": "Only inside Web Worker scripts.",
+          "isCorrect": false,
+          "explanation": "It works in standard browser and Node.js ES modules."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "Uncaught Promise Rejections",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What global window event is fired when a Promise rejects and has no `.catch()` rejection handler attached?",
+      "keyPoints": "window.addEventListener('unhandledrejection') catches uncaught promise errors.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`'unhandledrejection'`",
+          "isCorrect": true,
+          "explanation": "When an unhandled promise rejection occurs, the browser dispatches an `unhandledrejection` event on `window` (and in Node.js on `process.on('unhandledRejection')`)."
+        },
+        {
+          "position": 1,
+          "text": "`'error'`",
+          "isCorrect": false,
+          "explanation": "`window.onerror` handles uncaught synchronous exceptions and asset loading errors."
+        },
+        {
+          "position": 2,
+          "text": "`'promisereject'`",
+          "isCorrect": false,
+          "explanation": "The event name is `unhandledrejection`."
+        },
+        {
+          "position": 3,
+          "text": "`'abort'`",
+          "isCorrect": false,
+          "explanation": "`abort` is fired on AbortSignal instances."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "Async Generators & for-await-of",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "What loop syntax is used to consume asynchronous iterables returned by async generator functions (`async function*`)?",
+      "keyPoints": "for await (const item of asyncIterable) consumes async iterables.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`for await (const item of asyncIterable)`",
+          "isCorrect": true,
+          "explanation": "The `for await...of` loop creates a loop iterating over async iterable objects (such as ReadableStreams or async generators), awaiting each yielded promise."
+        },
+        {
+          "position": 1,
+          "text": "`for (const item in asyncIterable.await())`",
+          "isCorrect": false,
+          "explanation": "`for...in` iterates over enumerable property keys."
+        },
+        {
+          "position": 2,
+          "text": "`asyncIterable.forEachAsync(item => ...)`",
+          "isCorrect": false,
+          "explanation": "There is no built-in `forEachAsync` method on JS iterables."
+        },
+        {
+          "position": 3,
+          "text": "`while (asyncIterable.hasNext())`",
+          "isCorrect": false,
+          "explanation": "Java-style `hasNext()` is not part of JS iterator protocol (which uses `.next()`)."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "Web Workers & PostMessage",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "How do Web Workers communicate with the main browser thread without sharing memory?",
+      "keyPoints": "Via postMessage using the structured clone algorithm to serialize data.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Via `postMessage()` and message event handlers using the Structured Clone algorithm.",
+          "isCorrect": true,
+          "explanation": "Web Workers run in an isolated thread with no direct DOM access. Communication occurs via `postMessage()` sending structured-cloned data across message channels."
+        },
+        {
+          "position": 1,
+          "text": "By directly reading and writing to global variables on `window`.",
+          "isCorrect": false,
+          "explanation": "Web Workers do not have access to `window` or DOM."
+        },
+        {
+          "position": 2,
+          "text": "Through synchronous shared closures.",
+          "isCorrect": false,
+          "explanation": "Threads cannot share standard JavaScript heap closures."
+        },
+        {
+          "position": 3,
+          "text": "By polling local cookies every 50ms.",
+          "isCorrect": false,
+          "explanation": "Message channels are event-driven and performant."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "SharedArrayBuffer & Atomics",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "What API allows true shared-memory concurrency between Web Workers and the main thread?",
+      "keyPoints": "SharedArrayBuffer with Atomics enables safe lock-free shared memory across threads.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`SharedArrayBuffer` combined with the `Atomics` object.",
+          "isCorrect": true,
+          "explanation": "`SharedArrayBuffer` provides a shared byte buffer across workers and the main thread, while the `Atomics` namespace provides atomic operations (load, store, wait, notify) to prevent race conditions."
+        },
+        {
+          "position": 1,
+          "text": "`LocalStorageBuffer` and `Atomics`.",
+          "isCorrect": false,
+          "explanation": "There is no such API as LocalStorageBuffer."
+        },
+        {
+          "position": 2,
+          "text": "`IndexedDB.transaction('shared')`.",
+          "isCorrect": false,
+          "explanation": "IndexedDB is asynchronous disk storage, not shared in-memory buffers."
+        },
+        {
+          "position": 3,
+          "text": "`WebSockets` with binary payload headers.",
+          "isCorrect": false,
+          "explanation": "WebSockets are network protocols, not local thread-memory APIs."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "Promise Finally Execution",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What arguments does a `Promise.prototype.finally(callback)` callback receive, and what does it return?",
+      "keyPoints": "finally callback receives zero arguments and passes through the previous settled value/reason unless it throws.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It receives no arguments (`0` args), and passes through the prior fulfilled value or rejection reason unless the callback throws or returns a rejected promise.",
+          "isCorrect": true,
+          "explanation": "`.finally()` is executed regardless of fulfillment or rejection without receiving the outcome, transparently preserving the preceding promise settlement."
+        },
+        {
+          "position": 1,
+          "text": "It receives `(error, result)` like Node.js callbacks.",
+          "isCorrect": false,
+          "explanation": "`.finally()` takes a zero-argument callback."
+        },
+        {
+          "position": 2,
+          "text": "It always overrides the resolved value with `undefined`.",
+          "isCorrect": false,
+          "explanation": "It transparently passes through the original resolved value."
+        },
+        {
+          "position": 3,
+          "text": "It only executes if the promise rejected.",
+          "isCorrect": false,
+          "explanation": "It executes on both fulfillment and rejection."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "Starvation of Event Loop",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "What happens if a recursive microtask loop is created (e.g. `function loop() { Promise.resolve().then(loop); } loop();`)?",
+      "keyPoints": "The microtask queue will continuously replenish, starving the macrotask queue and freezing the UI.",
+      "options": [
+        {
+          "position": 0,
+          "text": "The event loop continuously drains microtasks and never moves to macrotasks or UI rendering, freezing the web page.",
+          "isCorrect": true,
+          "explanation": "The event loop drains the microtask queue completely before rendering or running macrotasks. Recursively queuing microtasks causes microtask starvation and hangs the UI."
+        },
+        {
+          "position": 1,
+          "text": "The browser automatically caps microtasks at 1000 and drops the rest.",
+          "isCorrect": false,
+          "explanation": "The browser does not discard microtasks; it freezes until an out-of-memory or unresponsive script prompt appears."
+        },
+        {
+          "position": 2,
+          "text": "It throws a `MaximumCallStackSizeExceeded` error immediately.",
+          "isCorrect": false,
+          "explanation": "Stack frames unwind between microtask resolutions; the call stack does not overflow, the queue simply never empties."
+        },
+        {
+          "position": 3,
+          "text": "The microtasks are automatically downgraded to setTimeout macrotasks.",
+          "isCorrect": false,
+          "explanation": "Microtasks maintain microtask priority."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "Debounce vs Throttle",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "In front-end performance, what is the core behavioral difference between a debounced function and a throttled function?",
+      "keyPoints": "Debounce delays execution until a quiet period of N ms; throttle guarantees execution at most once every N ms.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Debouncing delays execution until `N` ms have passed since the LAST event, while Throttling guarantees execution at most once every `N` ms during continuous events.",
+          "isCorrect": true,
+          "explanation": "Debounce waits for silence (ideal for search input auto-complete). Throttle guarantees periodic execution at a fixed interval (ideal for window scroll/resize events)."
+        },
+        {
+          "position": 1,
+          "text": "Throttling delays execution until events stop; debouncing executes on every tick.",
+          "isCorrect": false,
+          "explanation": "The definitions are reversed."
+        },
+        {
+          "position": 2,
+          "text": "Debouncing uses Web Workers; throttling uses CSS transitions.",
+          "isCorrect": false,
+          "explanation": "Both are pure JavaScript timer/timestamp rate-limiting techniques."
+        },
+        {
+          "position": 3,
+          "text": "Debouncing can only handle keyboard inputs; throttling only handles mouse events.",
+          "isCorrect": false,
+          "explanation": "Both can be applied to any recurring event or function call."
+        }
+      ]
+    },
+    {
+      "topicName": "Async JavaScript",
+      "subtopic": "Async IIFE",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What is the correct syntax for an async Immediately Invoked Function Expression (IIFE)?",
+      "keyPoints": "(async () => { await ... })();",
+      "options": [
+        {
+          "position": 0,
+          "text": "`(async () => { /* await something */ })();`",
+          "isCorrect": true,
+          "explanation": "Placing `async` before parameter parentheses of the IIFE creates an async function invoked immediately via trailing `()`."
+        },
+        {
+          "position": 1,
+          "text": "`async ({ /* await something */ })();`",
+          "isCorrect": false,
+          "explanation": "Missing function declaration syntax."
+        },
+        {
+          "position": 2,
+          "text": "`await (() => { /* something */ })();`",
+          "isCorrect": false,
+          "explanation": "Cannot use await outside an async function or module top-level."
+        },
+        {
+          "position": 3,
+          "text": "`(() => async { /* something */ })();`",
+          "isCorrect": false,
+          "explanation": "`async` must precede parameter list, not body braces."
+        }
+      ]
+    }
+  ]
+}

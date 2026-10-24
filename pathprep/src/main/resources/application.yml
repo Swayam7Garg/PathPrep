@@ -36,6 +36,13 @@ logging:
 
 app:
   time-zone: Asia/Kolkata
+  ai:
+    provider: ${AI_PROVIDER:MOCK}
+    groq-api-key: ${GROQ_API_KEY:}
+    model: ${AI_MODEL:llama-3.3-70b-versatile}
+    daily-free-call-limit: 15
+    daily-free-token-limit: 25000
+    shared-pool-daily-token-budget: 250000
   learning:
     daily-goal: 10
     mastery-window: 20

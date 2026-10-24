@@ -1,0 +1,685 @@
+{
+  "batch": "aptitude-reasoning-batch-1",
+  "questions": [
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Time and Work",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "Person A can complete a project in 12 days, and Person B can complete the same project in 24 days. Working together, how many days will it take them to complete the project?",
+      "keyPoints": "1/12 + 1/24 = 3/24 = 1/8 -> 8 days.",
+      "options": [
+        {
+          "position": 0,
+          "text": "8 days",
+          "isCorrect": true,
+          "explanation": "Rate of A = 1/12 per day. Rate of B = 1/24 per day. Combined rate = `1/12 + 1/24 = 2/24 + 1/24 = 3/24 = 1/8` project per day. Total time = `1 / (1/8) = 8 days`."
+        },
+        {
+          "position": 1,
+          "text": "6 days",
+          "isCorrect": false,
+          "explanation": "6 days would mean rate = 4/24."
+        },
+        {
+          "position": 2,
+          "text": "18 days",
+          "isCorrect": false,
+          "explanation": "18 days is the average of 12 and 24; working together is faster than either individual."
+        },
+        {
+          "position": 3,
+          "text": "10 days",
+          "isCorrect": false,
+          "explanation": "Rate calculations give exactly 8 days."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Time, Speed and Distance",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "A train travels from City A to City B at 60 km/h and returns from City B to City A along the same route at 40 km/h. What is the average speed of the train for the entire round trip?",
+      "keyPoints": "Harmonic mean: 2 * S1 * S2 / (S1 + S2) = 2 * 60 * 40 / 100 = 48 km/h.",
+      "options": [
+        {
+          "position": 0,
+          "text": "48 km/h",
+          "isCorrect": true,
+          "explanation": "When distances are equal, average speed is the harmonic mean: `(2 * s1 * s2) / (s1 + s2) = (2 * 60 * 40) / (60 + 40) = 4800 / 100 = 48 km/h`. The arithmetic average (50 km/h) is incorrect because more time is spent traveling at the slower speed."
+        },
+        {
+          "position": 1,
+          "text": "50 km/h",
+          "isCorrect": false,
+          "explanation": "Common trap: simple arithmetic mean `(60+40)/2 = 50` is wrong because travel times are unequal."
+        },
+        {
+          "position": 2,
+          "text": "45 km/h",
+          "isCorrect": false,
+          "explanation": "Harmonic mean evaluates to 48."
+        },
+        {
+          "position": 3,
+          "text": "52 km/h",
+          "isCorrect": false,
+          "explanation": "Average speed must be less than 50 km/h."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Relative Speed & Trains",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "Two trains of lengths 150m and 250m are traveling toward each other on parallel tracks at 54 km/h and 90 km/h respectively. How many seconds will it take from the moment they meet until they completely cross each other?",
+      "keyPoints": "Total distance = 150 + 250 = 400m; relative speed = 54 + 90 = 144 km/h = 40 m/s; time = 400 / 40 = 10s.",
+      "options": [
+        {
+          "position": 0,
+          "text": "10 seconds",
+          "isCorrect": true,
+          "explanation": "Total distance to cross = `150 + 250 = 400 m`. Moving toward each other, relative speed = `54 + 90 = 144 km/h`. Convert to m/s: `144 * (5/18) = 40 m/s`. Time = `400 / 40 = 10 seconds`."
+        },
+        {
+          "position": 1,
+          "text": "15 seconds",
+          "isCorrect": false,
+          "explanation": "400 / 40 = 10s."
+        },
+        {
+          "position": 2,
+          "text": "8 seconds",
+          "isCorrect": false,
+          "explanation": "Relative speed gives 10s."
+        },
+        {
+          "position": 3,
+          "text": "12.5 seconds",
+          "isCorrect": false,
+          "explanation": "Exact calculation is 10s."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Pipes and Cisterns",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "Pipe A fills a tank in 6 hours, while Pipe B empties the full tank in 9 hours. If both pipes are opened simultaneously when the tank is empty, how many hours will it take to fill the tank?",
+      "keyPoints": "1/6 - 1/9 = 3/18 - 2/18 = 1/18 -> 18 hours.",
+      "options": [
+        {
+          "position": 0,
+          "text": "18 hours",
+          "isCorrect": true,
+          "explanation": "Net filling rate per hour = `1/6 - 1/9 = 3/18 - 2/18 = 1/18`. Time to fill = `1 / (1/18) = 18 hours`."
+        },
+        {
+          "position": 1,
+          "text": "15 hours",
+          "isCorrect": false,
+          "explanation": "Net rate is 1/18, taking 18 hours."
+        },
+        {
+          "position": 2,
+          "text": "12 hours",
+          "isCorrect": false,
+          "explanation": "12 hours would require net rate of 1/12."
+        },
+        {
+          "position": 3,
+          "text": "24 hours",
+          "isCorrect": false,
+          "explanation": "The tank fills in 18 hours."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Percentages & Successive Changes",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "If the price of a product increases by 20% and then decreases by 20%, what is the overall net percentage change in price?",
+      "keyPoints": "Net change = +20 - 20 - (20*20)/100 = -4% (a 4% decrease).",
+      "options": [
+        {
+          "position": 0,
+          "text": "A decrease of 4%",
+          "isCorrect": true,
+          "explanation": "Let initial price = 100. After +20% increase, price = 120. Decreasing 120 by 20% drops it by `120 * 0.20 = 24`, resulting in `120 - 24 = 96`. Compared to original 100, it is a 4% net decrease (`a + b + (ab/100) = 20 - 20 - 4 = -4%`)."
+        },
+        {
+          "position": 1,
+          "text": "0% change (price remains identical)",
+          "isCorrect": false,
+          "explanation": "Common trap: the 20% decrease is applied to the larger base (120), not 100."
+        },
+        {
+          "position": 2,
+          "text": "An increase of 4%",
+          "isCorrect": false,
+          "explanation": "The net result is a decrease."
+        },
+        {
+          "position": 3,
+          "text": "A decrease of 2%",
+          "isCorrect": false,
+          "explanation": "The formula yields a 4% loss."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Profit and Loss",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "A merchant sells an item for $840, making a profit of 20%. What was the original cost price of the item?",
+      "keyPoints": "CP * 1.20 = 840 -> CP = 840 / 1.2 = $700.",
+      "options": [
+        {
+          "position": 0,
+          "text": "$700",
+          "isCorrect": true,
+          "explanation": "Selling Price (SP) = `Cost Price (CP) * (1 + 0.20)`. Therefore, `CP = 840 / 1.20 = $700`. Calculating 20% of 840 ($168) and subtracting gives $672, which is an incorrect base calculation."
+        },
+        {
+          "position": 1,
+          "text": "$672",
+          "isCorrect": false,
+          "explanation": "Common mistake: taking 20% of SP instead of CP."
+        },
+        {
+          "position": 2,
+          "text": "$720",
+          "isCorrect": false,
+          "explanation": "720 * 1.2 = 864, not 840."
+        },
+        {
+          "position": 3,
+          "text": "$650",
+          "isCorrect": false,
+          "explanation": "Cost price is $700."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Simple vs Compound Interest",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the difference between Simple Interest and Compound Interest (compounded annually) on a principal of $10,000 at 10% per annum for 2 years?",
+      "keyPoints": "Difference for 2 years = P * (R/100)^2 = 10000 * 0.01 = $100.",
+      "options": [
+        {
+          "position": 0,
+          "text": "$100",
+          "isCorrect": true,
+          "explanation": "Simple Interest for 2 years = `10000 * 0.10 * 2 = $2,000`. Compound Interest = `10000 * (1.10)^2 - 10000 = 12100 - 10000 = $2,100`. Difference = `2100 - 2000 = $100` (or `P * (R/100)^2 = 10000 * 0.01 = $100`)."
+        },
+        {
+          "position": 1,
+          "text": "$200",
+          "isCorrect": false,
+          "explanation": "The difference is $100."
+        },
+        {
+          "position": 2,
+          "text": "$50",
+          "isCorrect": false,
+          "explanation": "10% of the first year's interest ($1,000) is $100."
+        },
+        {
+          "position": 3,
+          "text": "$0",
+          "isCorrect": false,
+          "explanation": "Interest-on-interest generates a $100 difference in year 2."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Ratios and Proportions",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "If A : B = 3 : 4 and B : C = 8 : 9, what is the combined ratio A : B : C?",
+      "keyPoints": "Scale first ratio by 2: A : B = 6 : 8; B : C = 8 : 9 -> A : B : C = 6 : 8 : 9.",
+      "options": [
+        {
+          "position": 0,
+          "text": "6 : 8 : 9",
+          "isCorrect": true,
+          "explanation": "Multiply the first ratio by 2 so B matches in both ratios: `A : B = 6 : 8` and `B : C = 8 : 9`. Combining them gives `A : B : C = 6 : 8 : 9`."
+        },
+        {
+          "position": 1,
+          "text": "3 : 8 : 9",
+          "isCorrect": false,
+          "explanation": "A must be scaled when B is scaled from 4 to 8."
+        },
+        {
+          "position": 2,
+          "text": "3 : 4 : 9",
+          "isCorrect": false,
+          "explanation": "B has different values (4 and 8) in the two initial ratios."
+        },
+        {
+          "position": 3,
+          "text": "24 : 32 : 36",
+          "isCorrect": false,
+          "explanation": "24 : 32 : 36 simplifies to 6 : 8 : 9; standard ratios are expressed in simplest integer form."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Mixtures and Alligations",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "In what ratio must milk at $60/liter be mixed with milk at $45/liter to produce a mixture worth $50/liter?",
+      "keyPoints": "Alligation rule: (50 - 45) : (60 - 50) = 5 : 10 = 1 : 2.",
+      "options": [
+        {
+          "position": 0,
+          "text": "1 : 2",
+          "isCorrect": true,
+          "explanation": "By rule of alligation: `(Mean Price - Cheaper Price) : (Dearer Price - Mean Price) = (50 - 45) : (60 - 50) = 5 : 10 = 1 : 2`."
+        },
+        {
+          "position": 1,
+          "text": "2 : 1",
+          "isCorrect": false,
+          "explanation": "More of the cheaper milk ($45) is needed to pull the average down to $50, so ratio is 1 (dearer) : 2 (cheaper)."
+        },
+        {
+          "position": 2,
+          "text": "3 : 4",
+          "isCorrect": false,
+          "explanation": "Alligation yields 5 : 10 = 1 : 2."
+        },
+        {
+          "position": 3,
+          "text": "1 : 3",
+          "isCorrect": false,
+          "explanation": "1 : 2 produces exactly $50/liter."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Permutations and Combinations",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "In how many distinct ways can a committee of 3 engineers be selected from a team of 8 engineers?",
+      "keyPoints": "8C3 = (8 * 7 * 6) / (3 * 2 * 1) = 56.",
+      "options": [
+        {
+          "position": 0,
+          "text": "56",
+          "isCorrect": true,
+          "explanation": "Selection order does not matter, so use combinations: `8C3 = (8 * 7 * 6) / (3 * 2 * 1) = 336 / 6 = 56`."
+        },
+        {
+          "position": 1,
+          "text": "336",
+          "isCorrect": false,
+          "explanation": "336 is permutations (8P3 = 8 * 7 * 6) where committee roles/order matter."
+        },
+        {
+          "position": 2,
+          "text": "24",
+          "isCorrect": false,
+          "explanation": "8 * 3 = 24 is incorrect arithmetic."
+        },
+        {
+          "position": 3,
+          "text": "112",
+          "isCorrect": false,
+          "explanation": "Combinations formula gives 56."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Probability",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "When rolling two standard 6-sided dice simultaneously, what is the probability that the sum of the numbers is equal to 7?",
+      "keyPoints": "Favorable outcomes: (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) = 6 outcomes out of 36 -> 6/36 = 1/6.",
+      "options": [
+        {
+          "position": 0,
+          "text": "1/6",
+          "isCorrect": true,
+          "explanation": "Total possible outcomes = `6 * 6 = 36`. Pairs that sum to 7: `(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)` = 6 outcomes. Probability = `6 / 36 = 1/6`."
+        },
+        {
+          "position": 1,
+          "text": "1/12",
+          "isCorrect": false,
+          "explanation": "3/36 = 1/12 (which is probability of sum = 4 or 10)."
+        },
+        {
+          "position": 2,
+          "text": "7/36",
+          "isCorrect": false,
+          "explanation": "There are 6 pairs that sum to 7, not 7."
+        },
+        {
+          "position": 3,
+          "text": "1/8",
+          "isCorrect": false,
+          "explanation": "Dice sample spaces are powers of 6, not 8."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Pigeonhole Principle",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "A drawer contains 10 black socks and 10 white socks. What is the minimum number of socks a person must pull out in the dark to be 100% guaranteed to have at least one matching pair?",
+      "keyPoints": "2 colors (pigeonholes) -> pulling 2 + 1 = 3 socks guarantees a matching pair.",
+      "options": [
+        {
+          "position": 0,
+          "text": "3 socks",
+          "isCorrect": true,
+          "explanation": "There are only 2 color categories (pigeonholes: black, white). By the Pigeonhole Principle, pulling `2 + 1 = 3` socks guarantees that at least two socks must belong to the same color."
+        },
+        {
+          "position": 1,
+          "text": "11 socks",
+          "isCorrect": false,
+          "explanation": "Pulling 11 socks guarantees having at least one pair of a SPECIFIC chosen color, but ANY matching pair requires only 3 socks."
+        },
+        {
+          "position": 2,
+          "text": "2 socks",
+          "isCorrect": false,
+          "explanation": "Pulling 2 socks could yield 1 black and 1 white (no match)."
+        },
+        {
+          "position": 3,
+          "text": "5 socks",
+          "isCorrect": false,
+          "explanation": "3 socks is the minimal guaranteed threshold."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Clock Angle Problem",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the angle between the hour hand and the minute hand of a clock at 3:30?",
+      "keyPoints": "Angle = |30*H - (11/2)*M| = |30*3 - 5.5*30| = |90 - 165| = 75 degrees.",
+      "options": [
+        {
+          "position": 0,
+          "text": "75°",
+          "isCorrect": true,
+          "explanation": "Minute hand moves at 6°/min (at 30 mins, it is at 180°). Hour hand moves at 0.5°/min (at 3:30, it is at `3 * 30° + 30 * 0.5° = 90° + 15° = 105°`). Angle = `180° - 105° = 75°`."
+        },
+        {
+          "position": 1,
+          "text": "90°",
+          "isCorrect": false,
+          "explanation": "Common trap: ignoring the fact that the hour hand advances halfway between 3 and 4 by minute 30."
+        },
+        {
+          "position": 2,
+          "text": "60°",
+          "isCorrect": false,
+          "explanation": "The angle is 75°."
+        },
+        {
+          "position": 3,
+          "text": "85°",
+          "isCorrect": false,
+          "explanation": "Formula gives `|90 - 165| = 75°`."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Calendar Arithmetic",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "If January 1st of a non-leap year falls on a Monday, on what day of the week will December 31st of that same year fall?",
+      "keyPoints": "Non-leap year has 365 days = 52 weeks + 1 odd day; so last day is the same day of the week as the first day (Monday).",
+      "options": [
+        {
+          "position": 0,
+          "text": "Monday",
+          "isCorrect": true,
+          "explanation": "A normal year has 365 days. The number of days between Jan 1 and Dec 31 is 364 days. `364 % 7 = 0` remainder. Zero odd days means December 31st falls on the exact same day of the week as January 1st (Monday)."
+        },
+        {
+          "position": 1,
+          "text": "Tuesday",
+          "isCorrect": false,
+          "explanation": "Tuesday would be true only if it were a leap year (366 days)."
+        },
+        {
+          "position": 2,
+          "text": "Sunday",
+          "isCorrect": false,
+          "explanation": "It does not move backward."
+        },
+        {
+          "position": 3,
+          "text": "Wednesday",
+          "isCorrect": false,
+          "explanation": "Non-leap year starts and ends on the same day."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Syllogisms & Logical Deductions",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "Given Statements:\n1. All developers write code.\n2. Some code writers are musicians.\nWhich conclusion definitely follows logically?",
+      "keyPoints": "Only statements directly entailed follow; 'Some musicians are developers' does not necessarily follow.",
+      "options": [
+        {
+          "position": 0,
+          "text": "None of the above necessarily follow (it is possible that the musicians who write code are not developers).",
+          "isCorrect": true,
+          "explanation": "Venn diagram: Set D is inside C. Set M intersects C. The intersection of M and C might lie entirely outside D. Therefore, 'Some developers are musicians' or 'All musicians are developers' cannot be definitively deduced."
+        },
+        {
+          "position": 1,
+          "text": "All developers are musicians.",
+          "isCorrect": false,
+          "explanation": "Statement 2 only says 'Some code writers', which does not imply all developers."
+        },
+        {
+          "position": 2,
+          "text": "Some developers are musicians.",
+          "isCorrect": false,
+          "explanation": "The intersection may contain non-developer code writers; we cannot guarantee overlap with developers."
+        },
+        {
+          "position": 3,
+          "text": "No musicians write code.",
+          "isCorrect": false,
+          "explanation": "Directly contradicts Statement 2."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Blood Relations",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "Pointing to a photograph of a boy, Suresh says: 'He is the son of the only son of my mother.' How is Suresh related to that boy?",
+      "keyPoints": "Only son of Suresh's mother is Suresh himself; so boy is Suresh's son.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Father",
+          "isCorrect": true,
+          "explanation": "'My mother's only son' must be Suresh himself. Therefore, the boy in the photograph is Suresh's son, which makes Suresh the father of the boy."
+        },
+        {
+          "position": 1,
+          "text": "Brother",
+          "isCorrect": false,
+          "explanation": "The boy is the son of the only son."
+        },
+        {
+          "position": 2,
+          "text": "Uncle",
+          "isCorrect": false,
+          "explanation": "Since Suresh is the ONLY son of his mother, he has no brothers to be an uncle through."
+        },
+        {
+          "position": 3,
+          "text": "Grandfather",
+          "isCorrect": false,
+          "explanation": "Suresh is the father, not grandfather."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Direction Sense Test",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "A person walks 10 meters North, turns right and walks 6 meters, then turns right again and walks 10 meters. In which direction and at what distance is the person from the starting point?",
+      "keyPoints": "North 10, East 6, South 10 -> net movement is 6 meters East.",
+      "options": [
+        {
+          "position": 0,
+          "text": "6 meters East",
+          "isCorrect": true,
+          "explanation": "North 10m (+y) is cancelled out by South 10m (-y) after the two right turns. The only net displacement is 6m to the East (+x)."
+        },
+        {
+          "position": 1,
+          "text": "6 meters West",
+          "isCorrect": false,
+          "explanation": "Turning right from North heads East, not West."
+        },
+        {
+          "position": 2,
+          "text": "26 meters South",
+          "isCorrect": false,
+          "explanation": "That adds path distance rather than computing vector displacement."
+        },
+        {
+          "position": 3,
+          "text": "10 meters East",
+          "isCorrect": false,
+          "explanation": "Eastward displacement is 6m."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Number Series & Pattern Recognition",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What is the next number in the following sequence: `2, 6, 12, 20, 30, 42, ?`",
+      "keyPoints": "Differences: +4, +6, +8, +10, +12 -> next is +14: 42 + 14 = 56 (or n*(n+1)).",
+      "options": [
+        {
+          "position": 0,
+          "text": "56",
+          "isCorrect": true,
+          "explanation": "Pattern of differences: `6 - 2 = 4`, `12 - 6 = 6`, `20 - 12 = 8`, `30 - 20 = 10`, `42 - 30 = 12`. The next increment is `14`, so `42 + 14 = 56` (alternatively, `n * (n + 1)`: `1*2, 2*3, 3*4, 4*5, 5*6, 6*7, 7*8 = 56`)."
+        },
+        {
+          "position": 1,
+          "text": "54",
+          "isCorrect": false,
+          "explanation": "42 + 14 = 56."
+        },
+        {
+          "position": 2,
+          "text": "52",
+          "isCorrect": false,
+          "explanation": "Increments grow by +2 each step."
+        },
+        {
+          "position": 3,
+          "text": "60",
+          "isCorrect": false,
+          "explanation": "Next term is 56."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Seating Arrangement",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "Six friends (A, B, C, D, E, F) sit in a circle facing the center. A sits opposite B. C sits to the immediate right of A. D sits opposite C. Who sits to the immediate left of B?",
+      "keyPoints": "Facing center: A at top, C at right of A. D opposite C. B opposite A. Immediate left of B is D.",
+      "options": [
+        {
+          "position": 0,
+          "text": "D",
+          "isCorrect": true,
+          "explanation": "Arrange positions 1 to 6 clockwise: Let A = Pos 1 (facing center). Immediate right of A = Pos 6 (C). B is opposite A = Pos 4. D is opposite C = Pos 3. Facing center at B (Pos 4), looking towards the center, immediate left is Pos 3, which is D."
+        },
+        {
+          "position": 1,
+          "text": "C",
+          "isCorrect": false,
+          "explanation": "C is opposite D, at position 6."
+        },
+        {
+          "position": 2,
+          "text": "E",
+          "isCorrect": false,
+          "explanation": "E sits adjacent to B on the other side."
+        },
+        {
+          "position": 3,
+          "text": "A",
+          "isCorrect": false,
+          "explanation": "A sits directly opposite B."
+        }
+      ]
+    },
+    {
+      "topicName": "Aptitude & Reasoning",
+      "subtopic": "Coding-Decoding",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "In a certain code language, if `SYSTEM` is coded as `SYSMET` and `NEARER` is coded as `AENRER`, how will `FRACTION` be coded?",
+      "keyPoints": "Word is split into two halves of 4 letters each and each half is reversed: FRAC -> CARF, TION -> NOIT -> CARFNOIT.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`CARFNOIT`",
+          "isCorrect": true,
+          "explanation": "SYSTEM (6 letters) is split into two halves: SYS -> SYS, TEM -> MET -> SYSMET. NEARER (6 letters): NEA -> AEN, RER -> RER -> AENRER. For FRACTION (8 letters): FRAC -> CARF, TION -> NOIT -> `CARFNOIT`."
+        },
+        {
+          "position": 1,
+          "text": "`NOITCARF`",
+          "isCorrect": false,
+          "explanation": "That reverses the entire word instead of reversing each half independently."
+        },
+        {
+          "position": 2,
+          "text": "`CRAFNOIT`",
+          "isCorrect": false,
+          "explanation": "FRAC reversed is CARF, not CRAF."
+        },
+        {
+          "position": 3,
+          "text": "`FRACNOIT`",
+          "isCorrect": false,
+          "explanation": "The first half must also be reversed."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,685 @@
+{
+  "batch": "javascript-fundamentals-batch-1",
+  "questions": [
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Equality & Type Coercion",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What will be the output of `'5' - 3` and `'5' + 3` in JavaScript?",
+      "keyPoints": "Subtraction forces numeric conversion; addition with string triggers string concatenation.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`2` and `'53'`",
+          "isCorrect": true,
+          "explanation": "The `-` operator coerces strings to numbers (`5 - 3 = 2`), while `+` with a string operand performs string concatenation (`'5' + 3 = '53'`)."
+        },
+        {
+          "position": 1,
+          "text": "`2` and `8`",
+          "isCorrect": false,
+          "explanation": "The `+` operator does not convert `'5'` to a number when one operand is a string; it concatenates."
+        },
+        {
+          "position": 2,
+          "text": "`NaN` and `'53'`",
+          "isCorrect": false,
+          "explanation": "`'5'` is cleanly parsed to number 5 during subtraction, not NaN."
+        },
+        {
+          "position": 3,
+          "text": "`NaN` and `NaN`",
+          "isCorrect": false,
+          "explanation": "Both operations are valid JavaScript expressions yielding a number and string respectively."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Data Types",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What does `typeof null` return in JavaScript?",
+      "keyPoints": "Historical bug in JavaScript where null has type tag 0 corresponding to object.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`'object'`",
+          "isCorrect": true,
+          "explanation": "Due to a legacy bug in the original JS engine where object type tags were 000 and null was pointer NULL (0x00), `typeof null` returns `'object'`."
+        },
+        {
+          "position": 1,
+          "text": "`'null'`",
+          "isCorrect": false,
+          "explanation": "While null is a primitive type, `typeof null` notoriously returns `'object'`."
+        },
+        {
+          "position": 2,
+          "text": "`'undefined'`",
+          "isCorrect": false,
+          "explanation": "`typeof undefined` returns `'undefined'`, not null."
+        },
+        {
+          "position": 3,
+          "text": "`'primitive'`",
+          "isCorrect": false,
+          "explanation": "`'primitive'` is not a valid return value for the typeof operator."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Symbols",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the primary characteristic of JavaScript `Symbol` primitive values?",
+      "keyPoints": "Symbols are unique and immutable identifier tokens.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Every symbol value returned from `Symbol()` is completely unique and immutable.",
+          "isCorrect": true,
+          "explanation": "Each call to `Symbol()` produces a unique, immutable symbol that can be used as a non-colliding object property key."
+        },
+        {
+          "position": 1,
+          "text": "Symbols with the same description string are strictly equal (`Symbol('x') === Symbol('x')`).",
+          "isCorrect": false,
+          "explanation": "The description is purely informative; `Symbol('x') === Symbol('x')` evaluates to false."
+        },
+        {
+          "position": 2,
+          "text": "Symbols can be converted to numbers using unary `+` operator.",
+          "isCorrect": false,
+          "explanation": "Converting a Symbol to a number throws a TypeError."
+        },
+        {
+          "position": 3,
+          "text": "Symbols are enumerable in standard `for...in` loops.",
+          "isCorrect": false,
+          "explanation": "Symbol keys are non-enumerable in standard `for...in` loops and `Object.keys()`."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Object Prototypes",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "How does property lookup work across the prototype chain in JavaScript?",
+      "keyPoints": "JS searches the object itself, then traverses up `[[Prototype]]` until found or null.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It checks the object's own properties first, then traverses up `__proto__` / `[[Prototype]]` until reaching `Object.prototype`, and finally `null`.",
+          "isCorrect": true,
+          "explanation": "Property lookup checks own properties, then moves up the prototype link until the property is found or `Object.prototype.__proto__` (null) is reached."
+        },
+        {
+          "position": 1,
+          "text": "It searches all prototypes concurrently and throws an error if duplicate property names exist.",
+          "isCorrect": false,
+          "explanation": "Property resolution is sequential from bottom to top; shadowing occurs if an own property exists."
+        },
+        {
+          "position": 2,
+          "text": "It only checks `Object.prototype` if the object was created using constructor functions.",
+          "isCorrect": false,
+          "explanation": "All standard objects link to `Object.prototype` unless created with `Object.create(null)`."
+        },
+        {
+          "position": 3,
+          "text": "It copies all prototype properties onto the child object during instantiation.",
+          "isCorrect": false,
+          "explanation": "Inheritance is delegated via live references, not cloned."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Object.freeze vs Object.seal",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the difference between `Object.freeze()` and `Object.seal()`?",
+      "keyPoints": "seal prevents adding/deleting properties; freeze also prevents modifying existing properties (writable: false).",
+      "options": [
+        {
+          "position": 0,
+          "text": "`Object.seal()` allows modifying values of existing writable properties, while `Object.freeze()` marks existing properties as read-only.",
+          "isCorrect": true,
+          "explanation": "Both prevent addition and deletion of properties, but `freeze()` additionally makes all existing own data properties non-writable."
+        },
+        {
+          "position": 1,
+          "text": "`Object.freeze()` prevents prototype changes, while `Object.seal()` allows mutating `__proto__`.",
+          "isCorrect": false,
+          "explanation": "Both methods make the target object non-extensible, preventing prototype re-assignment."
+        },
+        {
+          "position": 2,
+          "text": "`Object.freeze()` performs deep freezing recursively on nested objects.",
+          "isCorrect": false,
+          "explanation": "Both `Object.freeze()` and `Object.seal()` are shallow by default."
+        },
+        {
+          "position": 3,
+          "text": "`Object.seal()` prevents property deletion while `Object.freeze()` permits deletion.",
+          "isCorrect": false,
+          "explanation": "Neither allows property deletion (`configurable: false`)."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "NaN Equality",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "Which expression correctly evaluates to `true` when testing if variable `x` contains `NaN`?",
+      "keyPoints": "NaN is not equal to itself; Number.isNaN checks specifically for NaN without coercion.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`Number.isNaN(x)` or `Object.is(x, NaN)`",
+          "isCorrect": true,
+          "explanation": "`NaN === NaN` is false. `Number.isNaN()` and `Object.is(x, NaN)` reliably verify whether `x` is the value `NaN` without coercive quirks of global `isNaN()`."
+        },
+        {
+          "position": 1,
+          "text": "`x === NaN`",
+          "isCorrect": false,
+          "explanation": "According to IEEE 754 floating-point standard, `NaN === NaN` is always false."
+        },
+        {
+          "position": 2,
+          "text": "`typeof x === 'NaN'`",
+          "isCorrect": false,
+          "explanation": "`typeof NaN` returns `'number'`."
+        },
+        {
+          "position": 3,
+          "text": "`x == null`",
+          "isCorrect": false,
+          "explanation": "`NaN == null` is false; only `null` and `undefined` equal each other with loose equality."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Strict Mode",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What happens when you invoke a standalone function in `'use strict'` mode regarding its `this` binding?",
+      "keyPoints": "In strict mode, un-bound function calls have this as undefined rather than window/global.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`this` is `undefined`.",
+          "isCorrect": true,
+          "explanation": "In strict mode, default binding of `this` in standalone function invocations is `undefined` rather than the global `window` object."
+        },
+        {
+          "position": 1,
+          "text": "`this` points to `window` or global object.",
+          "isCorrect": false,
+          "explanation": "Defaulting to global object occurs only in non-strict (sloppy) mode."
+        },
+        {
+          "position": 2,
+          "text": "A ReferenceError is thrown upon calling the function.",
+          "isCorrect": false,
+          "explanation": "Calling the function is valid; only accessing properties on `this` would throw TypeError."
+        },
+        {
+          "position": 3,
+          "text": "`this` points to an empty object `{}`.",
+          "isCorrect": false,
+          "explanation": "`this` is literally `undefined`."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Arrow Function Binding",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "How is `this` determined inside an ES6 arrow function?",
+      "keyPoints": "Arrow functions do not bind their own this; they inherit it lexically.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Lexically resolved from the enclosing execution context at definition time.",
+          "isCorrect": true,
+          "explanation": "Arrow functions do not possess their own `this`, `arguments`, `super`, or `new.target`; they inherit `this` from the enclosing lexical scope."
+        },
+        {
+          "position": 1,
+          "text": "Dynamically bound based on how the function is invoked at runtime.",
+          "isCorrect": false,
+          "explanation": "Dynamic binding applies to regular functions, not arrow functions."
+        },
+        {
+          "position": 2,
+          "text": "Bound to the object preceding the dot operator at invocation time.",
+          "isCorrect": false,
+          "explanation": "Arrow functions ignore call-site dot bindings."
+        },
+        {
+          "position": 3,
+          "text": "Always bound to the global `window` object.",
+          "isCorrect": false,
+          "explanation": "It depends on the lexical parent context, not fixed to global."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Call, Apply, Bind",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the primary difference between `Function.prototype.call` and `Function.prototype.apply`?",
+      "keyPoints": "call takes arguments individually; apply takes an array-like object of arguments.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`call` accepts arguments individually as a comma-separated list, while `apply` accepts arguments as an array.",
+          "isCorrect": true,
+          "explanation": "`fn.call(ctx, arg1, arg2)` takes separate arguments, whereas `fn.apply(ctx, [arg1, arg2])` passes arguments in an array."
+        },
+        {
+          "position": 1,
+          "text": "`call` executes asynchronously while `apply` executes synchronously.",
+          "isCorrect": false,
+          "explanation": "Both execute immediately and synchronously."
+        },
+        {
+          "position": 2,
+          "text": "`call` returns a new function while `apply` invokes the function immediately.",
+          "isCorrect": false,
+          "explanation": "`bind` returns a new bound function; both `call` and `apply` invoke immediately."
+        },
+        {
+          "position": 3,
+          "text": "`apply` can only be used with constructor functions.",
+          "isCorrect": false,
+          "explanation": "Both work on any standard callable function."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Array.prototype Methods",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "Which array method mutates the original array in place?",
+      "keyPoints": "splice, sort, reverse mutate; map, filter, slice, concat return new arrays.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`Array.prototype.splice()`",
+          "isCorrect": true,
+          "explanation": "`splice()` modifies the original array by removing or replacing existing elements. Methods like `slice()`, `filter()`, and `map()` return new arrays."
+        },
+        {
+          "position": 1,
+          "text": "`Array.prototype.slice()`",
+          "isCorrect": false,
+          "explanation": "`slice()` returns a shallow copy of a portion of an array without mutating the original."
+        },
+        {
+          "position": 2,
+          "text": "`Array.prototype.map()`",
+          "isCorrect": false,
+          "explanation": "`map()` generates and returns a new transformed array."
+        },
+        {
+          "position": 3,
+          "text": "`Array.prototype.concat()`",
+          "isCorrect": false,
+          "explanation": "`concat()` merges arrays into a new array instance."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Pass by Value of References",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "Consider the following code:\n```js\nfunction update(obj) {\n  obj.name = 'Alice';\n  obj = { name: 'Bob' };\n}\nconst person = { name: 'Charlie' };\nupdate(person);\nconsole.log(person.name);\n```\nWhat is logged to the console?",
+      "keyPoints": "JS is pass-by-value where object references are passed by value; reassigning parameter does not reassign caller variable.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`'Alice'`",
+          "isCorrect": true,
+          "explanation": "Mutating `obj.name = 'Alice'` affects the referenced heap object. Reassigning `obj = { name: 'Bob' }` only alters the local parameter copy of the reference."
+        },
+        {
+          "position": 1,
+          "text": "`'Bob'`",
+          "isCorrect": false,
+          "explanation": "Reassigning the formal argument `obj` does not alter the caller's `person` variable."
+        },
+        {
+          "position": 2,
+          "text": "`'Charlie'`",
+          "isCorrect": false,
+          "explanation": "`obj.name = 'Alice'` executed before reassignment, altering the property."
+        },
+        {
+          "position": 3,
+          "text": "`undefined`",
+          "isCorrect": false,
+          "explanation": "`name` property is set to 'Alice'."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Destructuring Defaults",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "In ES6 destructuring, under which specific condition is a default value triggered?",
+      "keyPoints": "Default values in destructuring are applied only when value is undefined, not null or false.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Only when the evaluated property value is strictly `undefined`.",
+          "isCorrect": true,
+          "explanation": "Default values in parameter and object destructuring (`{ x = 10 }`) trigger only if the incoming value is `undefined`. If it is `null`, `false`, `0`, or `''`, the default is ignored."
+        },
+        {
+          "position": 1,
+          "text": "When the value is falsy (`false`, `0`, `null`, `undefined`, `''`).",
+          "isCorrect": false,
+          "explanation": "Only `undefined` triggers destructuring defaults."
+        },
+        {
+          "position": 2,
+          "text": "When the value is either `null` or `undefined`.",
+          "isCorrect": false,
+          "explanation": "`null` does not trigger destructuring defaults; it assigns `null`."
+        },
+        {
+          "position": 3,
+          "text": "Only if the property key is entirely absent from the object.",
+          "isCorrect": false,
+          "explanation": "Even if the key is present with value `undefined`, the default value activates."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Rest vs Spread",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What is the syntactic difference between the Rest parameter and the Spread operator in JavaScript?",
+      "keyPoints": "Rest collects multiple elements into an array; Spread expands an iterable into individual elements.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Rest collects multiple remaining elements into a single array, while Spread unpacks elements of an iterable into individual items.",
+          "isCorrect": true,
+          "explanation": "Rest syntax (`...args` in function parameters) condenses multiple elements into an array. Spread syntax expands an array/iterable into arguments or array literals."
+        },
+        {
+          "position": 1,
+          "text": "Rest only works on objects, while Spread only works on arrays.",
+          "isCorrect": false,
+          "explanation": "Both operate on iterables and objects."
+        },
+        {
+          "position": 2,
+          "text": "Spread can only appear as the last argument in a function declaration.",
+          "isCorrect": false,
+          "explanation": "Rest must be the last parameter; Spread can appear anywhere within an argument list or array literal."
+        },
+        {
+          "position": 3,
+          "text": "Rest performs deep cloning while Spread performs shallow cloning.",
+          "isCorrect": false,
+          "explanation": "Spread performs shallow copying; Rest does not copy existing objects."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Optional Chaining & Nullish Coalescing",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What does `const res = (0 ?? 42)` evaluate to, compared to `const res2 = (0 || 42)`?",
+      "keyPoints": "Nullish coalescing (??) checks for null/undefined; logical OR (||) checks falsiness.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`res` is `0` and `res2` is `42`.",
+          "isCorrect": true,
+          "explanation": "`??` only falls back on `null` or `undefined`, so `0 ?? 42` returns `0`. `||` falls back on any falsy value, so `0 || 42` returns `42`."
+        },
+        {
+          "position": 1,
+          "text": "`res` is `42` and `res2` is `42`.",
+          "isCorrect": false,
+          "explanation": "`0` is not nullish, so `??` returns `0`."
+        },
+        {
+          "position": 2,
+          "text": "`res` is `0` and `res2` is `0`.",
+          "isCorrect": false,
+          "explanation": "`0` is falsy, so `||` moves to the right-hand operand `42`."
+        },
+        {
+          "position": 3,
+          "text": "Throws a SyntaxError due to unexpected operator precedence.",
+          "isCorrect": false,
+          "explanation": "Both are valid syntax."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Map vs Object",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "Which of the following is a key advantage of ES6 `Map` over standard plain JavaScript objects (`{}`)?",
+      "keyPoints": "Map keys can be of any data type, retains insertion order, and size property is built-in.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Map keys can be any type including objects and functions, and it preserves insertion order.",
+          "isCorrect": true,
+          "explanation": "Plain object keys must be Strings or Symbols. Maps permit arbitrary keys (DOM nodes, objects, functions), provide a constant-time `.size` property, and guarantee iteration order."
+        },
+        {
+          "position": 1,
+          "text": "Map serializes directly to JSON with `JSON.stringify()` without replacers.",
+          "isCorrect": false,
+          "explanation": "`JSON.stringify(new Map())` outputs `{}` unless a custom replacer/to-object conversion is used."
+        },
+        {
+          "position": 2,
+          "text": "Map uses less memory than an Object for small collections under 10 keys.",
+          "isCorrect": false,
+          "explanation": "Plain objects typically have lower overhead for very small fixed-shape key-value pairs."
+        },
+        {
+          "position": 3,
+          "text": "Map properties can be accessed directly using dot notation (`map.key`).",
+          "isCorrect": false,
+          "explanation": "Map elements must be accessed via `.get(key)` and `.set(key, value)`."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "WeakMap & Memory Management",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "Why are `WeakMap` keys required to be objects (or non-registered symbols) and not primitives?",
+      "keyPoints": "WeakMap holds weak references to keys allowing garbage collection when no other references exist.",
+      "options": [
+        {
+          "position": 0,
+          "text": "To allow garbage collection of the key and its associated value when no other references to the key exist.",
+          "isCorrect": true,
+          "explanation": "WeakMap holds 'weak' references to key objects. If no other strong references to a key object exist, the key and its value can be garbage collected, preventing memory leaks."
+        },
+        {
+          "position": 1,
+          "text": "Because primitive values have variable memory footprints that cannot be hashed.",
+          "isCorrect": false,
+          "explanation": "Primitives have fixed memory footprints; the restriction is purely for garbage collection semantics."
+        },
+        {
+          "position": 2,
+          "text": "To enable iteration over keys using `for...of` loops.",
+          "isCorrect": false,
+          "explanation": "WeakMap is explicitly non-iterable because garbage collection is non-deterministic."
+        },
+        {
+          "position": 3,
+          "text": "Because WeakMap stores its keys in local browser storage.",
+          "isCorrect": false,
+          "explanation": "WeakMap is purely an in-memory runtime data structure."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Iterators & Generators",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "What does a generator function return when called, and what interface does that object implement?",
+      "keyPoints": "Calling a generator function returns a Generator object implementing both Iterable and Iterator protocols.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It returns a Generator object that satisfies both the `Iterable` and `Iterator` protocols (`[Symbol.iterator]` and `next()`).",
+          "isCorrect": true,
+          "explanation": "Calling `function* ()` does not execute the body immediately; it returns a Generator object with `.next()`, `.return()`, and `.throw()` methods that also implements `[Symbol.iterator]`."
+        },
+        {
+          "position": 1,
+          "text": "It returns a Promise that resolves with the first `yield` value.",
+          "isCorrect": false,
+          "explanation": "Async generators involve promises, but standard generators are synchronous iterable objects."
+        },
+        {
+          "position": 2,
+          "text": "It returns the final evaluated return value of the function synchronously.",
+          "isCorrect": false,
+          "explanation": "Execution is paused at the beginning until `.next()` is called."
+        },
+        {
+          "position": 3,
+          "text": "It returns an array containing all yielded values pre-calculated.",
+          "isCorrect": false,
+          "explanation": "Generators evaluate lazily on-demand per `next()` invocation."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Classes and Inheritance",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What happens if a derived class constructor in ES6 fails to invoke `super()` before accessing `this`?",
+      "keyPoints": "In derived constructors, this is uninitialized until super() is called; accessing this throws ReferenceError.",
+      "options": [
+        {
+          "position": 0,
+          "text": "A ReferenceError is thrown.",
+          "isCorrect": true,
+          "explanation": "In derived class constructors, the subclass `this` binding is uninitialized until `super()` has executed. Accessing `this` beforehand throws a `ReferenceError`."
+        },
+        {
+          "position": 1,
+          "text": "`this` defaults to the parent prototype object.",
+          "isCorrect": false,
+          "explanation": "`this` cannot be accessed before `super()`."
+        },
+        {
+          "position": 2,
+          "text": "The JavaScript runtime automatically calls `super()` with zero arguments silently.",
+          "isCorrect": false,
+          "explanation": "Automatic `super()` call only occurs if no constructor is defined in the subclass at all."
+        },
+        {
+          "position": 3,
+          "text": "A TypeError is thrown during compilation.",
+          "isCorrect": false,
+          "explanation": "It produces a runtime `ReferenceError`."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Tagged Template Literals",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "In a tagged template literal `tag`Hello ${name}, you have ${count} items!``, what is the first argument received by the `tag` function?",
+      "keyPoints": "First parameter is an array of static string segments with a raw property.",
+      "options": [
+        {
+          "position": 0,
+          "text": "An array of static string pieces (with a `.raw` property) separated by the interpolated expressions.",
+          "isCorrect": true,
+          "explanation": "The tag function receives `strings` (an array of literal text chunks: `['Hello ', ', you have ', ' items!']`) as argument 1, followed by the interpolated values."
+        },
+        {
+          "position": 1,
+          "text": "The fully interpolated result string.",
+          "isCorrect": false,
+          "explanation": "The tag function computes or formats the result; it receives separated strings and expressions."
+        },
+        {
+          "position": 2,
+          "text": "An array containing only the interpolated expressions.",
+          "isCorrect": false,
+          "explanation": "Expressions are passed as subsequent rest parameters (`...values`)."
+        },
+        {
+          "position": 3,
+          "text": "An object containing key-value mappings of expression names.",
+          "isCorrect": false,
+          "explanation": "Arguments are positional arrays and values."
+        }
+      ]
+    },
+    {
+      "topicName": "JavaScript Fundamentals",
+      "subtopic": "Bitwise Operators",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "How do JavaScript bitwise operators (such as `|`, `&`, `^`, `>>`) treat their operands?",
+      "keyPoints": "Operands are converted to 32-bit signed integers before performing bitwise operations.",
+      "options": [
+        {
+          "position": 0,
+          "text": "They convert the operands into 32-bit signed integers in two's complement format.",
+          "isCorrect": true,
+          "explanation": "JavaScript bitwise operators convert standard double-precision float operands into 32-bit signed big-endian integers before performing the calculation."
+        },
+        {
+          "position": 1,
+          "text": "They operate directly on 64-bit IEEE 754 floating-point representations.",
+          "isCorrect": false,
+          "explanation": "They convert to 32-bit integers first."
+        },
+        {
+          "position": 2,
+          "text": "They convert operands to 16-bit unsigned Unicode character codes.",
+          "isCorrect": false,
+          "explanation": "Bitwise operators use 32-bit signed integers."
+        },
+        {
+          "position": 3,
+          "text": "They require operands to be BigInt values.",
+          "isCorrect": false,
+          "explanation": "BigInt has separate bitwise operations; standard bitwise operates on Numbers."
+        }
+      ]
+    }
+  ]
+}

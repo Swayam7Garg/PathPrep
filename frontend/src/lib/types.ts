@@ -56,13 +56,13 @@ export interface DeleteUserRequest {
   confirm: "DELETE";
 }
 
-// Phase 1: Track Catalog
 export interface TrackSummary {
   id: number;
   name: string;
   description: string;
   topicCount: number;
   questionCount: number;
+  interviewQuestionCount?: number;
 }
 
 // Phase 2: Topics in Track
@@ -218,6 +218,17 @@ export interface ReportRecommendation {
   suggestedQuestionCount: number;
 }
 
+export interface EvaluationDetail {
+  id: number;
+  questionId: number;
+  rubricCriterionName: string;
+  score: number;
+  feedback: string;
+  evidenceQuote?: string;
+  questionText?: string;
+  candidateAnswer?: string;
+}
+
 export interface SessionReportResponse {
   sessionId: number;
   trackId: number;
@@ -231,9 +242,11 @@ export interface SessionReportResponse {
   activeTimeSec: number;
   summary: ReportSummary;
   previousScorePercent: number | null;
+  mode?: SessionMode;
   topics: ReportTopicBreakdown[];
   questions: ReportQuestionDetail[];
   recommendations: ReportRecommendation[];
+  evaluations?: EvaluationDetail[];
 }
 
 // Backward compatibility alias
@@ -310,6 +323,43 @@ export interface TodayPlanResponse {
 
 // Backward compatibility alias
 export type DailyPlan = TodayPlanResponse;
+
+// User-Defined Daily Plan & Interactive Checklist (Phase 8 Plan)
+export type UserPlanItemType = "CUSTOM" | "QUIZ";
+
+export interface CreateDailyPlanItemRequest {
+  itemType: UserPlanItemType;
+  title?: string;
+  trackId?: number;
+  topicId?: number;
+  questionCount?: number;
+}
+
+export interface DailyPlanItemResponse {
+  id: number;
+  planDate: string;
+  title: string;
+  itemType: UserPlanItemType;
+  trackId: number | null;
+  trackName: string | null;
+  topicId: number | null;
+  topicName: string | null;
+  questionCount: number | null;
+  sessionId: number | null;
+  completed: boolean;
+  completedAt: string | null;
+  sortOrder: number;
+}
+
+export interface UserDailyPlanResponse {
+  date: string;
+  totalItems: number;
+  completedItems: number;
+  progressPercent: number;
+  hasUnfinishedYesterdayTasks: boolean;
+  items: DailyPlanItemResponse[];
+}
+
 
 export interface UnmetPrerequisiteView {
   topicId: number;
@@ -436,12 +486,108 @@ export interface ProgressResponse {
   recentSessions: RecentSessionView[];
 }
 
-// Placeholders for Phase 8 / Settings
-export interface AiUsageInfo {
-  dailyQuota: number;
-  usedToday: number;
+// Phase 8: Real Contract Models
+export interface AiUsageLimitInfo {
+  used: number;
+  limit: number | null; // null means unlimited
+}
+
+export interface AiPoolInfo {
+  name?: string;
+  available?: boolean;
+  remainingCapacityPct?: number;
+  dailyTokenBudget?: number;
+  tokensUsedToday?: number;
+  exhausted?: boolean;
+}
+
+export interface AiUsageResponse {
+  interviews: AiUsageLimitInfo;
+  aiCalls: AiUsageLimitInfo; // label: "AI feedback requests"
+  usingOwnKey: boolean;
+  keyStatus?: string;
+  keyLast4?: string | null;
   resetAt: string;
-  hasCustomKey: boolean;
+  pool?: AiPoolInfo | null;
+  // compatibility
+  hasByok?: boolean;
+  hasCustomKey?: boolean;
+  dailyQuota?: number;
+  usedToday?: number;
+  diagnosticQuota?: number;
+  diagnosticUsedToday?: number;
+  keyHint?: string | null;
+  provider?: string;
+}
+
+// Alias for backward compatibility
+export type AiUsageInfo = AiUsageResponse;
+
+export interface RubricCriterionInfo {
+  id: string | number;
+  name: string;
+  description?: string;
+  weight?: number;
+}
+
+export interface InterviewTurn {
+  turnId: string;
+  id?: string;
+  type: "QUESTION" | "ANSWER" | "FOLLOW_UP";
+  questionNumber?: number;
+  questionIndex?: number;
+  isFollowUp?: boolean;
+  body: string;
+  content?: string;
+  createdAt?: string;
+  timeLimitSec?: number | null; // advisory countdown
+  rubricCriteria?: RubricCriterionInfo[];
+  answerText?: string;
+  timeSpentSec?: number;
+}
+
+export interface InterviewAwaiting {
+  type: "ANSWER" | "EVALUATION" | "FOLLOW_UP" | "COMPLETION" | null;
+  turnId?: string | null;
+}
+
+export interface InterviewSessionResponse {
+  id: number;
+  status: "IN_PROGRESS" | "EVALUATION" | "COMPLETED" | "FAILED" | string;
+  mode: "INTERVIEW";
+  style: "LITE" | "LIVE";
+  trackId: number;
+  trackName: string;
+  totalQuestions: number;
+  currentQuestionNumber: number;
+  timeLimitSec?: number | null;
+  turns: InterviewTurn[];
+  awaiting?: InterviewAwaiting | null;
+}
+
+export interface InterviewTurnAnswerRequest {
+  turnId: string;
+  answerText: string;
+  timeSpentSec?: number;
+}
+
+export interface LlmKeySaveRequest {
+  apiKey: string;
+  provider?: string;
+}
+
+export interface LlmKeyTestResponse {
+  valid: boolean;
+  latencyMs?: number;
+  message?: string;
+  model?: string;
+}
+
+export interface EvaluationFeedbackRequest {
+  thumb?: "UP" | "DOWN";
+  positive?: boolean;
+  rating?: "THUMBS_UP" | "THUMBS_DOWN";
+  comment?: string;
 }
 
 // Standard API Error
@@ -453,3 +599,4 @@ export interface ApiErrorResponse {
   traceId?: string;
   meta?: Record<string, unknown>;
 }
+

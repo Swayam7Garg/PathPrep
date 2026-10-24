@@ -50,6 +50,7 @@ public class SessionService {
     private final QuestionMapper questionMapper;
     private final SessionProperties sessionProperties;
     private final QuizSessionHandler quizSessionHandler;
+    private final com.swayam.pathprep.service.handler.InterviewSessionHandler interviewSessionHandler;
     private final SessionFinalizer sessionFinalizer;
     private final Clock clock;
 
@@ -62,9 +63,9 @@ public class SessionService {
         log.info("Processing session creation request: trackId={}, mode={}, difficulty={}, questionCount={}",
                 request.trackId(), request.mode(), request.difficulty(), request.questionCount());
 
-        if (request.mode() == SessionMode.INTERVIEW) {
-            log.info("Interview mode requested but not yet available in current phase");
-            throw new FeatureNotAvailableException("MODE_NOT_AVAILABLE", "Interview mode is not available yet. Please use QUIZ mode.");
+        // INTERVIEW or QUIZ supported
+        if (request.mode() == SessionMode.INTERVIEW && request.style() == null) {
+            log.info("Defaulting style to LITE for INTERVIEW mode");
         }
 
         Long userId = currentUser.getUserId();
@@ -112,7 +113,13 @@ public class SessionService {
             throw new BadRequestException("INVALID_QUESTION_COUNT", "Question count must be at least 1");
         }
 
-        List<QuestionCandidateRow> candidateRows = questionRepository.findCandidateQuestions(targetTopicIds, difficulty.getLevel());
+        List<QuestionCandidateRow> candidateRows;
+        if (request.mode() == SessionMode.INTERVIEW) {
+            candidateRows = questionRepository.findCandidateInterviewQuestions(targetTopicIds, difficulty.getLevel());
+        } else {
+            candidateRows = questionRepository.findCandidateQuestions(targetTopicIds, difficulty.getLevel());
+        }
+
         Map<Long, List<Long>> candidatesByTopic = candidateRows.stream()
                 .collect(Collectors.groupingBy(
                         QuestionCandidateRow::getTopicId,
@@ -169,9 +176,15 @@ public class SessionService {
     }
 
     /**
-     * Submits an MCQ answer (Phase 4).
+     * Submits an MCQ or interview text answer.
      */
     public AnswerResponse submitAnswer(Long sessionId, AnswerRequest request) {
+        PracticeSession session = practiceSessionRepository.findById(sessionId)
+                .orElseThrow(() -> new NotFoundException("SESSION_NOT_FOUND", "Session not found: " + sessionId));
+
+        if (session.getMode() == SessionMode.INTERVIEW) {
+            return interviewSessionHandler.submitInterviewAnswer(sessionId, request);
+        }
         return quizSessionHandler.submitAnswer(sessionId, request);
     }
 
@@ -234,9 +247,7 @@ public class SessionService {
         PracticeSession session = practiceSessionRepository.findByIdAndUserIdWithLock(sessionId, userId)
                 .orElseThrow(() -> new NotFoundException("SESSION_NOT_FOUND", "Session not found: " + sessionId));
 
-        if (session.getMode() != SessionMode.QUIZ) {
-            throw new FeatureNotAvailableException("MODE_NOT_AVAILABLE", "Only QUIZ sessions can be completed in this phase");
-        }
+        // Both QUIZ and INTERVIEW can be completed
 
         // Finalize if not already finalized
         if (session.getStatus() == SessionStatus.IN_PROGRESS) {
@@ -397,6 +408,7 @@ public class SessionService {
 
                 Long correctOptionId = correctOpt != null ? correctOpt.getId() : null;
                 String explanation = correctOpt != null ? correctOpt.getExplanation() : null;
+                Long selectedOptId = att.getSelectedOption() != null ? att.getSelectedOption().getId() : null;
                 String selectedOptExplanation = att.getSelectedOption() != null ? att.getSelectedOption().getExplanation() : null;
 
                 questionDetails.add(new SessionReportResponse.QuestionDetail(
@@ -407,7 +419,7 @@ public class SessionService {
                         q.getBody(),
                         true,
                         att.isCorrect(),
-                        att.getSelectedOption().getId(),
+                        selectedOptId,
                         correctOptionId,
                         explanation,
                         selectedOptExplanation,

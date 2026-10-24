@@ -14,6 +14,7 @@ import {
   ChevronRight,
   AlertCircle,
   Maximize,
+  LogOut,
 } from "lucide-react";
 import { getSession, submitQuizAnswer, completeSession } from "@/lib/api";
 import { queryKeys } from "@/lib/query-keys";
@@ -194,6 +195,40 @@ function SubmitConfirmModal({
   );
 }
 
+// ─── Exit Confirmation Modal ──────────────────────────────────────────────────
+function ExitConfirmModal({
+  onConfirm,
+  onCancel,
+}: {
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-[65] flex items-center justify-center bg-black/40 backdrop-blur-sm">
+      <div className="bg-white border border-[#E5E5E5] rounded-2xl p-6 max-w-[420px] w-full mx-4 shadow-2xl">
+        <h2 className="text-[#111111] text-lg font-bold mb-2">Exit Quiz Session?</h2>
+        <p className="text-[#555555] text-[13px] leading-relaxed mb-6">
+          Are you sure you want to leave this session? All answers submitted so far have been saved. You can always start a new practice drill later.
+        </p>
+        <div className="flex gap-3">
+          <button
+            onClick={onCancel}
+            className="flex-1 border border-[#E5E5E5] text-[#555555] hover:text-[#111111] py-2.5 px-4 rounded-xl text-[13px] font-medium transition-colors bg-white hover:border-[#CCCCCC] cursor-pointer"
+          >
+            Stay in Quiz
+          </button>
+          <button
+            onClick={onConfirm}
+            className="flex-1 bg-[#DC2626] hover:bg-[#B91C1C] text-white font-semibold py-2.5 px-4 rounded-xl text-[13px] transition-colors cursor-pointer"
+          >
+            Exit to Practice
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Quiz Page ───────────────────────────────────────────────────────────
 export default function ActiveQuizPage({
   params,
@@ -228,7 +263,8 @@ export default function ActiveQuizPage({
   const [elapsedSec, setElapsedSec] = useState(0);
   const questionStartRef = useRef<number>(Date.now());
 
-  // ── Proctoring ──
+  // ── Proctoring & Lifecycle state ──
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [violationCount, setViolationCount] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
   const [graceCountdown, setGraceCountdown] = useState(GRACE_PERIOD_SEC);
@@ -236,8 +272,10 @@ export default function ActiveQuizPage({
   const proctoringEnabled = useRef(false);
   const lastViolationRef = useRef<number>(0); // timestamp of last violation (debounce)
   const violationCountRef = useRef(0); // mirror of violationCount for use in event handlers
+  const isTerminatingRef = useRef(false); // set to true when exiting or final submitting
 
   // ── UI ──
+  const [showExitModal, setShowExitModal] = useState(false);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [autoSubmitTriggered, setAutoSubmitTriggered] = useState(false);
@@ -279,13 +317,16 @@ export default function ActiveQuizPage({
   // ─── Fullscreen ────────────────────────────────────────────────────────────
   const enterFullscreen = useCallback(async () => {
     try {
-      if (!document.fullscreenElement) {
+      if (typeof document !== "undefined" && !document.fullscreenElement) {
         await document.documentElement.requestFullscreen();
       }
+      setIsFullscreen(true);
+      proctoringEnabled.current = true;
     } catch {
-      // Fullscreen API not available
+      // Browser blocked without direct user gesture; wait for user interaction
+      setIsFullscreen(false);
+      proctoringEnabled.current = false;
     }
-    proctoringEnabled.current = true;
   }, []);
 
   // ── Clear grace period ──
@@ -327,7 +368,10 @@ export default function ActiveQuizPage({
 
   // ── Record a proctoring violation (with debounce) ──
   const recordViolation = useCallback(() => {
-    if (!proctoringEnabled.current) return;
+    // If terminating, submitting, or proctoring not actively enabled, ignore completely
+    if (isTerminatingRef.current || isSubmitting || autoSubmitTriggered || !proctoringEnabled.current) {
+      return;
+    }
 
     // Debounce: ignore if another violation was recorded within cooldown period
     const now = Date.now();
@@ -345,7 +389,7 @@ export default function ActiveQuizPage({
       setShowWarning(true);
       startGrace(newCount);
     }
-  }, [doAutoSubmit, startGrace]);
+  }, [doAutoSubmit, startGrace, isSubmitting, autoSubmitTriggered]);
 
   // ── Return to fullscreen ──
   const handleReturnToFullscreen = useCallback(async () => {
@@ -355,34 +399,70 @@ export default function ActiveQuizPage({
       if (!document.fullscreenElement) {
         await document.documentElement.requestFullscreen();
       }
+      setIsFullscreen(true);
+      proctoringEnabled.current = true;
     } catch { /* ignore */ }
   }, [clearGrace]);
+
+  // ── Handle Exit without warning ──
+  const handleExitQuiz = useCallback(() => {
+    isTerminatingRef.current = true;
+    proctoringEnabled.current = false;
+    clearGrace();
+    setShowWarning(false);
+    setShowExitModal(false);
+    if (typeof document !== "undefined" && document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {}).finally(() => {
+        router.push("/practice");
+      });
+    } else {
+      router.push("/practice");
+    }
+  }, [clearGrace, router]);
 
   // ── Fullscreen change event ──
   useEffect(() => {
     const onFSChange = () => {
-      if (!document.fullscreenElement && proctoringEnabled.current && !showWarning && !autoSubmitTriggered) {
+      const active = Boolean(document.fullscreenElement);
+      setIsFullscreen(active);
+
+      // If user is intentionally exiting, submitting, or already terminating, NEVER trigger warning
+      if (isTerminatingRef.current || isSubmitting || autoSubmitTriggered) {
+        return;
+      }
+
+      if (!active && proctoringEnabled.current && !showWarning) {
         recordViolation();
+      } else if (active) {
+        proctoringEnabled.current = true;
       }
     };
     document.addEventListener("fullscreenchange", onFSChange);
+
+    // Initial check
+    if (typeof document !== "undefined" && document.fullscreenElement) {
+      setIsFullscreen(true);
+      proctoringEnabled.current = true;
+    }
+
     return () => document.removeEventListener("fullscreenchange", onFSChange);
-  }, [showWarning, autoSubmitTriggered, recordViolation]);
+  }, [showWarning, autoSubmitTriggered, isSubmitting, recordViolation]);
 
   // ── Visibility change event ──
   useEffect(() => {
     const onVisChange = () => {
-      if (document.hidden && proctoringEnabled.current && !showWarning && !autoSubmitTriggered) {
+      if (isTerminatingRef.current || isSubmitting || autoSubmitTriggered) return;
+      if (document.hidden && proctoringEnabled.current && !showWarning) {
         recordViolation();
       }
     };
     document.addEventListener("visibilitychange", onVisChange);
     return () => document.removeEventListener("visibilitychange", onVisChange);
-  }, [showWarning, autoSubmitTriggered, recordViolation]);
+  }, [showWarning, autoSubmitTriggered, isSubmitting, recordViolation]);
 
   // ── Enter fullscreen when initialized ──
   useEffect(() => {
-    if (initialized && !proctoringEnabled.current) {
+    if (initialized && !proctoringEnabled.current && !isTerminatingRef.current) {
       enterFullscreen();
     }
   }, [initialized, enterFullscreen]);
@@ -390,8 +470,12 @@ export default function ActiveQuizPage({
   // Cleanup grace timer on unmount
   useEffect(
     () => () => {
+      isTerminatingRef.current = true;
+      proctoringEnabled.current = false;
       clearGrace();
-      if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+      if (typeof document !== "undefined" && document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+      }
     },
     [clearGrace]
   );
@@ -405,13 +489,17 @@ export default function ActiveQuizPage({
   const completeSessionMutation = useMutation({
     mutationFn: () => completeSession(sessionId),
     onSuccess: () => {
+      isTerminatingRef.current = true;
+      proctoringEnabled.current = false;
+      clearGrace();
+      setShowWarning(false);
       queryClient.invalidateQueries({ queryKey: queryKeys.sessions.detail(sessionId) });
       queryClient.invalidateQueries({ queryKey: queryKeys.me.planToday });
       queryClient.invalidateQueries({ queryKey: ["sessions", "history"] });
       queryClient.invalidateQueries({ queryKey: ["me", "skills"] });
       queryClient.invalidateQueries({ queryKey: ["me", "progress"] });
       const nav = () => router.push(`/practice/quiz/${sessionId}/report`);
-      if (document.fullscreenElement) {
+      if (typeof document !== "undefined" && document.fullscreenElement) {
         document.exitFullscreen().catch(() => {}).finally(nav);
       } else {
         nav();
@@ -419,6 +507,7 @@ export default function ActiveQuizPage({
     },
     onError: () => {
       setIsSubmitting(false);
+      isTerminatingRef.current = false;
       setSubmitError("Failed to finalize the session. Please try again.");
     },
   });
@@ -545,6 +634,11 @@ export default function ActiveQuizPage({
     if (isSubmitting) return;
     setIsSubmitting(true);
     setSubmitError(null);
+    isTerminatingRef.current = true;
+    proctoringEnabled.current = false;
+    clearGrace();
+    setShowWarning(false);
+    setShowSubmitModal(false);
 
     try {
       // Submit any remaining un-submitted answers from backendIndex onward
@@ -572,21 +666,30 @@ export default function ActiveQuizPage({
       completeSessionMutation.mutate();
     } catch {
       setIsSubmitting(false);
+      isTerminatingRef.current = false;
+      proctoringEnabled.current = true;
       setSubmitError("Submission failed. Please try again.");
     }
-  }, [isSubmitting, backendIndex, totalQuestions, slots, submitAnswerMutation, updateSlotAt, completeSessionMutation]);
+  }, [
+    isSubmitting,
+    backendIndex,
+    totalQuestions,
+    slots,
+    clearGrace,
+    submitAnswerMutation,
+    updateSlotAt,
+    completeSessionMutation,
+  ]);
 
   // ─── Keyboard shortcuts ────────────────────────────────────────────────────
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (isSubmitting) return;
 
-      // Escape key → show fullscreen warning (let browser exit fullscreen naturally,
-      // our fullscreenchange listener will detect it and show the warning modal)
+      // Escape key → prompt exit modal cleanly rather than firing proctoring violation
       if (e.key === "Escape") {
-        // If warning is already showing, ignore
         if (showWarning || showSubmitModal) return;
-        // The browser will exit fullscreen; recordViolation fires via fullscreenchange
+        setShowExitModal(true);
         return;
       }
 
@@ -682,6 +785,48 @@ export default function ActiveQuizPage({
 
   return (
     <div className="fixed inset-0 bg-[#FAFAFA] text-[#111111] flex flex-col overflow-hidden z-[60]">
+      {/* ── Exit Confirmation Modal ── */}
+      {showExitModal && (
+        <ExitConfirmModal
+          onConfirm={handleExitQuiz}
+          onCancel={() => setShowExitModal(false)}
+        />
+      )}
+
+      {/* ── Enter Fullscreen Prompt (if browser blocked auto-fullscreen on load) ── */}
+      {!isFullscreen && initialized && !isTerminatingRef.current && (
+        <div className="fixed inset-0 z-[64] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-white border border-[#E5E5E5] rounded-2xl p-8 max-w-[460px] w-full mx-4 shadow-2xl text-center flex flex-col items-center gap-4">
+            <div className="w-12 h-12 rounded-full bg-[#FAFAFA] border border-[#E5E5E5] flex items-center justify-center text-[#111111]">
+              <Maximize className="w-6 h-6" />
+            </div>
+            <div>
+              <h2 className="text-[#111111] text-xl font-bold tracking-tight">
+                Enter Fullscreen Mode
+              </h2>
+              <p className="text-[#555555] text-[13px] leading-relaxed mt-1">
+                To simulate real examination conditions and maintain test integrity, this diagnostic session runs in full screen.
+              </p>
+            </div>
+            <div className="flex flex-col gap-2 w-full mt-2">
+              <button
+                onClick={enterFullscreen}
+                className="w-full bg-[#111111] hover:bg-[#222222] text-white font-semibold py-3 px-5 rounded-xl transition-colors text-[14px] flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+              >
+                <Maximize className="w-4 h-4" />
+                <span>Enter Fullscreen to Begin</span>
+              </button>
+              <button
+                onClick={handleExitQuiz}
+                className="w-full text-[#737373] hover:text-[#111111] py-2 text-[12px] font-medium transition-colors cursor-pointer"
+              >
+                Exit to Practice Lobby
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── Proctoring Warning Modal ── */}
       {showWarning && (
         <ProctoringWarningModal
@@ -731,15 +876,37 @@ export default function ActiveQuizPage({
           <span>{formatTimer(elapsedSec)}</span>
         </div>
 
-        {/* Right: Submit */}
-        <button
-          onClick={() => setShowSubmitModal(true)}
-          disabled={isSubmitting}
-          className="flex items-center gap-2 bg-[#111111] hover:bg-[#222222] text-white font-semibold px-4 py-2 rounded-xl text-[13px] transition-colors disabled:opacity-50 shrink-0"
-        >
-          Submit
-          <ChevronRight className="w-4 h-4" />
-        </button>
+        {/* Right: Fullscreen status, Exit, Submit */}
+        <div className="flex items-center gap-2 shrink-0">
+          {!isFullscreen && (
+            <button
+              onClick={enterFullscreen}
+              className="flex items-center gap-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 font-medium px-2.5 py-1.5 rounded-lg text-[12px] transition-colors cursor-pointer"
+              title="Click to enter fullscreen"
+            >
+              <Maximize className="w-3.5 h-3.5" />
+              <span>Fullscreen</span>
+            </button>
+          )}
+
+          <button
+            onClick={() => setShowExitModal(true)}
+            disabled={isSubmitting}
+            className="flex items-center gap-1.5 border border-[#E5E5E5] hover:border-[#CCCCCC] text-[#555555] hover:text-[#111111] font-medium px-3 py-1.5 rounded-xl text-[12px] transition-colors disabled:opacity-40 cursor-pointer"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span>Exit</span>
+          </button>
+
+          <button
+            onClick={() => setShowSubmitModal(true)}
+            disabled={isSubmitting}
+            className="flex items-center gap-2 bg-[#111111] hover:bg-[#222222] text-white font-semibold px-4 py-2 rounded-xl text-[13px] transition-colors disabled:opacity-50 shrink-0 cursor-pointer"
+          >
+            <span>Submit</span>
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
       </header>
 
       {/* ════════════ BODY ════════════ */}

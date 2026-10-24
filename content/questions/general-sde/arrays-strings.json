@@ -1,0 +1,685 @@
+{
+  "batch": "arrays-strings-batch-1",
+  "questions": [
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Two-Pointer Technique",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "When finding two numbers in a sorted array that sum to a target value, what is the optimal time and space complexity using the two-pointer technique?",
+      "keyPoints": "Pointers at both ends converging inward achieve O(N) time and O(1) auxiliary space.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Time: O(N), Space: O(1)",
+          "isCorrect": true,
+          "explanation": "Starting one pointer at the left end and one at the right end of a sorted array and moving them inward based on the comparison of the current sum against target takes linear time O(N) and constant space O(1)."
+        },
+        {
+          "position": 1,
+          "text": "Time: O(N log N), Space: O(N)",
+          "isCorrect": false,
+          "explanation": "Sorting takes O(N log N), but given that the array is already sorted, the two-pointer scan itself is O(N) time and O(1) space."
+        },
+        {
+          "position": 2,
+          "text": "Time: O(N^2), Space: O(1)",
+          "isCorrect": false,
+          "explanation": "O(N^2) is the brute-force nested loop approach."
+        },
+        {
+          "position": 3,
+          "text": "Time: O(log N), Space: O(log N)",
+          "isCorrect": false,
+          "explanation": "A linear scan inspecting elements takes at least O(N) in the worst case."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Sliding Window",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the primary indicator that a problem can be solved using the Sliding Window technique?",
+      "keyPoints": "Finding optimal contiguous subarray/substring meeting a monotonic condition.",
+      "options": [
+        {
+          "position": 0,
+          "text": "The problem asks for an optimal or valid contiguous subarray/substring (e.g. longest substring without repeating characters, minimum window subarray).",
+          "isCorrect": true,
+          "explanation": "Sliding window operates on contiguous subarrays/substrings where expanding the right pointer and contracting the left pointer maintains or restores a monotonic property."
+        },
+        {
+          "position": 1,
+          "text": "The problem asks to find the shortest path in an unweighted graph.",
+          "isCorrect": false,
+          "explanation": "Shortest path in unweighted graphs is solved using Breadth-First Search (BFS)."
+        },
+        {
+          "position": 2,
+          "text": "The problem requires finding non-contiguous subsequences.",
+          "isCorrect": false,
+          "explanation": "Non-contiguous subsequences typically require dynamic programming or backtracking."
+        },
+        {
+          "position": 3,
+          "text": "The array contains purely negative numbers with random access queries.",
+          "isCorrect": false,
+          "explanation": "Sliding window is an algorithmic traversal pattern, not an array element sign constraint."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Prefix Sum Array",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What is the time complexity of answering multiple range sum queries `sum(L, R)` on an immutable array of size N using a Prefix Sum precomputation array?",
+      "keyPoints": "Precomputation in O(N), query in O(1) via prefix[R+1] - prefix[L].",
+      "options": [
+        {
+          "position": 0,
+          "text": "Precomputation: O(N), Query: O(1)",
+          "isCorrect": true,
+          "explanation": "Precomputing `prefix[i] = prefix[i-1] + arr[i]` takes O(N) time. Each range sum query `sum(L, R)` is answered in O(1) time as `prefix[R] - prefix[L-1]`."
+        },
+        {
+          "position": 1,
+          "text": "Precomputation: O(1), Query: O(N)",
+          "isCorrect": false,
+          "explanation": "That is the naive approach without precomputation."
+        },
+        {
+          "position": 2,
+          "text": "Precomputation: O(N log N), Query: O(log N)",
+          "isCorrect": false,
+          "explanation": "Binary Indexed Tree (Fenwick) or Segment Tree provides O(log N) queries for mutable arrays, but prefix sums for immutable arrays achieve O(1)."
+        },
+        {
+          "position": 3,
+          "text": "Precomputation: O(N^2), Query: O(1)",
+          "isCorrect": false,
+          "explanation": "Prefix array construction is single-pass linear O(N)."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Kadane's Algorithm",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What problem does Kadane's Algorithm solve in O(N) time and O(1) auxiliary space?",
+      "keyPoints": "Maximum Subarray Sum problem.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Maximum Subarray Sum (finding the contiguous subarray having the largest sum).",
+          "isCorrect": true,
+          "explanation": "Kadane's algorithm keeps track of `current_max = max(x, current_max + x)` and `global_max = max(global_max, current_max)` in a single linear pass."
+        },
+        {
+          "position": 1,
+          "text": "Longest Common Subsequence between two strings.",
+          "isCorrect": false,
+          "explanation": "LCS between two strings is solved using 2D DP in O(M*N) time."
+        },
+        {
+          "position": 2,
+          "text": "Finding the median of two sorted arrays.",
+          "isCorrect": false,
+          "explanation": "Median of two sorted arrays is solved using binary search in O(log(min(M, N)))."
+        },
+        {
+          "position": 3,
+          "text": "Sorting an array in linear time.",
+          "isCorrect": false,
+          "explanation": "Comparison sorting lower bound is O(N log N)."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Dutch National Flag Algorithm",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "How does the Dutch National Flag algorithm (Dijkstra) partition an array containing only values 0, 1, and 2 in a single pass?",
+      "keyPoints": "Three pointers: low, mid, high partition the array in O(N) time and O(1) space.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Using three pointers (`low`, `mid`, `high`) where elements before `low` are 0, elements between `low` and `mid-1` are 1, and elements after `high` are 2.",
+          "isCorrect": true,
+          "explanation": "The three-pointer approach swaps 0s to the front (`low`), 2s to the back (`high`), and advances `mid` past 1s in a single pass with O(1) auxiliary space."
+        },
+        {
+          "position": 1,
+          "text": "By inserting all elements into a min-heap and extracting them.",
+          "isCorrect": false,
+          "explanation": "A heap takes O(N log N) time and O(N) space."
+        },
+        {
+          "position": 2,
+          "text": "By counting occurrences of 0, 1, 2 in a hash table and doing two passes.",
+          "isCorrect": false,
+          "explanation": "Counting sort does two passes; DNF does it in a single pass in-place without counting."
+        },
+        {
+          "position": 3,
+          "text": "By recursively calling QuickSort with median-of-three pivot.",
+          "isCorrect": false,
+          "explanation": "QuickSort has recursive stack overhead and is general-purpose."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Boyer-Moore Voting Algorithm",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What does the Boyer-Moore Majority Vote algorithm find in an array, and what are its complexities?",
+      "keyPoints": "Finds element appearing more than N/2 times in O(N) time and O(1) space.",
+      "options": [
+        {
+          "position": 0,
+          "text": "The majority element that appears strictly more than `floor(N/2)` times in O(N) time and O(1) space.",
+          "isCorrect": true,
+          "explanation": "By maintaining a candidate and a counter that increments when encountering the candidate and decrements otherwise, Boyer-Moore identifies the > N/2 majority element in linear time and constant space."
+        },
+        {
+          "position": 1,
+          "text": "The most frequent element in any array regardless of count.",
+          "isCorrect": false,
+          "explanation": "It only works if a true majority element (> N/2) exists; arbitrary mode requires a hash map."
+        },
+        {
+          "position": 2,
+          "text": "All elements that appear exactly twice in O(log N) time.",
+          "isCorrect": false,
+          "explanation": "It is designed specifically for majority detection (> N/2 or > N/3 extensions)."
+        },
+        {
+          "position": 3,
+          "text": "The second largest element in O(1) time.",
+          "isCorrect": false,
+          "explanation": "Finding second largest requires inspecting all elements (O(N))."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "String Immutability & Memory",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "Why does repeatedly concatenating single characters in a loop using standard string addition (`s += c`) in languages like Java or Python lead to O(N^2) time complexity?",
+      "keyPoints": "Strings are immutable; each concatenation copies the entire existing string into a newly allocated buffer.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Strings are immutable; each concatenation creates a brand new string buffer and copies all previous characters, resulting in `1 + 2 + ... + N = O(N^2)` work.",
+          "isCorrect": true,
+          "explanation": "Because strings cannot be mutated in place, each concatenation copies the accumulated string. Using a mutable buffer like `StringBuilder` or list append (`''.join(list)`) achieves linear O(N) time."
+        },
+        {
+          "position": 1,
+          "text": "Because string hashing takes quadratic time.",
+          "isCorrect": false,
+          "explanation": "String hashing is O(length), not quadratic."
+        },
+        {
+          "position": 2,
+          "text": "Because the garbage collector locks all threads during string allocation.",
+          "isCorrect": false,
+          "explanation": "Memory copying is the algorithmic bottleneck, not GC pauses."
+        },
+        {
+          "position": 3,
+          "text": "Because character encodings must be validated via DNS lookups.",
+          "isCorrect": false,
+          "explanation": "Encodings are local in-memory byte representations."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "KMP (Knuth-Morris-Pratt) Algorithm",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "What does the Longest Prefix Suffix (LPS) array / π table in the KMP string matching algorithm represent?",
+      "keyPoints": "LPS[i] stores the length of the longest proper prefix of pattern[0..i] that is also a suffix of pattern[0..i].",
+      "options": [
+        {
+          "position": 0,
+          "text": "For each prefix `pattern[0..i]`, the length of the longest proper prefix that is also a suffix of that substring.",
+          "isCorrect": true,
+          "explanation": "The LPS array allows KMP to avoid re-examining previously matched characters upon a mismatch by skipping directly to the next viable alignment in O(N + M) total time."
+        },
+        {
+          "position": 1,
+          "text": "The alphabetical rank of each character in the alphabet.",
+          "isCorrect": false,
+          "explanation": "LPS is based on string self-overlap, not alphabetical order."
+        },
+        {
+          "position": 2,
+          "text": "The frequency count of each unique character in the pattern.",
+          "isCorrect": false,
+          "explanation": "Frequency counts are used in anagram checks, not KMP alignment."
+        },
+        {
+          "position": 3,
+          "text": "The hash values of pattern substrings for Rabin-Karp.",
+          "isCorrect": false,
+          "explanation": "Rabin-Karp uses rolling hashes; KMP uses deterministic state transitions via LPS."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Rabin-Karp Algorithm",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What technique allows the Rabin-Karp algorithm to search for a pattern in text in O(N + M) average time?",
+      "keyPoints": "Rolling hash function to compute the hash of the sliding window in O(1) time.",
+      "options": [
+        {
+          "position": 0,
+          "text": "A rolling hash function that computes the hash of the next sliding window in O(1) time from the previous window's hash.",
+          "isCorrect": true,
+          "explanation": "By updating the hash incrementally (`(old_hash - outgoing_char * base^m) * base + incoming_char`), Rabin-Karp checks window equality in O(1) average time per position."
+        },
+        {
+          "position": 1,
+          "text": "Binary search over the text characters.",
+          "isCorrect": false,
+          "explanation": "Text is not sorted, so binary search cannot be applied directly."
+        },
+        {
+          "position": 2,
+          "text": "Transforming the text into a binary search tree.",
+          "isCorrect": false,
+          "explanation": "Constructing a BST would take extra time and space."
+        },
+        {
+          "position": 3,
+          "text": "Compressing text with Huffman encoding before searching.",
+          "isCorrect": false,
+          "explanation": "Rabin-Karp operates on raw string hashes."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Anagram Detection",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What is the optimal time and space complexity to determine if two ASCII strings of length N are anagrams?",
+      "keyPoints": "Frequency array of size 256 or 26 takes O(N) time and O(1) auxiliary space.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Time: O(N), Space: O(1) auxiliary space (using a fixed-size 26 or 256 frequency array).",
+          "isCorrect": true,
+          "explanation": "Counting frequencies using a fixed-size array takes O(N) time and O(1) space because the alphabet size is constant. Sorting both strings takes O(N log N) time."
+        },
+        {
+          "position": 1,
+          "text": "Time: O(N log N), Space: O(N)",
+          "isCorrect": false,
+          "explanation": "Sorting both strings is O(N log N), which is suboptimal compared to counting in O(N)."
+        },
+        {
+          "position": 2,
+          "text": "Time: O(N^2), Space: O(1)",
+          "isCorrect": false,
+          "explanation": "Brute force searching each character is quadratic O(N^2)."
+        },
+        {
+          "position": 3,
+          "text": "Time: O(1), Space: O(N)",
+          "isCorrect": false,
+          "explanation": "Every character must be examined at least once (lower bound O(N))."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Manacher's Algorithm",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "What problem does Manacher's Algorithm solve in strictly linear O(N) time?",
+      "keyPoints": "Finding the longest palindromic substring in O(N) time.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Finding the Longest Palindromic Substring in an arbitrary string.",
+          "isCorrect": true,
+          "explanation": "While expanding around centers takes O(N^2) in worst case (e.g. 'aaaaa'), Manacher's algorithm uses symmetry and previously computed palindrome radii to achieve strictly O(N) time."
+        },
+        {
+          "position": 1,
+          "text": "Finding the longest common subsequence between two strings.",
+          "isCorrect": false,
+          "explanation": "Longest common subsequence is solved via dynamic programming in O(N*M)."
+        },
+        {
+          "position": 2,
+          "text": "Compressing a string via Run-Length Encoding.",
+          "isCorrect": false,
+          "explanation": "Run-length encoding is simple linear scanning."
+        },
+        {
+          "position": 3,
+          "text": "Generating all permutations of a string.",
+          "isCorrect": false,
+          "explanation": "Generating permutations is O(N!)."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Matrix Rotation In-Place",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "How can an N x N 2D matrix be rotated 90 degrees clockwise in-place without allocating an extra matrix?",
+      "keyPoints": "Transpose the matrix (swap matrix[i][j] with matrix[j][i]), then reverse each row.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Transpose the matrix across its main diagonal, then reverse each row horizontally.",
+          "isCorrect": true,
+          "explanation": "Transposing swaps `matrix[i][j]` with `matrix[j][i]`. Reversing each row (`row.reverse()`) yields the 90-degree clockwise rotation in O(N^2) time and O(1) auxiliary space."
+        },
+        {
+          "position": 1,
+          "text": "Reverse each column, then reverse each row.",
+          "isCorrect": false,
+          "explanation": "Reversing both rows and columns results in a 180-degree rotation, not 90 degrees."
+        },
+        {
+          "position": 2,
+          "text": "Rotate outer corners only.",
+          "isCorrect": false,
+          "explanation": "All elements must be moved."
+        },
+        {
+          "position": 3,
+          "text": "Transpose along anti-diagonal only.",
+          "isCorrect": false,
+          "explanation": "Standard clockwise rotation is transpose + horizontal reverse."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Dynamic Sizing (Amortized Analysis)",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "Why does appending an element to a dynamic array (e.g., `ArrayList` in Java, `vector` in C++, or `list` in Python) have O(1) amortized time complexity, even though resizing takes O(N)?",
+      "keyPoints": "Geometric doubling of capacity ensures that the total cost of copying over N insertions is O(N), averaging O(1) per insert.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Geometric capacity doubling (e.g. 2x factor) ensures that expensive resize copies occur exponentially less frequently, yielding `O(N)` total copy operations across N insertions (O(1) average).",
+          "isCorrect": true,
+          "explanation": "The sum of resizing steps `1 + 2 + 4 + ... + N` forms a geometric series bounded by `2N`. Dividing `2N` total work by N insertions proves that each append costs O(1) amortized time."
+        },
+        {
+          "position": 1,
+          "text": "Because memory allocation is always performed on GPU hardware.",
+          "isCorrect": false,
+          "explanation": "Heap allocations occur in CPU system memory."
+        },
+        {
+          "position": 2,
+          "text": "Because the array only copies the first and last elements during resize.",
+          "isCorrect": false,
+          "explanation": "All N elements must be copied to the newly allocated memory block."
+        },
+        {
+          "position": 3,
+          "text": "Because modern operating systems do not require contiguous memory for arrays.",
+          "isCorrect": false,
+          "explanation": "Arrays fundamentally require contiguous memory addresses for O(1) indexing."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Z-Algorithm",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "What does the Z-array `Z[i]` represent in the Z-algorithm for exact string matching?",
+      "keyPoints": "Length of the longest substring starting from s[i] that is also a prefix of s.",
+      "options": [
+        {
+          "position": 0,
+          "text": "The length of the longest substring starting from `s[i]` that is equal to a prefix of `s`.",
+          "isCorrect": true,
+          "explanation": "The Z-algorithm computes the Z-array in linear O(N) time by maintaining a window `[L, R]` of the rightmost matched prefix, allowing rapid exact pattern matching when concatenating `pattern + '$' + text`."
+        },
+        {
+          "position": 1,
+          "text": "The number of occurrences of character `s[i]` in the string.",
+          "isCorrect": false,
+          "explanation": "That is a character frequency count."
+        },
+        {
+          "position": 2,
+          "text": "The ASCII value distance between `s[i]` and `s[0]`.",
+          "isCorrect": false,
+          "explanation": "It measures substring prefix match length."
+        },
+        {
+          "position": 3,
+          "text": "The index of the next vowel in the string.",
+          "isCorrect": false,
+          "explanation": "It is a general string pattern matching algorithm."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Circular Array Representation",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "In a circular array of size N, what formula gives the index of the element `K` steps forward from index `i`?",
+      "keyPoints": "(i + K) % N wraps around using modulo arithmetic.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`(i + K) % N`",
+          "isCorrect": true,
+          "explanation": "The modulo operator wraps indices that exceed `N - 1` back to `0`, creating circular ring buffer semantics."
+        },
+        {
+          "position": 1,
+          "text": "`i + (K % N)`",
+          "isCorrect": false,
+          "explanation": "If `i + (K % N) >= N`, it exceeds the valid array bounds without an outer modulo."
+        },
+        {
+          "position": 2,
+          "text": "`(i * K) % N`",
+          "isCorrect": false,
+          "explanation": "Moving steps forward is additive, not multiplicative."
+        },
+        {
+          "position": 3,
+          "text": "`N % (i + K)`",
+          "isCorrect": false,
+          "explanation": "Modulo must be by the array size N."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Run-Length Encoding",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What is the compressed representation of the string `'aaabbccccd'` using Run-Length Encoding (RLE)?",
+      "keyPoints": "Consecutive repeated characters are replaced by character and count: 'a3b2c4d1'.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`'a3b2c4d1'`",
+          "isCorrect": true,
+          "explanation": "RLE counts consecutive runs of identical characters: 'aaa' -> a3, 'bb' -> b2, 'cccc' -> c4, 'd' -> d1."
+        },
+        {
+          "position": 1,
+          "text": "`'abcd10'`",
+          "isCorrect": false,
+          "explanation": "RLE groups consecutive runs, not total character sets."
+        },
+        {
+          "position": 2,
+          "text": "`'3a2b4c1d'`",
+          "isCorrect": false,
+          "explanation": "While some variations write count first, a3b2c4d1 is the standard character-count pairing."
+        },
+        {
+          "position": 3,
+          "text": "`'a-3-b-2-c-4-d-1'`",
+          "isCorrect": false,
+          "explanation": "RLE does not inject hyphens."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Longest Common Prefix",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What is the Longest Common Prefix of the array of strings `['flower', 'flow', 'flight']`?",
+      "keyPoints": "'fl' is the common starting substring across all three strings.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`'fl'`",
+          "isCorrect": true,
+          "explanation": "'flower' and 'flow' share 'flow', but 'flight' matches only up to 'fl'."
+        },
+        {
+          "position": 1,
+          "text": "`'flow'`",
+          "isCorrect": false,
+          "explanation": "'flight' does not contain 'ow'."
+        },
+        {
+          "position": 2,
+          "text": "`'f'`",
+          "isCorrect": false,
+          "explanation": "Both 'f' and 'l' are common to all three strings, so 'fl' is longer."
+        },
+        {
+          "position": 3,
+          "text": "`''` (empty string)",
+          "isCorrect": false,
+          "explanation": "A common prefix 'fl' exists."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Trapping Rain Water",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "In the classic 'Trapping Rain Water' problem where an elevation map is represented by non-negative integers, what determines the amount of water trapped above bar `i`?",
+      "keyPoints": "min(max_left[i], max_right[i]) - height[i], if positive.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`max(0, min(max_left, max_right) - height[i])`",
+          "isCorrect": true,
+          "explanation": "Water trapped above any bar is bounded by the minimum of the highest walls to its left and right minus the elevation of the bar itself."
+        },
+        {
+          "position": 1,
+          "text": "`max(max_left, max_right) - height[i]`",
+          "isCorrect": false,
+          "explanation": "Water spills over the shorter wall; it is constrained by the minimum of the two boundaries."
+        },
+        {
+          "position": 2,
+          "text": "`abs(height[i] - height[i-1])`",
+          "isCorrect": false,
+          "explanation": "Water depends on global boundaries to the left and right, not just immediate neighbors."
+        },
+        {
+          "position": 3,
+          "text": "`height[i] * width`",
+          "isCorrect": false,
+          "explanation": "That calculates geometric bar area, not trapped water volume."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Spiral Matrix Traversal",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What standard invariant boundaries are maintained when traversing an M x N matrix in spiral order?",
+      "keyPoints": "Four boundary variables: top, bottom, left, right that advance inward after completing each edge.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Four pointers: `top`, `bottom`, `left`, `right` that shrink inward after traversing top row, right column, bottom row, and left column.",
+          "isCorrect": true,
+          "explanation": "Maintaining `top++`, `right--`, `bottom--`, `left++` boundaries in a while loop until boundaries cross ensures clean in-bounds O(M*N) traversal without revisits."
+        },
+        {
+          "position": 1,
+          "text": "Two pointers traversing diagonals only.",
+          "isCorrect": false,
+          "explanation": "Spiral traversal follows outer perimeter edges, not diagonals."
+        },
+        {
+          "position": 2,
+          "text": "A visited boolean matrix of size M x N is strictly mandatory.",
+          "isCorrect": false,
+          "explanation": "Boundary pointers eliminate the need for an O(M*N) visited matrix, achieving O(1) auxiliary space."
+        },
+        {
+          "position": 3,
+          "text": "Breadth-First Search queue.",
+          "isCorrect": false,
+          "explanation": "Spiral traversal is deterministic coordinate bounds progression, not BFS."
+        }
+      ]
+    },
+    {
+      "topicName": "Arrays & Strings",
+      "subtopic": "Product of Array Except Self",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "How can you compute an array where `output[i]` is the product of all elements of `nums` except `nums[i]`, in O(N) time WITHOUT using the division operator?",
+      "keyPoints": "Two passes computing running prefix products from the left, then running suffix products from the right.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Compute running prefix products in a left-to-right pass, then multiply by running suffix products in a right-to-left pass.",
+          "isCorrect": true,
+          "explanation": "`output[i] = (product of elements before i) * (product of elements after i)`. By computing prefix products and accumulating a running suffix product in reverse, the result is computed in O(N) time with O(1) extra space."
+        },
+        {
+          "position": 1,
+          "text": "Multiply all elements together and divide by `nums[i]`.",
+          "isCorrect": false,
+          "explanation": "The prompt explicitly forbids the division operator (which also fails when elements are 0)."
+        },
+        {
+          "position": 2,
+          "text": "Use nested loops to multiply all other elements for each index.",
+          "isCorrect": false,
+          "explanation": "Nested loops take quadratic O(N^2) time."
+        },
+        {
+          "position": 3,
+          "text": "Sort the array and take the factorial of index `i`.",
+          "isCorrect": false,
+          "explanation": "Sorting destroys index positioning and does not compute arbitrary element products."
+        }
+      ]
+    }
+  ]
+}

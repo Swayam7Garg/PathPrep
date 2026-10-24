@@ -1,0 +1,665 @@
+{
+  "batch": "java8-features-batch-1",
+  "questions": [
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Functional Interfaces & @FunctionalInterface",
+      "difficulty": 1,
+      "body": "What defines a Functional Interface in Java, and what is the role of the `@FunctionalInterface` annotation?",
+      "keyPoints": "A functional interface has exactly one abstract method (SAM). The annotation causes a compile-time error if the SAM condition is violated.",
+      "options": [
+        {
+          "position": 0,
+          "text": "An interface with exactly one abstract method (Single Abstract Method); the annotation instructs the compiler to verify this condition.",
+          "isCorrect": true,
+          "explanation": "A functional interface has exactly one abstract method (can have multiple default and static methods). The @FunctionalInterface annotation enforces this at compile time."
+        },
+        {
+          "position": 1,
+          "text": "An interface that extends java.lang.Runnable and contains no methods at all.",
+          "isCorrect": false,
+          "explanation": "Runnable has run(); marker interfaces have no methods, but functional interfaces require exactly one abstract method."
+        },
+        {
+          "position": 2,
+          "text": "An interface whose methods can only be executed concurrently on background worker threads.",
+          "isCorrect": false,
+          "explanation": "Functional interfaces define lambda target types; execution model depends on how the method is called."
+        },
+        {
+          "position": 3,
+          "text": "An interface that cannot define any default or static methods.",
+          "isCorrect": false,
+          "explanation": "Functional interfaces can define any number of default and static methods, as long as there is only one abstract method."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Core Built-in Functional Interfaces",
+      "difficulty": 1,
+      "body": "Which standard functional interface from `java.util.function` takes an input argument of type `T` and returns a `boolean`?",
+      "keyPoints": "Predicate<T> accepts an argument of type T and returns a boolean value via test(T t).",
+      "options": [
+        {
+          "position": 0,
+          "text": "Predicate<T>",
+          "isCorrect": true,
+          "explanation": "Predicate<T> defines 'boolean test(T t)'. Function<T, R> returns R, Consumer<T> returns void, and Supplier<T> takes no arguments and returns T."
+        },
+        {
+          "position": 1,
+          "text": "Consumer<T>",
+          "isCorrect": false,
+          "explanation": "Consumer<T> defines 'void accept(T t)', performing side effects without returning a value."
+        },
+        {
+          "position": 2,
+          "text": "Function<T, R>",
+          "isCorrect": false,
+          "explanation": "Function<T, R> defines 'R apply(T t)', mapping an input T to an arbitrary return type R."
+        },
+        {
+          "position": 3,
+          "text": "Supplier<T>",
+          "isCorrect": false,
+          "explanation": "Supplier<T> defines 'T get()', taking no input parameters."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Default and Static Methods in Interfaces",
+      "difficulty": 2,
+      "body": "If class `C` implements two interfaces `A` and `B`, and both define a default method with the exact same signature `void log()`, what happens at compile time?",
+      "keyPoints": "The compiler issues an error due to the diamond problem; class C must explicitly override log() and resolve the conflict.",
+      "options": [
+        {
+          "position": 0,
+          "text": "A compilation error occurs; class C must explicitly override log() and disambiguate (e.g., A.super.log() or its own logic).",
+          "isCorrect": true,
+          "explanation": "Java enforces explicit conflict resolution when multiple interfaces provide conflicting default method implementations with identical signatures."
+        },
+        {
+          "position": 1,
+          "text": "The compiler automatically picks the method from the interface declared first in the implements clause.",
+          "isCorrect": false,
+          "explanation": "Java does not resolve default method conflicts based on declaration order in the implements list."
+        },
+        {
+          "position": 2,
+          "text": "The JVM randomly selects one implementation at runtime.",
+          "isCorrect": false,
+          "explanation": "Java is statically typed and rejects this at compile time."
+        },
+        {
+          "position": 3,
+          "text": "Both methods execute sequentially at runtime whenever log() is called.",
+          "isCorrect": false,
+          "explanation": "Both methods cannot execute implicitly; explicit resolution in the implementing class is required."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Method References",
+      "difficulty": 2,
+      "body": "Which lambda expression is exactly equivalent to the method reference `String::compareToIgnoreCase`?",
+      "keyPoints": "A method reference to an instance method of an arbitrary object of a particular type takes the first parameter as the target object.",
+      "options": [
+        {
+          "position": 0,
+          "text": "(s1, s2) -> s1.compareToIgnoreCase(s2)",
+          "isCorrect": true,
+          "explanation": "String::compareToIgnoreCase refers to an instance method of an arbitrary object of type String. In a BiFunction context, the first argument becomes the target: s1.compareToIgnoreCase(s2)."
+        },
+        {
+          "position": 1,
+          "text": "s -> s.compareToIgnoreCase(s)",
+          "isCorrect": false,
+          "explanation": "compareToIgnoreCase requires an argument to compare against."
+        },
+        {
+          "position": 2,
+          "text": "() -> String.compareToIgnoreCase()",
+          "isCorrect": false,
+          "explanation": "compareToIgnoreCase is not a static zero-argument method on String."
+        },
+        {
+          "position": 3,
+          "text": "s -> new String(s).compareToIgnoreCase()",
+          "isCorrect": false,
+          "explanation": "This would use constructor reference String::new, not method reference."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Optional Anti-patterns",
+      "difficulty": 2,
+      "body": "Why is invoking `optional.get()` without first calling `optional.isPresent()` considered an anti-pattern in Java?",
+      "keyPoints": "optional.get() throws NoSuchElementException if the value is empty, nullifying the safety benefits of Optional.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It throws a NoSuchElementException if the Optional is empty, defeating the primary purpose of Optional to eliminate unexpected runtime exceptions.",
+          "isCorrect": true,
+          "explanation": "Calling get() blindly reproduces the exact risk of NullPointerException (as NoSuchElementException). Idiomatic usage uses orElse(), orElseGet(), or map()."
+        },
+        {
+          "position": 1,
+          "text": "It forces an immediate garbage collection cycle on the referenced object.",
+          "isCorrect": false,
+          "explanation": "Optional methods have no special interaction with GC."
+        },
+        {
+          "position": 2,
+          "text": "It synchronizes the entire thread pool on the Optional's internal lock.",
+          "isCorrect": false,
+          "explanation": "Optional is a simple value wrapper with no concurrency locking."
+        },
+        {
+          "position": 3,
+          "text": "It is deprecated and fails to compile starting in Java 11.",
+          "isCorrect": false,
+          "explanation": "get() is not deprecated (though orElseThrow() is preferred as clearer syntax)."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Optional orElse vs orElseGet",
+      "difficulty": 2,
+      "body": "What is the crucial performance difference between `optional.orElse(computeDefault())` and `optional.orElseGet(() -> computeDefault())`?",
+      "keyPoints": "orElse evaluates its argument eagerly every time; orElseGet takes a Supplier and evaluates lazily only when the Optional is empty.",
+      "options": [
+        {
+          "position": 0,
+          "text": "orElse evaluates computeDefault() eagerly even if the Optional already has a value; orElseGet evaluates computeDefault() lazily only if the Optional is empty.",
+          "isCorrect": true,
+          "explanation": "Because orElse takes a value parameter, Java evaluates arguments before method invocation. orElseGet takes a Supplier<T>, deferring execution until needed."
+        },
+        {
+          "position": 1,
+          "text": "orElse runs asynchronously on a worker thread, while orElseGet runs synchronously on the main thread.",
+          "isCorrect": false,
+          "explanation": "Both run synchronously on the calling thread."
+        },
+        {
+          "position": 2,
+          "text": "orElse throws an exception if computeDefault() returns null, while orElseGet allows null.",
+          "isCorrect": false,
+          "explanation": "Both return null if the fallback evaluates to null (though returning null from orElseGet is discouraged)."
+        },
+        {
+          "position": 3,
+          "text": "There is no difference; the Java JIT compiler inlines and optimizes them identically.",
+          "isCorrect": false,
+          "explanation": "The semantic difference is evaluation timing: eager vs lazy evaluation."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Stream Intermediate vs Terminal Operations",
+      "difficulty": 2,
+      "body": "Why does the following code print nothing to the console?\n```java\nStream.of(\"a\", \"b\", \"c\").map(s -> {\n    System.out.println(s);\n    return s.toUpperCase();\n});\n```",
+      "keyPoints": "Streams are lazily evaluated; intermediate operations like map() do not execute without a terminal operation.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Streams are evaluated lazily; intermediate operations like map() do not execute until a terminal operation (like forEach, collect, count) is invoked.",
+          "isCorrect": true,
+          "explanation": "Stream pipelines only process elements when a terminal operation triggers the pipeline pull mechanism."
+        },
+        {
+          "position": 1,
+          "text": "System.out is disabled inside lambda expressions by the Java runtime security manager.",
+          "isCorrect": false,
+          "explanation": "Lambdas have full standard access to System.out."
+        },
+        {
+          "position": 2,
+          "text": "Stream.of creates an empty stream unless passed an array variable reference.",
+          "isCorrect": false,
+          "explanation": "Stream.of(\"a\", \"b\", \"c\") creates a valid 3-element stream."
+        },
+        {
+          "position": 3,
+          "text": "The elements are buffered in Metaspace and only printed when the JVM shuts down.",
+          "isCorrect": false,
+          "explanation": "Streams do not buffer into Metaspace."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Stream map vs flatMap",
+      "difficulty": 3,
+      "body": "When transforming data in a Java Stream, when should you use `flatMap` instead of `map`?",
+      "keyPoints": "flatMap is used when the mapping function returns a Stream for each element, flattening a Stream<Stream<T>> into Stream<T>.",
+      "options": [
+        {
+          "position": 0,
+          "text": "When each input element maps to a Stream of elements (1-to-many), and you want to flatten the resulting Stream of Streams into a single combined Stream.",
+          "isCorrect": true,
+          "explanation": "map transforms T -> R (yielding Stream<R>). When T maps to Stream<R>, map yields Stream<Stream<R>>, whereas flatMap flattens the contents into Stream<R>."
+        },
+        {
+          "position": 1,
+          "text": "When you want to execute the mapping operation concurrently across multiple CPU threads.",
+          "isCorrect": false,
+          "explanation": "Parallel execution is controlled by stream.parallel(), not flatMap."
+        },
+        {
+          "position": 2,
+          "text": "When you need to filter out null elements before applying a transformation.",
+          "isCorrect": false,
+          "explanation": "Null filtering is handled by filter(Objects::nonNull)."
+        },
+        {
+          "position": 3,
+          "text": "When transforming primitive types (int, long, double) to their corresponding wrapper objects.",
+          "isCorrect": false,
+          "explanation": "Boxing is handled by .boxed() or mapToObj()."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Collectors.groupingBy & downstream collectors",
+      "difficulty": 3,
+      "body": "Which collector expression groups a `List<Employee>` by department name and computes the total count of employees in each department?",
+      "keyPoints": "Collectors.groupingBy(Employee::getDepartment, Collectors.counting()) groups by department and counts elements.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Collectors.groupingBy(Employee::getDepartment, Collectors.counting())",
+          "isCorrect": true,
+          "explanation": "groupingBy takes a classification function and an optional downstream collector; Collectors.counting() aggregates the count of elements in each bucket into a Map<String, Long>."
+        },
+        {
+          "position": 1,
+          "text": "Collectors.partitioningBy(Employee::getDepartment, Collectors.summingInt())",
+          "isCorrect": false,
+          "explanation": "partitioningBy requires a Predicate returning boolean, not a department name String."
+        },
+        {
+          "position": 2,
+          "text": "Collectors.toMap(Employee::getDepartment, Employee::count)",
+          "isCorrect": false,
+          "explanation": "toMap throws IllegalStateException on duplicate keys unless a merge function is provided."
+        },
+        {
+          "position": 3,
+          "text": "Collectors.groupingBy(Employee::getDepartment, Collectors.toList())",
+          "isCorrect": false,
+          "explanation": "groupingBy with toList() yields Map<String, List<Employee>>, not the count."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Stream Re-use Exception",
+      "difficulty": 2,
+      "body": "What happens if you invoke a terminal operation twice on the exact same `Stream` instance in Java?",
+      "keyPoints": "Streams are single-use; attempting to consume a stream that has already been operated upon or closed throws IllegalStateException.",
+      "options": [
+        {
+          "position": 0,
+          "text": "An IllegalStateException is thrown indicating that the stream has already been operated upon or closed.",
+          "isCorrect": true,
+          "explanation": "Streams cannot be reused once a terminal operation has been executed. A new stream must be created from the source collection."
+        },
+        {
+          "position": 1,
+          "text": "The stream resets its internal cursor and iterates through the data source a second time.",
+          "isCorrect": false,
+          "explanation": "Java streams do not support rewinding or resetting."
+        },
+        {
+          "position": 2,
+          "text": "The second terminal operation returns an empty collection or 0 without error.",
+          "isCorrect": false,
+          "explanation": "It does not silently return empty; it throws an IllegalStateException."
+        },
+        {
+          "position": 3,
+          "text": "A ConcurrentModificationException is thrown by the backing collection.",
+          "isCorrect": false,
+          "explanation": "ConcurrentModificationException occurs when mutating a collection while iterating, not from stream reuse."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Parallel Streams & Common ForkJoinPool",
+      "difficulty": 3,
+      "body": "By default, which thread pool executes tasks when you invoke `collection.parallelStream()`?",
+      "keyPoints": "Parallel streams run on the shared ForkJoinPool.commonPool() by default.",
+      "options": [
+        {
+          "position": 0,
+          "text": "The JVM-wide shared ForkJoinPool.commonPool(), whose parallelism defaults to Runtime.getRuntime().availableProcessors() - 1.",
+          "isCorrect": true,
+          "explanation": "All parallel streams share the common ForkJoinPool across the entire JVM. Running blocking I/O on parallel streams can starve other components sharing this pool."
+        },
+        {
+          "position": 1,
+          "text": "A freshly allocated Executors.newFixedThreadPool(10) created exclusively for that stream pipeline.",
+          "isCorrect": false,
+          "explanation": "A new thread pool is not created per stream."
+        },
+        {
+          "position": 2,
+          "text": "The operating system kernel thread dispatch queue directly.",
+          "isCorrect": false,
+          "explanation": "Java manages thread execution through the ForkJoinPool abstraction."
+        },
+        {
+          "position": 3,
+          "text": "The single main application thread via non-blocking event loops.",
+          "isCorrect": false,
+          "explanation": "Parallel streams actively use multiple worker threads from the common pool."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "java.time (JSR-310) Immutability",
+      "difficulty": 2,
+      "body": "Why is the modern `java.time` API (e.g. `LocalDate`, `Instant`, `ZonedDateTime`) superior to the legacy `java.util.Date` and `Calendar`?",
+      "keyPoints": "java.time classes are immutable and thread-safe, have clear separation of concerns, and use intuitive 1-based months.",
+      "options": [
+        {
+          "position": 0,
+          "text": "java.time classes are immutable and thread-safe, separate machine time (Instant) from human date/time, and use 1-based indexing for months.",
+          "isCorrect": true,
+          "explanation": "Legacy Date/Calendar classes are mutable and notoriously thread-unsafe (SimpleDateFormat causes concurrency bugs). java.time is strictly immutable and thread-safe."
+        },
+        {
+          "position": 1,
+          "text": "java.time calculates solar time by querying atomic clocks over NTP on every call.",
+          "isCorrect": false,
+          "explanation": "It reads system time via Clock without network calls."
+        },
+        {
+          "position": 2,
+          "text": "java.time stores timestamps directly in CPU hardware registers for zero allocation.",
+          "isCorrect": false,
+          "explanation": "java.time classes are standard immutable heap objects."
+        },
+        {
+          "position": 3,
+          "text": "java.time deprecates time zone handling to prevent daylight saving errors.",
+          "isCorrect": false,
+          "explanation": "ZonedDateTime and ZoneId provide comprehensive, robust timezone and DST handling."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Java 9 Module System (JPMS)",
+      "difficulty": 3,
+      "body": "In a `module-info.java` file, what is the effect of the directive `exports com.example.service;`?",
+      "keyPoints": "exports makes public types in the specified package accessible to other modules at compile-time and runtime.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It makes all public types and members in com.example.service accessible to other modules at compile-time and runtime.",
+          "isCorrect": true,
+          "explanation": "The exports directive makes the public API of that package accessible to other modules that 'require' this module. Unexported packages remain encapsulated even if public."
+        },
+        {
+          "position": 1,
+          "text": "It downloads external Maven dependencies needed by com.example.service.",
+          "isCorrect": false,
+          "explanation": "JPMS is an in-JDK module system, not a Maven dependency manager."
+        },
+        {
+          "position": 2,
+          "text": "It exposes private fields and methods to reflection for Spring and Jackson.",
+          "isCorrect": false,
+          "explanation": "Deep reflection access is granted using the 'opens' directive, not 'exports'."
+        },
+        {
+          "position": 3,
+          "text": "It compiles com.example.service into a native DLL/SO binary.",
+          "isCorrect": false,
+          "explanation": "JPMS does not compile to native shared libraries."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Java 10 var (Local Variable Type Inference)",
+      "difficulty": 2,
+      "body": "Where is the `var` keyword permitted in Java 10+, and what does it do?",
+      "keyPoints": "var is only allowed for local variables with initializers; type is inferred at compile-time, not dynamic at runtime.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Only for local variables with initializers; the compiler infers the static type at compile-time, preserving strict static typing.",
+          "isCorrect": true,
+          "explanation": "var cannot be used for method parameters, return types, or class fields. It is purely compile-time static type inference with zero runtime dynamic typing overhead."
+        },
+        {
+          "position": 1,
+          "text": "Anywhere in Java code, turning Java into a dynamically typed language like JavaScript.",
+          "isCorrect": false,
+          "explanation": "Java remains strongly and statically typed; var is purely syntactic inference."
+        },
+        {
+          "position": 2,
+          "text": "Only for method return types to allow multiple return types.",
+          "isCorrect": false,
+          "explanation": "var is explicitly prohibited as a method return type."
+        },
+        {
+          "position": 3,
+          "text": "As a class field modifier to enable lazy property initialization.",
+          "isCorrect": false,
+          "explanation": "var cannot be used for instance or static fields."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Java 14/16 Records",
+      "difficulty": 2,
+      "body": "What does the Java compiler automatically generate when you declare `public record Point(int x, int y) {}`?",
+      "keyPoints": "Records generate private final fields, a canonical constructor, getters (x(), y()), equals(), hashCode(), and toString().",
+      "options": [
+        {
+          "position": 0,
+          "text": "Private final fields, a canonical constructor, public accessor methods x() and y(), and implementations of equals(), hashCode(), and toString().",
+          "isCorrect": true,
+          "explanation": "Records are immutable data carriers where the compiler synthesizes final fields, constructor, accessors (named without 'get'), and value-based equals/hashCode/toString."
+        },
+        {
+          "position": 1,
+          "text": "A mutable JavaBean with getX(), setX(), getY(), and setY() methods.",
+          "isCorrect": false,
+          "explanation": "Record fields are final and have no setters."
+        },
+        {
+          "position": 2,
+          "text": "An interface that must be implemented by database entity classes.",
+          "isCorrect": false,
+          "explanation": "A record is a concrete final class extending java.lang.Record."
+        },
+        {
+          "position": 3,
+          "text": "A thread-safe singleton object cached in the String constant pool.",
+          "isCorrect": false,
+          "explanation": "Records instantiate standard objects, not singletons."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Java 15/17 Sealed Classes",
+      "difficulty": 3,
+      "body": "What is the primary architectural purpose of Sealed Classes introduced in Java 17?",
+      "keyPoints": "Sealed classes restrict which classes or interfaces may extend or implement them using the permits clause.",
+      "options": [
+        {
+          "position": 0,
+          "text": "To restrict which classes or interfaces may extend or implement them using the permits clause, enabling exhaustive compile-time pattern matching.",
+          "isCorrect": true,
+          "explanation": "Sealed classes declare permitted subclasses via 'permits', allowing closed class hierarchies where the compiler knows all possible subtypes and enforces exhaustive switch matching without a default branch."
+        },
+        {
+          "position": 1,
+          "text": "To encrypt compiled class files with AES-256 so they cannot be decompiled.",
+          "isCorrect": false,
+          "explanation": "Sealed classes are an OOP language design construct, not bytecode cryptography."
+        },
+        {
+          "position": 2,
+          "text": "To prevent classes from calling methods in the java.net package.",
+          "isCorrect": false,
+          "explanation": "This refers to sandboxing or security policies, not sealed classes."
+        },
+        {
+          "position": 3,
+          "text": "To guarantee that all instances are automatically serialized to JSON across HTTP boundaries.",
+          "isCorrect": false,
+          "explanation": "Serialization is independent of sealed hierarchies."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Pattern Matching for instanceof & Switch",
+      "difficulty": 3,
+      "body": "How does pattern matching for `instanceof` (Java 16) improve safety and boilerplate code?",
+      "keyPoints": "Pattern matching combines type testing and casting into a single atomic expression: if (obj instanceof String s).",
+      "options": [
+        {
+          "position": 0,
+          "text": "It combines type test and casting into a single construct: if (obj instanceof String s), introducing a scoped variable s without explicit casts.",
+          "isCorrect": true,
+          "explanation": "Instead of checking 'if (obj instanceof String) { String s = (String) obj; }', pattern matching allows 'if (obj instanceof String s)', eliminating repetitive casts and casting errors."
+        },
+        {
+          "position": 1,
+          "text": "It converts runtime polymorphism into compile-time C macros.",
+          "isCorrect": false,
+          "explanation": "Java has no preprocessor or C macros."
+        },
+        {
+          "position": 2,
+          "text": "It allows matching against arbitrary regular expressions inside switch statements.",
+          "isCorrect": false,
+          "explanation": "Pattern matching in Java refers to type and deconstruction patterns, not regex strings."
+        },
+        {
+          "position": 3,
+          "text": "It prevents ClassCastException by returning null whenever a cast is invalid.",
+          "isCorrect": false,
+          "explanation": "Pattern matching introduces a binding variable conditionally if the test evaluates to true."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Text Blocks (Java 15)",
+      "difficulty": 2,
+      "body": "What are Java Text Blocks (triple quotes `\"\"\"`), and how do they handle indentation?",
+      "keyPoints": "Text blocks provide multi-line string literals and automatically strip incidental leading white space using stripIndent().",
+      "options": [
+        {
+          "position": 0,
+          "text": "Multi-line string literals that automatically strip common incidental leading indentation while preserving intentional formatting.",
+          "isCorrect": true,
+          "explanation": "Text blocks strip incidental leading whitespace common to all lines, eliminating cumbersome + concatenations and escaped \\n characters."
+        },
+        {
+          "position": 1,
+          "text": "Binary memory buffers that bypass JVM UTF-16 encoding to store ASCII characters.",
+          "isCorrect": false,
+          "explanation": "Text blocks produce standard java.lang.String objects."
+        },
+        {
+          "position": 2,
+          "text": "Syntax for writing inline Python or SQL scripts that execute directly in kernel space.",
+          "isCorrect": false,
+          "explanation": "Text blocks are purely string literals in Java syntax."
+        },
+        {
+          "position": 3,
+          "text": "Special HTML templates that automatically escape XSS script tags at compile time.",
+          "isCorrect": false,
+          "explanation": "Text blocks do not perform HTML sanitation."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Java 21 Pattern Matching with Record Deconstruction",
+      "difficulty": 3,
+      "body": "Given `record Point(int x, int y) {}`, how does record pattern matching simplify destructuring in Java 21?",
+      "keyPoints": "Record patterns deconstruct records into component variables directly in instanceof or switch: if (obj instanceof Point(int x, int y)).",
+      "options": [
+        {
+          "position": 0,
+          "text": "It allows matching and extracting record components directly: if (obj instanceof Point(int x, int y)), extracting x and y without accessor method calls.",
+          "isCorrect": true,
+          "explanation": "Record patterns combine type matching with component deconstruction, binding the inner components directly to variables for immediate use."
+        },
+        {
+          "position": 1,
+          "text": "It allows records to mutate their final fields directly within switch expressions.",
+          "isCorrect": false,
+          "explanation": "Record fields are always immutable and final."
+        },
+        {
+          "position": 2,
+          "text": "It converts records into JSON strings automatically inside SQL queries.",
+          "isCorrect": false,
+          "explanation": "Pattern matching does not perform SQL serialization."
+        },
+        {
+          "position": 3,
+          "text": "It destroys the object from the heap immediately upon extraction.",
+          "isCorrect": false,
+          "explanation": "Deconstruction extracts component values; heap objects remain until GC cleans them."
+        }
+      ]
+    },
+    {
+      "topicName": "Java 8+ Features",
+      "subtopic": "Stream.reduce vs Stream.collect",
+      "difficulty": 3,
+      "body": "Why is `collect()` preferred over `reduce()` when accumulating elements into a mutable container like an `ArrayList` in a Java Stream?",
+      "keyPoints": "collect() performs mutable reduction by mutating a single container; reduce() is intended for immutable values and requires copying the entire collection on each step.",
+      "options": [
+        {
+          "position": 0,
+          "text": "collect() performs mutable reduction by accumulating into a shared container, whereas reduce() requires creating a new container on every element, causing O(N^2) copying overhead.",
+          "isCorrect": true,
+          "explanation": "reduce() is designed for functional immutable value combining. Accumulating into collections via reduce requires creating and copying whole lists at each step. collect() uses a Supplier, Accumulator, and Combiner for efficient mutable reduction."
+        },
+        {
+          "position": 1,
+          "text": "reduce() is deprecated in Java 17 and removed in Java 21.",
+          "isCorrect": false,
+          "explanation": "reduce() is not deprecated; it is the standard fold operation for immutable values."
+        },
+        {
+          "position": 2,
+          "text": "collect() cannot be executed in parallel, preventing race conditions.",
+          "isCorrect": false,
+          "explanation": "collect() fully supports parallel execution via combiner functions."
+        },
+        {
+          "position": 3,
+          "text": "reduce() only works on streams of primitive numbers (IntStream, LongStream).",
+          "isCorrect": false,
+          "explanation": "Stream<T> provides three overloads of reduce() for arbitrary object streams."
+        }
+      ]
+    }
+  ]
+}

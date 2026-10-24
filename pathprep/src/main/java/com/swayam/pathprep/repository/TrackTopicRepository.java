@@ -17,4 +17,8 @@ public interface TrackTopicRepository extends JpaRepository<TrackTopic, TrackTop
 
     @Query("SELECT tt FROM TrackTopic tt WHERE tt.id.trackId = :trackId")
     List<TrackTopic> findByTrackId(@Param("trackId") Long trackId);
+
+    @Query("SELECT tt.id.trackId FROM TrackTopic tt WHERE tt.id.topicId = :topicId")
+    List<Long> findTrackIdsByTopicId(@Param("topicId") Long topicId);
 }
+

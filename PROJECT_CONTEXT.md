@@ -396,9 +396,17 @@ Replace the static daily goal block with an interactive, student-driven daily st
   - Scheduled cleanup job purging expired refresh tokens.
   - Endpoints: `POST /auth/google`, `POST /auth/refresh`, `POST /auth/logout`, `POST /auth/dev-login` (dev/test only), `GET /me`, `PATCH /me`, `DELETE /me` (full 11-table cascading hard-deletion).
   - 132/132 unit and integration tests passing cleanly across the entire codebase.
-- [ ] Phase 8 User-Defined Daily Plan & Interactive Checklist:
+- [x] Phase 8 User-Defined Daily Plan & Interactive Checklist:
   - V12 migration: `daily_plan_items` table with foreign keys, types (`CUSTOM`, `QUIZ`), and `(user_id, plan_date)` index.
   - Endpoints: `GET /api/v1/me/plan`, `POST /api/v1/me/plan/items`, `PATCH /api/v1/me/plan/items/{id}/toggle`, `DELETE /api/v1/me/plan/items/{id}`, `POST /api/v1/me/plan/rollover`.
   - Auto-complete hook via `SessionCompletedEvent` in `LearningEventListener`.
   - Frontend: Replace static goal block on dashboard with interactive "Today's Plan" timetable card & goal bar; pinned banner on `/practice`.
+- [x] Phase 9 AI Interview Mode (LITE & LIVE) & LLM Infrastructure:
+  - V13 migration: `user_llm_keys`, `llm_usage`, `evaluations`, `criterion_scores`, altered `attempts` for free-text answers and `parent_attempt_id`.
+  - `LlmClient` interface with `GroqLlmClient` (OpenAI-compatible JSON structured completions) and `MockLlmClient` for zero-cost offline tests.
+  - Zero-AI quiz path strictly preserved; question selection in interview mode selects vetted `CONCEPT` and `SCENARIO` questions.
+  - Rubric grading engine generating explainable criterion scores, strengths, and improvements.
+  - BYOK support with AES-256-GCM encryption (`/api/v1/me/llm-key`), usage meters (`/api/v1/me/usage`), and daily free quota enforcement (`QuotaExceededException` 429).
+  - Admin AI usage audit (`/api/v1/admin/ai/usage`) for tracking token metrics and model costs.
+  - 100% test green with integration tests for interview session creation, free-text grading, evaluation polling, and quota management.
 

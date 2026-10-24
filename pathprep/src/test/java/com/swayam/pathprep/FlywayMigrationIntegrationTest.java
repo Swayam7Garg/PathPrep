@@ -19,10 +19,10 @@ class FlywayMigrationIntegrationTest {
     private JdbcTemplate jdbcTemplate;
 
     @Test
-    void flyway_migratesThroughV10Cleanly() {
+    void flyway_migratesThroughV12Cleanly() {
         MigrationInfo current = flyway.info().current();
         assertThat(current).isNotNull();
-        assertThat(current.getVersion().getVersion()).isEqualTo("10");
+        assertThat(current.getVersion().getVersion()).isEqualTo("12");
         assertThat(current.getState().isApplied()).isTrue();
 
         // Verify sessions columns added by V7
@@ -75,5 +75,49 @@ class FlywayMigrationIntegrationTest {
                 Integer.class
         );
         assertThat(sourceCol).isEqualTo(1);
+
+        // Verify V11 Auth Schema
+        Integer refreshTokensTable = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'refresh_tokens'",
+                Integer.class
+        );
+        assertThat(refreshTokensTable).isEqualTo(1);
+
+        Integer googleSubCol = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'users' AND COLUMN_NAME = 'google_sub'",
+                Integer.class
+        );
+        assertThat(googleSubCol).isEqualTo(1);
+
+        Integer pictureUrlCol = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'users' AND COLUMN_NAME = 'picture_url'",
+                Integer.class
+        );
+        assertThat(pictureUrlCol).isEqualTo(1);
+
+        Integer lastLoginCol = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'users' AND COLUMN_NAME = 'last_login_at'",
+                Integer.class
+        );
+        assertThat(lastLoginCol).isEqualTo(1);
+
+        // Verify V12 Daily Plan Schema
+        Integer dailyPlanTable = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'daily_plan_items'",
+                Integer.class
+        );
+        assertThat(dailyPlanTable).isEqualTo(1);
+
+        Integer itemTypeCol = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'daily_plan_items' AND COLUMN_NAME = 'item_type'",
+                Integer.class
+        );
+        assertThat(itemTypeCol).isEqualTo(1);
+
+        Integer planDateCol = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'daily_plan_items' AND COLUMN_NAME = 'plan_date'",
+                Integer.class
+        );
+        assertThat(planDateCol).isEqualTo(1);
     }
 }

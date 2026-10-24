@@ -8,5 +8,10 @@ public record TrackSummary(
     String name,
     String description,
     long topicCount,
-    long questionCount
-) {}
+    long questionCount,
+    Integer interviewQuestionCount
+) {
+    public TrackSummary(long id, String name, String description, long topicCount, long questionCount) {
+        this(id, name, description, topicCount, questionCount, 3);
+    }
+}

@@ -35,3 +35,8 @@ frontend/.env*.local
 frontend/npm-debug.log*
 frontend/yarn-debug.log*
 frontend/yarn-error.log*
+
+# Scratch and patches
+scratch/
+*.patch
+

@@ -1,0 +1,685 @@
+{
+  "batch": "computer-networks-batch-1",
+  "questions": [
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "OSI vs TCP/IP Models",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "Which layer of the OSI 7-layer model is responsible for logical IP addressing and end-to-end routing across intermediate networks?",
+      "keyPoints": "Network Layer (Layer 3).",
+      "options": [
+        {
+          "position": 0,
+          "text": "Network Layer (Layer 3)",
+          "isCorrect": true,
+          "explanation": "Layer 3 (Network Layer) handles logical addressing (IPv4/IPv6) and packet routing across routers. Layer 2 (Data Link) handles MAC addressing on local links. Layer 4 (Transport) handles host-to-host segment delivery (TCP/UDP)."
+        },
+        {
+          "position": 1,
+          "text": "Data Link Layer (Layer 2)",
+          "isCorrect": false,
+          "explanation": "Data Link layer manages hop-to-hop frame delivery using physical MAC addresses."
+        },
+        {
+          "position": 2,
+          "text": "Transport Layer (Layer 4)",
+          "isCorrect": false,
+          "explanation": "Transport layer manages process-to-process communication and ports."
+        },
+        {
+          "position": 3,
+          "text": "Session Layer (Layer 5)",
+          "isCorrect": false,
+          "explanation": "Session layer manages dialogue control and session checkpoints."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "TCP Three-Way Handshake",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What control flag sequence establishes a reliable TCP connection between a client and a server?",
+      "keyPoints": "SYN -> SYN-ACK -> ACK.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Client sends `SYN` -> Server responds with `SYN-ACK` -> Client sends `ACK`.",
+          "isCorrect": true,
+          "explanation": "The 3-way handshake synchronizes Initial Sequence Numbers (ISNs) bidirectionally between client and server before application payload transmission begins."
+        },
+        {
+          "position": 1,
+          "text": "Client sends `ACK` -> Server sends `SYN` -> Client sends `FIN`.",
+          "isCorrect": false,
+          "explanation": "`FIN` is used for connection termination."
+        },
+        {
+          "position": 2,
+          "text": "Client sends `HELLO` -> Server sends `HELLO-ACK` -> Client sends `DATA`.",
+          "isCorrect": false,
+          "explanation": "Standard TCP control flags are SYN, ACK, FIN, RST, PSH, URG."
+        },
+        {
+          "position": 3,
+          "text": "Client sends `PING` -> Server sends `PONG`.",
+          "isCorrect": false,
+          "explanation": "Ping/Pong is ICMP or application-level keepalive."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "TCP Four-Way Teardown & TIME_WAIT",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "Why does the active closer in a TCP connection transition into the `TIME_WAIT` state for `2 * MSL` (Maximum Segment Lifetime)?",
+      "keyPoints": "Ensures the final ACK is reliably received by the remote peer (resending ACK if peer retransmits FIN), and prevents old delayed packets from corrupting new connections.",
+      "options": [
+        {
+          "position": 0,
+          "text": "To ensure the final `ACK` was received by the remote peer (re-transmitting ACK if remote resends FIN), and to ensure any delayed duplicate segments in the network expire before the socket pair is reused.",
+          "isCorrect": true,
+          "explanation": "If the active closer's final ACK is lost, the passive closer retransmits `FIN`. `TIME_WAIT` keeps the connection state alive to answer that retransmit, and guarantees old duplicate packets dissipate from the internet."
+        },
+        {
+          "position": 1,
+          "text": "To allow the browser to continue downloading images in the background.",
+          "isCorrect": false,
+          "explanation": "TCP termination closes the transport byte stream."
+        },
+        {
+          "position": 2,
+          "text": "Because the operating system is scanning for malware on the socket.",
+          "isCorrect": false,
+          "explanation": "TIME_WAIT is purely an RFC 793 protocol state."
+        },
+        {
+          "position": 3,
+          "text": "To wait for DNS caches to flush.",
+          "isCorrect": false,
+          "explanation": "DNS is independent of TCP socket states."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "TCP vs UDP",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "Which of the following characteristics accurately describes UDP (User Datagram Protocol) compared to TCP?",
+      "keyPoints": "UDP is connectionless, unreliable, preserves message boundaries, and has no congestion or flow control.",
+      "options": [
+        {
+          "position": 0,
+          "text": "UDP is connectionless, unreliable (no ACKs or automatic retransmissions), does not guarantee ordering, but has low overhead with no handshake latency.",
+          "isCorrect": true,
+          "explanation": "UDP provides minimal transport encapsulation (ports and checksum). It does not guarantee delivery, ordering, or flow control, making it ideal for DNS, gaming, voice/video streaming, and QUIC."
+        },
+        {
+          "position": 1,
+          "text": "UDP automatically retransmits lost packets after a timeout.",
+          "isCorrect": false,
+          "explanation": "Retransmission is a TCP feature; UDP discards lost packets silently."
+        },
+        {
+          "position": 2,
+          "text": "UDP guarantees in-order byte delivery.",
+          "isCorrect": false,
+          "explanation": "UDP packets can arrive out of order."
+        },
+        {
+          "position": 3,
+          "text": "UDP requires a 3-way handshake before sending data.",
+          "isCorrect": false,
+          "explanation": "UDP sends datagrams immediately without any connection handshake."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "TCP Flow Control vs Congestion Control",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the distinction between TCP Flow Control and TCP Congestion Control?",
+      "keyPoints": "Flow control protects the receiver from being overwhelmed (rwnd); congestion control protects intermediate network links from buffer bloat and packet drops (cwnd).",
+      "options": [
+        {
+          "position": 0,
+          "text": "Flow Control protects the receiving endpoint buffer from being overwhelmed (using `rwnd` advertising); Congestion Control protects the intermediate network routers from overload (using `cwnd`).",
+          "isCorrect": true,
+          "explanation": "A sender transmits at rate `min(rwnd, cwnd)`. Flow control is point-to-point buffer management. Congestion control monitors network packet drops and RTT delays across intermediate links."
+        },
+        {
+          "position": 1,
+          "text": "Flow control is handled by routers; congestion control is handled by the receiver.",
+          "isCorrect": false,
+          "explanation": "Both algorithms run on the endpoints; flow control is governed by receiver buffer advertise."
+        },
+        {
+          "position": 2,
+          "text": "Congestion control applies only to UDP.",
+          "isCorrect": false,
+          "explanation": "UDP has zero congestion control natively."
+        },
+        {
+          "position": 3,
+          "text": "Flow control encrypts the packet headers.",
+          "isCorrect": false,
+          "explanation": "Encryption is handled by TLS/IPsec."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "TCP Congestion Control Algorithms",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What occurs during the 'Slow Start' phase of classic TCP Reno congestion control?",
+      "keyPoints": "Congestion window (cwnd) doubles exponentially every Round Trip Time (RTT) until reaching ssthresh.",
+      "options": [
+        {
+          "position": 0,
+          "text": "The congestion window (`cwnd`) starts small and doubles exponentially every Round Trip Time (RTT) until reaching the slow start threshold (`ssthresh`).",
+          "isCorrect": true,
+          "explanation": "Despite its name, 'Slow Start' grows exponentially (`1, 2, 4, 8...` segments per RTT) to probe network capacity rapidly until hitting `ssthresh`, after which it switches to linear Congestion Avoidance (Additive Increase)."
+        },
+        {
+          "position": 1,
+          "text": "The sender transmits packets at a fixed rate of 1 packet per second.",
+          "isCorrect": false,
+          "explanation": "Transmission increases rapidly to find bandwidth capacity."
+        },
+        {
+          "position": 2,
+          "text": "The sender sends packets with maximum delay to avoid collision.",
+          "isCorrect": false,
+          "explanation": "It sends segments immediately upon ACK receipt."
+        },
+        {
+          "position": 3,
+          "text": "Packets are routed through satellite networks only.",
+          "isCorrect": false,
+          "explanation": "It is standard TCP stack logic."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "DNS Resolution Hierarchy",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "In what hierarchical order does a recursive DNS resolver query nameservers to resolve `www.example.com`?",
+      "keyPoints": "Root DNS servers (.) -> TLD DNS servers (.com) -> Authoritative DNS servers (example.com).",
+      "options": [
+        {
+          "position": 0,
+          "text": "Root Nameservers (`.`) -> Top-Level Domain (TLD) Nameservers (`.com`) -> Authoritative Nameservers (`example.com`).",
+          "isCorrect": true,
+          "explanation": "The recursive resolver asks Root for who handles `.com`. Root delegates to `.com` TLD servers. TLD delegates to `example.com` Authoritative nameservers, which return the final `A`/`AAAA` IP record."
+        },
+        {
+          "position": 1,
+          "text": "Authoritative -> TLD -> Root",
+          "isCorrect": false,
+          "explanation": "The resolver does not know the authoritative server until guided by Root and TLD."
+        },
+        {
+          "position": 2,
+          "text": "Directly queries the ICANN central database in a single hop.",
+          "isCorrect": false,
+          "explanation": "DNS is a distributed hierarchical database system."
+        },
+        {
+          "position": 3,
+          "text": "Broadcasts an ARP query to all global IP addresses.",
+          "isCorrect": false,
+          "explanation": "ARP is local to a single Layer 2 broadcast domain."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "DNS Record Types",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "Which DNS record type maps a domain hostname to an IPv6 address?",
+      "keyPoints": "AAAA record (Quad-A).",
+      "options": [
+        {
+          "position": 0,
+          "text": "`AAAA` record",
+          "isCorrect": true,
+          "explanation": "`A` records map hostnames to 32-bit IPv4 addresses. `AAAA` (Quad-A) records map hostnames to 128-bit IPv6 addresses. `CNAME` maps aliases, and `MX` specifies mail servers."
+        },
+        {
+          "position": 1,
+          "text": "`A` record",
+          "isCorrect": false,
+          "explanation": "`A` records map specifically to 32-bit IPv4 addresses."
+        },
+        {
+          "position": 2,
+          "text": "`CNAME` record",
+          "isCorrect": false,
+          "explanation": "`CNAME` maps one domain alias to another canonical domain name."
+        },
+        {
+          "position": 3,
+          "text": "`PTR` record",
+          "isCorrect": false,
+          "explanation": "`PTR` records are used for Reverse DNS lookups (IP to hostname)."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "ARP (Address Resolution Protocol)",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What is the primary function of the Address Resolution Protocol (ARP) in IPv4 networks?",
+      "keyPoints": "Translates a known Layer 3 IP address into a Layer 2 physical MAC address on the local network.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Resolving a known Layer 3 logical IP address into a Layer 2 physical MAC hardware address on the local link.",
+          "isCorrect": true,
+          "explanation": "Before sending an Ethernet frame to an IP on the local subnet, a device broadcasts an ARP Request (`Who has IP X.X.X.X?`). The target machine unicasts an ARP Reply with its MAC address."
+        },
+        {
+          "position": 1,
+          "text": "Translating domain names to IP addresses.",
+          "isCorrect": false,
+          "explanation": "That is the role of DNS."
+        },
+        {
+          "position": 2,
+          "text": "Assigning IP addresses dynamically to client laptops.",
+          "isCorrect": false,
+          "explanation": "That is DHCP (Dynamic Host Configuration Protocol)."
+        },
+        {
+          "position": 3,
+          "text": "Routing packets across the global internet backbone.",
+          "isCorrect": false,
+          "explanation": "That is handled by BGP (Border Gateway Protocol)."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "Subnetting & CIDR",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "In the IPv4 subnet `192.168.1.0/26`, how many total IP addresses exist, and how many are usable for host devices?",
+      "keyPoints": "/26 leaves 6 host bits -> 2^6 = 64 total addresses; minus network and broadcast addresses leaves 62 usable host addresses.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Total: 64 addresses, Usable: 62 host addresses",
+          "isCorrect": true,
+          "explanation": "A `/26` prefix leaves `32 - 26 = 6` bits for host addresses (`2^6 = 64`). The first address (`.0`) is the Network ID and the last address (`.63`) is the Subnet Broadcast address, leaving 62 assignable host IPs."
+        },
+        {
+          "position": 1,
+          "text": "Total: 32 addresses, Usable: 30 host addresses",
+          "isCorrect": false,
+          "explanation": "32 addresses corresponds to `/27` (`32 - 27 = 5` bits)."
+        },
+        {
+          "position": 2,
+          "text": "Total: 128 addresses, Usable: 126 host addresses",
+          "isCorrect": false,
+          "explanation": "128 addresses corresponds to `/25`."
+        },
+        {
+          "position": 3,
+          "text": "Total: 256 addresses, Usable: 254 host addresses",
+          "isCorrect": false,
+          "explanation": "256 addresses corresponds to a `/24` subnet."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "NAT (Network Address Translation)",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "How does Network Address Translation (NAT) / Port Address Translation (PAT) allow hundreds of home devices to access the internet using a single public IPv4 address?",
+      "keyPoints": "By mapping private IP + source port tuples to the single public IP with unique translated source ports in a state table.",
+      "options": [
+        {
+          "position": 0,
+          "text": "The router maps each internal device's private IP and port to the single public IP with a unique assigned source port, tracking mappings in a NAT translation table.",
+          "isCorrect": true,
+          "explanation": "PAT (NAPT) modifies the IP header and TCP/UDP port headers on egress and ingress, allowing many private devices (e.g. `192.168.1.x`) to multiplex across a single public IP address."
+        },
+        {
+          "position": 1,
+          "text": "By compressing all data packets into a single encrypted tunnel.",
+          "isCorrect": false,
+          "explanation": "NAT is address and port translation, not VPN tunneling."
+        },
+        {
+          "position": 2,
+          "text": "By assigning each device a temporary public IP address on the fly.",
+          "isCorrect": false,
+          "explanation": "That would be dynamic 1:1 NAT pool allocation, which requires a pool of public IPs."
+        },
+        {
+          "position": 3,
+          "text": "By converting all IPv4 packets into IPv6.",
+          "isCorrect": false,
+          "explanation": "Standard NAT operates entirely within IPv4."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "TLS 1.2 vs TLS 1.3 Handshake",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "What major latency improvement does the TLS 1.3 handshake achieve over TLS 1.2?",
+      "keyPoints": "Reduces the handshake round-trips from 2-RTT in TLS 1.2 down to 1-RTT (and supports 0-RTT resumption).",
+      "options": [
+        {
+          "position": 0,
+          "text": "It reduces the initial cryptographic handshake from 2 round-trips (2-RTT) down to a single round-trip (1-RTT), and introduces 0-RTT resumption for returning clients.",
+          "isCorrect": true,
+          "explanation": "In TLS 1.3, the client sends key share guesses in the `ClientHello`, combining cipher negotiation and key exchange into a single round-trip, significantly speeding up HTTPS connection establishment."
+        },
+        {
+          "position": 1,
+          "text": "It removes public-key cryptography and uses plain passwords.",
+          "isCorrect": false,
+          "explanation": "TLS 1.3 uses stronger modern elliptic curve cryptography (ECDHE)."
+        },
+        {
+          "position": 2,
+          "text": "It eliminates the need for TCP handshakes.",
+          "isCorrect": false,
+          "explanation": "TCP still runs its 1-RTT handshake (unless using QUIC/HTTP/3)."
+        },
+        {
+          "position": 3,
+          "text": "It bypasses Certificate Authorities completely.",
+          "isCorrect": false,
+          "explanation": "X.509 CA certificate validation remains fundamental to TLS 1.3."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "HTTP Status 502 vs 504",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What is the difference between `HTTP 502 Bad Gateway` and `HTTP 504 Gateway Timeout`?",
+      "keyPoints": "502 means reverse proxy received an invalid response or connection reset from upstream; 504 means upstream failed to respond within timeout window.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`502 Bad Gateway` means the proxy received an invalid or reset response from upstream; `504 Gateway Timeout` means the upstream server failed to respond within the configured timeout window.",
+          "isCorrect": true,
+          "explanation": "In microservice architectures (e.g. Nginx proxying to Spring Boot), 502 occurs when the backend process is crashed or refuses the connection. 504 occurs when the backend is too slow to reply."
+        },
+        {
+          "position": 1,
+          "text": "`502` is client-side; `504` is server-side.",
+          "isCorrect": false,
+          "explanation": "All 5xx status codes indicate server-side / infrastructure errors."
+        },
+        {
+          "position": 2,
+          "text": "`504` means the user entered an incorrect password.",
+          "isCorrect": false,
+          "explanation": "Authentication failure is `401 Unauthorized`."
+        },
+        {
+          "position": 3,
+          "text": "`502` indicates a database disk failure specifically.",
+          "isCorrect": false,
+          "explanation": "502 is a network gateway/proxy connection failure to an upstream server."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "BGP (Border Gateway Protocol)",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What routing protocol acts as the postal system of the global internet, routing traffic between Autonomous Systems (AS)?",
+      "keyPoints": "Border Gateway Protocol (BGP).",
+      "options": [
+        {
+          "position": 0,
+          "text": "Border Gateway Protocol (BGP)",
+          "isCorrect": true,
+          "explanation": "BGP is the exterior gateway protocol that manages how packets are routed across the thousands of independent Autonomous Systems (ISPs, major tech backbones) that comprise the global internet."
+        },
+        {
+          "position": 1,
+          "text": "Open Shortest Path First (OSPF)",
+          "isCorrect": false,
+          "explanation": "OSPF is an Interior Gateway Protocol (IGP) used within a single enterprise network."
+        },
+        {
+          "position": 2,
+          "text": "Routing Information Protocol (RIP)",
+          "isCorrect": false,
+          "explanation": "RIP is a legacy distance-vector protocol for small local networks."
+        },
+        {
+          "position": 3,
+          "text": "Address Resolution Protocol (ARP)",
+          "isCorrect": false,
+          "explanation": "ARP is for local Ethernet Layer 2 MAC resolution."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "TCP SYN Flood Attack & SYN Cookies",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "How do SYN Cookies protect a server against a TCP SYN Flood Denial-of-Service attack?",
+      "keyPoints": "The server does not allocate half-open connection memory in the backlog queue; it encodes connection state into the Initial Sequence Number (ISN).",
+      "options": [
+        {
+          "position": 0,
+          "text": "The server avoids allocating state in the half-open connection backlog table, instead encoding connection state cryptographically into the `SYN-ACK` sequence number (ISN).",
+          "isCorrect": true,
+          "explanation": "In a SYN flood, attacker sends thousands of SYNs with spoofed IPs to exhaust the server's connection backlog memory. With SYN cookies, memory is only allocated when the client sends the third handshake `ACK` containing the verified sequence number."
+        },
+        {
+          "position": 1,
+          "text": "The server drops all incoming TCP connections completely.",
+          "isCorrect": false,
+          "explanation": "Legitimate connections continue connecting successfully."
+        },
+        {
+          "position": 2,
+          "text": "The server stores browser cookies on the client's hard drive.",
+          "isCorrect": false,
+          "explanation": "SYN cookies are purely 32-bit TCP packet header sequence numbers, unrelated to HTTP browser cookies."
+        },
+        {
+          "position": 3,
+          "text": "The server switches the website to UDP.",
+          "isCorrect": false,
+          "explanation": "SYN cookies operate directly inside standard TCP implementations."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "MTU and Path MTU Discovery",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What happens when an IP packet with the Don't Fragment (DF) flag set exceeds the Maximum Transmission Unit (MTU) of an intermediate router link?",
+      "keyPoints": "The router drops the packet and sends an ICMP 'Fragmentation Needed' message back to the sender (PMTUD).",
+      "options": [
+        {
+          "position": 0,
+          "text": "The router drops the packet and sends an ICMP 'Destination Unreachable: Fragmentation Needed' message back to the sender containing the link's MTU.",
+          "isCorrect": true,
+          "explanation": "This mechanism is Path MTU Discovery (PMTUD). The sender receives the ICMP notification and lowers its packet size to match the bottleneck MTU without incurring expensive IP fragmentation."
+        },
+        {
+          "position": 1,
+          "text": "The router fragments the packet anyway, ignoring the DF flag.",
+          "isCorrect": false,
+          "explanation": "The DF flag strictly forbids fragmentation."
+        },
+        {
+          "position": 2,
+          "text": "The router stores the packet in a buffer until the link expands.",
+          "isCorrect": false,
+          "explanation": "Physical link MTU does not change dynamically; packets are discarded."
+        },
+        {
+          "position": 3,
+          "text": "The router converts the packet to Wi-Fi framing.",
+          "isCorrect": false,
+          "explanation": "If size exceeds the MTU of the outgoing interface and DF=1, the packet is dropped."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "DHCP DORA Process",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What four sequential message steps make up the DHCP (Dynamic Host Configuration Protocol) DORA process for acquiring an IP address?",
+      "keyPoints": "Discover -> Offer -> Request -> Acknowledge.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Discover -> Offer -> Request -> Acknowledge",
+          "isCorrect": true,
+          "explanation": "Client broadcasts DHCPDISCOVER; server broadcasts DHCPOFFER; client requests the offered IP with DHCPREQUEST; server confirms lease with DHCPACK."
+        },
+        {
+          "position": 1,
+          "text": "Detect -> Open -> Receive -> Accept",
+          "isCorrect": false,
+          "explanation": "The standardized protocol terms are Discover, Offer, Request, Acknowledge (DORA)."
+        },
+        {
+          "position": 2,
+          "text": "Dial -> Obtain -> Renew -> Abort",
+          "isCorrect": false,
+          "explanation": "Not DHCP protocol messages."
+        },
+        {
+          "position": 3,
+          "text": "Disconnect -> Override -> Reconnect -> Authenticate",
+          "isCorrect": false,
+          "explanation": "DORA is the initial lease negotiation exchange."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "VLANs & 802.1Q Tagging",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What does IEEE 802.1Q trunking add to an Ethernet frame to support Virtual Local Area Networks (VLANs)?",
+      "keyPoints": "Inserts a 4-byte 802.1Q VLAN tag containing a 12-bit VLAN ID (VID) into the Ethernet header.",
+      "options": [
+        {
+          "position": 0,
+          "text": "A 4-byte 802.1Q tag containing a 12-bit VLAN ID (allowing up to 4094 distinct virtual networks across a single physical trunk link).",
+          "isCorrect": true,
+          "explanation": "Trunk links carry traffic for multiple VLANs. The 802.1Q tag identifies which specific VLAN a frame belongs to, allowing network switches to isolate broadcast domains on shared switches."
+        },
+        {
+          "position": 1,
+          "text": "An extra 64-bit encryption key.",
+          "isCorrect": false,
+          "explanation": "802.1Q is logical segmentation/tagging, not encryption (MACsec handles layer 2 encryption)."
+        },
+        {
+          "position": 2,
+          "text": "A replacement for the source MAC address.",
+          "isCorrect": false,
+          "explanation": "The tag is inserted between the source MAC and EtherType fields."
+        },
+        {
+          "position": 3,
+          "text": "A DNS domain name tag.",
+          "isCorrect": false,
+          "explanation": "VLAN tagging operates purely at Layer 2."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "ICMP Protocol",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What protocol is utilized by the diagnostic tools `ping` and `traceroute` for network diagnostics?",
+      "keyPoints": "Internet Control Message Protocol (ICMP).",
+      "options": [
+        {
+          "position": 0,
+          "text": "Internet Control Message Protocol (ICMP)",
+          "isCorrect": true,
+          "explanation": "`ping` sends ICMP Echo Request (Type 8) and listens for Echo Reply (Type 0). `traceroute` increments IP TTL starting at 1 to elicit ICMP Time Exceeded (Type 11) messages from each router along the path."
+        },
+        {
+          "position": 1,
+          "text": "Simple Network Management Protocol (SNMP)",
+          "isCorrect": false,
+          "explanation": "SNMP is used for monitoring device metrics (CPU, bandwidth), not ping diagnostics."
+        },
+        {
+          "position": 2,
+          "text": "Border Gateway Protocol (BGP)",
+          "isCorrect": false,
+          "explanation": "BGP is inter-AS routing."
+        },
+        {
+          "position": 3,
+          "text": "Telnet",
+          "isCorrect": false,
+          "explanation": "Telnet is legacy cleartext remote shell."
+        }
+      ]
+    },
+    {
+      "topicName": "Computer Networks",
+      "subtopic": "Broadcast vs Multicast vs Anycast vs Unicast",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the delivery semantic of an 'Anycast' IP address (commonly used in global CDNs like Cloudflare)?",
+      "keyPoints": "One IP address is advertised by multiple global servers; routers send packets to the topologically nearest server via BGP.",
+      "options": [
+        {
+          "position": 0,
+          "text": "The same single IP address is shared across multiple servers globally; network routers route packets to whichever server is topologically nearest via standard BGP path selection.",
+          "isCorrect": true,
+          "explanation": "Anycast allows DNS root servers and CDNs to distribute load and mitigate DDoS attacks transparently, routing users to the nearest geographical datacenter without client-side redirects."
+        },
+        {
+          "position": 1,
+          "text": "Packets are broadcast to every computer on the internet simultaneously.",
+          "isCorrect": false,
+          "explanation": "That would be a global broadcast, which is forbidden on the internet."
+        },
+        {
+          "position": 2,
+          "text": "Packets are sent to a dedicated single server and copied to disk.",
+          "isCorrect": false,
+          "explanation": "That describes standard Unicast."
+        },
+        {
+          "position": 3,
+          "text": "Packets are sent to a pre-registered group of subscribers who joined an IGMP group.",
+          "isCorrect": false,
+          "explanation": "That describes Multicast."
+        }
+      ]
+    }
+  ]
+}

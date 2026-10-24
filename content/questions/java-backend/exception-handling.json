@@ -1,0 +1,830 @@
+{
+  "batch": "exception-handling-batch-1",
+  "questions": [
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Checked vs Unchecked Exceptions",
+      "difficulty": 1,
+      "body": "In Java, a method reads a configuration file using an API that declares `throws IOException`. If the method does not handle the exception locally, what must it do to compile successfully?",
+      "keyPoints": "Checked exceptions must either be caught in a try-catch block or declared in the method's throws clause.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Declare IOException or a compatible supertype (e.g. Exception) in the method's throws clause.",
+          "isCorrect": true,
+          "explanation": "IOException extends Exception and is a checked exception. The Java compiler enforces the 'catch or declare' rule, requiring the method to catch it or declare it in its throws clause."
+        },
+        {
+          "position": 1,
+          "text": "Do nothing because all exceptions in Java propagate automatically at runtime without compile-time checks.",
+          "isCorrect": false,
+          "explanation": "Unchecked exceptions (RuntimeException and Error) propagate without compile checks, but checked exceptions require explicit handling or declaration."
+        },
+        {
+          "position": 2,
+          "text": "Declare RuntimeException in the throws clause to cover all exception types.",
+          "isCorrect": false,
+          "explanation": "IOException does not inherit from RuntimeException; declaring RuntimeException does not satisfy checked exception requirements for IOException."
+        },
+        {
+          "position": 3,
+          "text": "Specify IOException in the method's return type signature.",
+          "isCorrect": false,
+          "explanation": "Return types specify method output values, not thrown exceptions."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Catch Block Ordering & Unreachable Code",
+      "difficulty": 1,
+      "body": "Why does the following code fail to compile?\n```java\ntry {\n    int result = 10 / 0;\n} catch (Exception e) {\n    System.out.println(\"Exception\");\n} catch (ArithmeticException e) {\n    System.out.println(\"Arithmetic\");\n}\n```",
+      "keyPoints": "Catch blocks must be ordered from most specific subclass to most general superclass.",
+      "options": [
+        {
+          "position": 0,
+          "text": "The ArithmeticException catch block is unreachable because the broader Exception catch block already catches it.",
+          "isCorrect": true,
+          "explanation": "ArithmeticException is a subtype of Exception. Placing the superclass catch block first swallows all exceptions, making the subsequent subclass block unreachable code, which the compiler rejects."
+        },
+        {
+          "position": 1,
+          "text": "ArithmeticException is a checked exception that cannot be caught without a throws clause.",
+          "isCorrect": false,
+          "explanation": "ArithmeticException is an unchecked RuntimeException."
+        },
+        {
+          "position": 2,
+          "text": "Java prohibits multiple catch blocks associated with a single try block.",
+          "isCorrect": false,
+          "explanation": "Multiple catch blocks are standard in Java as long as they are ordered from subclass to superclass."
+        },
+        {
+          "position": 3,
+          "text": "Exception cannot be used as a catch parameter type.",
+          "isCorrect": false,
+          "explanation": "Exception is a valid catch parameter, but cannot precede its subclasses."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "try-catch-finally Execution Order",
+      "difficulty": 1,
+      "body": "What is printed by executing this snippet?\n```java\ntry {\n    System.out.print(\"A\");\n    throw new IllegalArgumentException();\n} catch (IllegalArgumentException e) {\n    System.out.print(\"B\");\n} finally {\n    System.out.print(\"C\");\n}\n```",
+      "keyPoints": "The matching catch block executes immediately after the exception is thrown, followed by the finally block.",
+      "options": [
+        {
+          "position": 0,
+          "text": "ABC",
+          "isCorrect": true,
+          "explanation": "'A' is printed first. The exception is thrown and caught by the catch block which prints 'B'. Finally, the finally block always executes and prints 'C', resulting in 'ABC'."
+        },
+        {
+          "position": 1,
+          "text": "AC",
+          "isCorrect": false,
+          "explanation": "The catch block matches IllegalArgumentException, so 'B' is executed."
+        },
+        {
+          "position": 2,
+          "text": "AB",
+          "isCorrect": false,
+          "explanation": "The finally block executes regardless of whether an exception occurred or was handled."
+        },
+        {
+          "position": 3,
+          "text": "BC",
+          "isCorrect": false,
+          "explanation": "'A' executes before the throw statement."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "throw vs throws Keywords",
+      "difficulty": 1,
+      "body": "Which statement correctly distinguishes the `throw` keyword from the `throws` keyword in Java?",
+      "keyPoints": "throw is an executable statement that raises an exception object; throws is a declaration clause on methods.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`throw` is an executable statement used to raise a specific Throwable instance; `throws` is part of a method signature declaring possible exceptions to callers.",
+          "isCorrect": true,
+          "explanation": "Syntax: `throw new MyException();` vs `public void foo() throws MyException {}`."
+        },
+        {
+          "position": 1,
+          "text": "`throw` is used in method headers for checked exceptions; `throws` is used inside method bodies for unchecked exceptions.",
+          "isCorrect": false,
+          "explanation": "This reverses the roles completely."
+        },
+        {
+          "position": 2,
+          "text": "`throw` and `throws` are completely interchangeable in Java 8+.",
+          "isCorrect": false,
+          "explanation": "They have distinct keywords, syntax, and semantics."
+        },
+        {
+          "position": 3,
+          "text": "`throws` is required for every method that throws a RuntimeException.",
+          "isCorrect": false,
+          "explanation": "Unchecked exceptions do not require declaration in a throws clause."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Custom Exception Design",
+      "difficulty": 1,
+      "body": "A banking service needs a custom `InsufficientFundsException` to enforce business invariants. The team wants calling code to be forced by the compiler to explicitly handle this condition. What should the class extend?",
+      "keyPoints": "To create a custom checked exception, extend Exception directly (not RuntimeException).",
+      "options": [
+        {
+          "position": 0,
+          "text": "`Exception` directly (or any checked subclass of Exception).",
+          "isCorrect": true,
+          "explanation": "Any class extending Exception (without extending RuntimeException) is a checked exception, forcing callers to catch or declare it at compile time."
+        },
+        {
+          "position": 1,
+          "text": "`RuntimeException`.",
+          "isCorrect": false,
+          "explanation": "Extending RuntimeException creates an unchecked exception, which callers are not forced to catch."
+        },
+        {
+          "position": 2,
+          "text": "`Error`.",
+          "isCorrect": false,
+          "explanation": "Error is reserved for serious JVM system-level failures (e.g. OutOfMemoryError, StackOverflowError)."
+        },
+        {
+          "position": 3,
+          "text": "`Throwable` directly with private constructors.",
+          "isCorrect": false,
+          "explanation": "Extending Throwable directly is discouraged by Java conventions; developers should subclass Exception or RuntimeException."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Exception Propagation Across Call Stack",
+      "difficulty": 2,
+      "body": "Consider the following code:\n```java\nstatic void inner() throws IOException {\n    throw new IOException(\"Disk full\");\n}\nstatic void outer() throws IOException {\n    inner();\n}\n```\nWhy does `outer()` compile without a try-catch block?",
+      "keyPoints": "A method satisfies the compiler by declaring the checked exception in its throws clause, propagating it up the call stack.",
+      "options": [
+        {
+          "position": 0,
+          "text": "outer() declares IOException in its throws clause, propagating responsibility for handling the exception to its caller.",
+          "isCorrect": true,
+          "explanation": "Checked exceptions satisfy the compiler by either being handled locally in a try-catch block or declared in the method's throws clause."
+        },
+        {
+          "position": 1,
+          "text": "The JVM automatically wraps IOException in an unchecked exception during inter-method calls.",
+          "isCorrect": false,
+          "explanation": "Java never automatically wraps checked exceptions into unchecked ones."
+        },
+        {
+          "position": 2,
+          "text": "Methods with void return types are exempt from checked exception verification.",
+          "isCorrect": false,
+          "explanation": "Return type has no influence on exception rules."
+        },
+        {
+          "position": 3,
+          "text": "Static methods are not subject to checked exception rules.",
+          "isCorrect": false,
+          "explanation": "Static and instance methods follow identical checked exception rules."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Method Overriding with Checked Exceptions",
+      "difficulty": 2,
+      "body": "A superclass declares `public void process() throws IOException`. A subclass overrides this method. Which of the following overriding declarations is legal?",
+      "keyPoints": "An overriding method can declare narrower or fewer checked exceptions, but cannot declare broader or new checked exceptions.",
+      "options": [
+        {
+          "position": 0,
+          "text": "public void process() throws FileNotFoundException",
+          "isCorrect": true,
+          "explanation": "FileNotFoundException is a subclass of IOException. Overriding methods can declare narrower (subclass) checked exceptions, fewer exceptions, or no checked exceptions at all."
+        },
+        {
+          "position": 1,
+          "text": "public void process() throws Exception",
+          "isCorrect": false,
+          "explanation": "Exception is broader than IOException. Allowing broader exceptions would break polymorphic callers expecting only IOException."
+        },
+        {
+          "position": 2,
+          "text": "public void process() throws SQLException",
+          "isCorrect": false,
+          "explanation": "SQLException is a new, unrelated checked exception not declared by the superclass."
+        },
+        {
+          "position": 3,
+          "text": "public void process() throws Throwable",
+          "isCorrect": false,
+          "explanation": "Throwable is broader than IOException and forbidden in the override."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Return in finally Block Gotcha",
+      "difficulty": 2,
+      "body": "What value does this method return?\n```java\nstatic int calculate() {\n    try {\n        return 10;\n    } finally {\n        return 20;\n    }\n}\n```",
+      "keyPoints": "A return statement in a finally block overrides any previous return statement or unhandled exception in the try/catch block.",
+      "options": [
+        {
+          "position": 0,
+          "text": "20",
+          "isCorrect": true,
+          "explanation": "The try block prepares to return 10, but the finally block executes before the method finishes. The return 20 in finally discards the pending return and returns 20. (This is considered an anti-pattern)."
+        },
+        {
+          "position": 1,
+          "text": "10",
+          "isCorrect": false,
+          "explanation": "The pending return value 10 is superseded by the finally block return."
+        },
+        {
+          "position": 2,
+          "text": "30 (sum of both return statements)",
+          "isCorrect": false,
+          "explanation": "Return values are not accumulated."
+        },
+        {
+          "position": 3,
+          "text": "A compilation error occurs because return statements are illegal inside finally.",
+          "isCorrect": false,
+          "explanation": "Return statements in finally blocks are legal Java, though linters and IDEs emit warnings against them."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Multi-Catch Syntax & Rules",
+      "difficulty": 2,
+      "body": "Which of the following is the correct Java 7+ multi-catch syntax for catching unrelated exceptions `IOException` and `SQLException` in a single block?",
+      "keyPoints": "Multi-catch uses a single pipe (|) and the alternatives must not be subclasses of each other; the catch parameter is implicitly final.",
+      "options": [
+        {
+          "position": 0,
+          "text": "catch (IOException | SQLException e)",
+          "isCorrect": true,
+          "explanation": "Java multi-catch uses the single pipe `|` between disjoint exception types. The exception parameter `e` is implicitly final."
+        },
+        {
+          "position": 1,
+          "text": "catch (IOException, SQLException e)",
+          "isCorrect": false,
+          "explanation": "Commas are not valid operators in catch clauses."
+        },
+        {
+          "position": 2,
+          "text": "catch (IOException || SQLException e)",
+          "isCorrect": false,
+          "explanation": "Double pipe `||` is a logical OR expression, not the multi-catch type separator."
+        },
+        {
+          "position": 3,
+          "text": "catch (IOException | Exception e)",
+          "isCorrect": false,
+          "explanation": "Multi-catch alternatives cannot have a subclass relationship. IOException is a subclass of Exception, causing a compile error."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Try-With-Resources & AutoCloseable",
+      "difficulty": 2,
+      "body": "What interface must a resource class implement to be managed automatically in a Java `try-with-resources` statement?",
+      "keyPoints": "Try-with-resources requires the resource to implement java.lang.AutoCloseable (or java.io.Closeable).",
+      "options": [
+        {
+          "position": 0,
+          "text": "`java.lang.AutoCloseable` (or its subinterface `java.io.Closeable`).",
+          "isCorrect": true,
+          "explanation": "Try-with-resources requires resources to implement AutoCloseable, whose `close()` method is automatically called when exiting the block."
+        },
+        {
+          "position": 1,
+          "text": "`java.io.Serializable`.",
+          "isCorrect": false,
+          "explanation": "Serializable is for object serialization, unrelated to resource cleanup."
+        },
+        {
+          "position": 2,
+          "text": "`java.lang.Runnable`.",
+          "isCorrect": false,
+          "explanation": "Runnable is for concurrent tasks, not resource lifecycle."
+        },
+        {
+          "position": 3,
+          "text": "`java.util.Disposable`.",
+          "isCorrect": false,
+          "explanation": "No `java.util.Disposable` exists in the standard JDK."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Exception Chaining & Cause",
+      "difficulty": 2,
+      "body": "A DAO catches a low-level `SQLException` and throws a business-level `DataAccessException`. How should the original exception be preserved for debugging?",
+      "keyPoints": "Pass the caught exception as the cause parameter to the new exception's constructor or call initCause.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Pass the caught SQLException as the 'cause' argument to the DataAccessException constructor: `new DataAccessException(\"Query failed\", sqlEx)`.",
+          "isCorrect": true,
+          "explanation": "Exception chaining (passing `cause` to the constructor or calling `initCause()`) retains the original root-cause stack trace for diagnostics while presenting a clean abstraction."
+        },
+        {
+          "position": 1,
+          "text": "Append `sqlEx.getMessage()` to the new exception's message string without passing the exception object.",
+          "isCorrect": false,
+          "explanation": "Only copying the message loses the original stack trace and root cause details."
+        },
+        {
+          "position": 2,
+          "text": "Store the SQLException in a static thread-local cache.",
+          "isCorrect": false,
+          "explanation": "Thread-local caching introduces memory leak risks and is fragile compared to standard exception chaining."
+        },
+        {
+          "position": 3,
+          "text": "Call `System.gc()` to log the stack trace before throwing.",
+          "isCorrect": false,
+          "explanation": "Garbage collection does not log or preserve exception chains."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Resource Closing Order in Try-With-Resources",
+      "difficulty": 3,
+      "body": "Given multiple resources declared in a try-with-resources header:\n```java\ntry (ResourceA a = new ResourceA(); ResourceB b = new ResourceB()) {\n    // work\n}\n```\nIn what order are the resources closed?",
+      "keyPoints": "Resources declared in try-with-resources are closed in reverse order of their declaration.",
+      "options": [
+        {
+          "position": 0,
+          "text": "In reverse order of their declaration: ResourceB is closed first, then ResourceA.",
+          "isCorrect": true,
+          "explanation": "Java specifies that resources are closed in reverse order of creation. This mirrors standard dependency unwinding (ResourceB may depend on ResourceA)."
+        },
+        {
+          "position": 1,
+          "text": "In declaration order: ResourceA is closed first, then ResourceB.",
+          "isCorrect": false,
+          "explanation": "Closing in forward order would break dependent resources that rely on earlier resources being open."
+        },
+        {
+          "position": 2,
+          "text": "Asynchronously and concurrently in separate threads.",
+          "isCorrect": false,
+          "explanation": "Resource closing is strictly deterministic and synchronous on the executing thread."
+        },
+        {
+          "position": 3,
+          "text": "The order is non-deterministic and depends on the JVM garbage collector.",
+          "isCorrect": false,
+          "explanation": "Try-with-resources uses deterministic compile-time bytecode generation, not GC finalization."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Suppressed Exceptions in Try-With-Resources",
+      "difficulty": 3,
+      "body": "In a try-with-resources block, if the try block throws an exception `E1` and the automatic `close()` call also throws an exception `E2`, what happens?",
+      "keyPoints": "E1 is thrown as the primary exception, and E2 is attached as a suppressed exception via addSuppressed().",
+      "options": [
+        {
+          "position": 0,
+          "text": "`E1` is thrown to the caller as the primary exception, and `E2` is attached as a suppressed exception accessible via `E1.getSuppressed()`.",
+          "isCorrect": true,
+          "explanation": "Unlike manual finally blocks where E2 would silently overwrite E1, try-with-resources preserves the business exception E1 and records E2 as suppressed."
+        },
+        {
+          "position": 1,
+          "text": "`E2` overrides `E1`, and `E1` is discarded completely.",
+          "isCorrect": false,
+          "explanation": "This was the flaw of old manual finally blocks, which try-with-resources specifically resolved."
+        },
+        {
+          "position": 2,
+          "text": "The JVM halts immediately with an uncaught FatalException.",
+          "isCorrect": false,
+          "explanation": "The JVM propagates the primary exception normally."
+        },
+        {
+          "position": 3,
+          "text": "Both exceptions are merged into a newly generated CompoundException.",
+          "isCorrect": false,
+          "explanation": "Java attaches suppressed exceptions to the primary Throwable using `addSuppressed()` rather than generating a new exception type."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Error vs Exception Hierarchy",
+      "difficulty": 3,
+      "body": "If an application executes `try { ... } catch (Exception e) { ... }`, will it catch an `OutOfMemoryError` or `StackOverflowError`?",
+      "keyPoints": "Error and Exception are sibling subclasses of Throwable; catching Exception does not catch Error.",
+      "options": [
+        {
+          "position": 0,
+          "text": "No, because `Error` and `Exception` are separate sibling subclasses of `Throwable`. Catching `Exception` does not catch instances of `Error`.",
+          "isCorrect": true,
+          "explanation": "Hierarchy: `Throwable -> Exception` and `Throwable -> Error`. OutOfMemoryError extends VirtualMachineError which extends Error. Only `catch (Throwable t)` or `catch (Error err)` catches it."
+        },
+        {
+          "position": 1,
+          "text": "Yes, because all runtime errors in Java inherit from Exception.",
+          "isCorrect": false,
+          "explanation": "Error does not extend Exception; they are siblings under Throwable."
+        },
+        {
+          "position": 2,
+          "text": "Yes, but only if the JVM runs in 64-bit server mode.",
+          "isCorrect": false,
+          "explanation": "Java language inheritance rules are identical across all JVM modes."
+        },
+        {
+          "position": 3,
+          "text": "No, because Errors cannot be caught by any catch clause under any circumstance.",
+          "isCorrect": false,
+          "explanation": "Errors can syntactically be caught using `catch (Error e)` or `catch (Throwable t)`, although catching them is usually unrecoverable."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Precise Rethrow in Java 7+",
+      "difficulty": 3,
+      "body": "Consider the following method:\n```java\nstatic void execute() throws IOException, SQLException {\n    try {\n        riskyOperation();\n    } catch (final Exception e) {\n        throw e;\n    }\n}\n```\nIf `riskyOperation()` only throws `IOException` and `SQLException`, why does this compile without declaring `throws Exception`?",
+      "keyPoints": "Precise rethrow analyzes the try block to determine the actual checked exception types when the catch parameter is effectively final.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Java's 'Precise Rethrow' feature analyzes the try block to verify that only IOException or SQLException can be thrown, permitting the rethrow without widening the signature.",
+          "isCorrect": true,
+          "explanation": "Since Java 7, if a catch parameter is final or effectively final, the compiler checks the actual types thrown in the try block and checks them against the throws clause."
+        },
+        {
+          "position": 1,
+          "text": "Because all exceptions rethrown inside catch blocks are implicitly cast to RuntimeException.",
+          "isCorrect": false,
+          "explanation": "Rethrown checked exceptions remain checked."
+        },
+        {
+          "position": 2,
+          "text": "Because the `final` keyword forces the JVM to ignore checked exception bounds.",
+          "isCorrect": false,
+          "explanation": "The final keyword signals that 'e' is not reassigned, allowing the compiler's flow analysis to guarantee its type."
+        },
+        {
+          "position": 3,
+          "text": "Because Exception in a catch block only catches unchecked exceptions.",
+          "isCorrect": false,
+          "explanation": "Exception catches all checked and unchecked exceptions."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Spring @Transactional Default Rollback Rule",
+      "difficulty": 3,
+      "body": "In Spring Boot, what is the default rollback behavior of a `@Transactional` method when an exception escapes the method boundary?",
+      "keyPoints": "Spring transactions roll back by default on RuntimeException and Error, but NOT on checked exceptions.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It rolls back on unchecked exceptions (RuntimeException and subclasses) and Errors, but commits on checked exceptions (Exception subclasses).",
+          "isCorrect": true,
+          "explanation": "By default, Spring's transaction infrastructure mirrors EJB conventions: unchecked exceptions signify system/programming errors and trigger rollback; checked exceptions signify recoverable business outcomes and commit unless configured via `@Transactional(rollbackFor = Exception.class)`."
+        },
+        {
+          "position": 1,
+          "text": "It rolls back on all exceptions including checked and unchecked exceptions equally.",
+          "isCorrect": false,
+          "explanation": "Spring does NOT roll back on checked exceptions by default unless `rollbackFor` is specified."
+        },
+        {
+          "position": 2,
+          "text": "It rolls back only on SQLExceptions, committing on all others.",
+          "isCorrect": false,
+          "explanation": "SQLException is a checked exception and would actually commit by default unless translated by Spring into DataAccessException."
+        },
+        {
+          "position": 3,
+          "text": "It never rolls back automatically; the developer must manually call TransactionAspectSupport.setRollbackOnly().",
+          "isCorrect": false,
+          "explanation": "Declarative rollback on RuntimeException is the core feature of @Transactional."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "finally Block Non-Execution Conditions",
+      "difficulty": 2,
+      "body": "Under which of the following circumstances will a `finally` block NOT execute?",
+      "keyPoints": "Finally will not execute if System.exit() is invoked or if the JVM crashes/power fails.",
+      "options": [
+        {
+          "position": 0,
+          "text": "When `System.exit(0)` is invoked in the try block, or the JVM crashes (e.g. OS kill -9 or fatal native crash).",
+          "isCorrect": true,
+          "explanation": "When `System.exit()` is called, the JVM halts immediately, bypassing remaining finally blocks. A power failure or OS termination also halts execution."
+        },
+        {
+          "position": 1,
+          "text": "When a return statement is encountered in the try block.",
+          "isCorrect": false,
+          "explanation": "The finally block always executes before a return statement completes."
+        },
+        {
+          "position": 2,
+          "text": "When an unhandled RuntimeException is thrown in the try block.",
+          "isCorrect": false,
+          "explanation": "The finally block executes during the stack unwinding of unhandled exceptions."
+        },
+        {
+          "position": 3,
+          "text": "When the try block contains an infinite loop that completes within 5 seconds.",
+          "isCorrect": false,
+          "explanation": "An infinite loop stays in the try block indefinitely and never reaches finally unless an error/interrupt occurs."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Polymorphic Catch Matching",
+      "difficulty": 2,
+      "body": "Given that `FileNotFoundException` extends `IOException`, what is printed by the following code?\n```java\ntry {\n    throw new FileNotFoundException();\n} catch (IOException e) {\n    System.out.println(\"Caught: \" + e.getClass().getSimpleName());\n}\n```",
+      "keyPoints": "The catch block matches because the thrown object is an instanceof IOException, and e.getClass() returns the runtime subclass.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Caught: FileNotFoundException",
+          "isCorrect": true,
+          "explanation": "The catch block matches based on subtyping (FileNotFoundException is an IOException). At runtime, `e.getClass()` reflects the actual instantiated object type: FileNotFoundException."
+        },
+        {
+          "position": 1,
+          "text": "Caught: IOException",
+          "isCorrect": false,
+          "explanation": "getClass() returns the runtime object's actual class, not the variable's reference type."
+        },
+        {
+          "position": 2,
+          "text": "A ClassCastException is thrown at the catch clause.",
+          "isCorrect": false,
+          "explanation": "Upcasting to IOException is implicit and completely safe."
+        },
+        {
+          "position": 3,
+          "text": "A compilation error occurs because the catch type does not match exactly.",
+          "isCorrect": false,
+          "explanation": "Catch blocks match any assignable subclass polymorphically."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Constructors and Checked Exceptions",
+      "difficulty": 2,
+      "body": "If a class constructor invokes a method that throws a checked `IOException` and does not catch it, what is required?",
+      "keyPoints": "Constructors can and must declare unhandled checked exceptions in a throws clause just like methods.",
+      "options": [
+        {
+          "position": 0,
+          "text": "The constructor must declare `throws IOException` in its signature, and any subclass constructor must also declare it (or a supertype).",
+          "isCorrect": true,
+          "explanation": "Constructors must follow checked exception rules. If super() or instance init throws IOException, the constructor must declare it."
+        },
+        {
+          "position": 1,
+          "text": "Constructors cannot declare throws clauses; exceptions must always be caught inside constructors.",
+          "isCorrect": false,
+          "explanation": "Constructors can declare any checked exception in a throws clause."
+        },
+        {
+          "position": 2,
+          "text": "The compiler automatically changes the exception to an ExceptionInInitializerError.",
+          "isCorrect": false,
+          "explanation": "ExceptionInInitializerError occurs for exceptions in static initializers, not instance constructors."
+        },
+        {
+          "position": 3,
+          "text": "The constructor returns null instead of throwing the exception.",
+          "isCorrect": false,
+          "explanation": "Constructors cannot return values or null."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Static Initializer Exceptions",
+      "difficulty": 3,
+      "body": "What exception is thrown by the JVM at runtime if an unhandled `RuntimeException` occurs inside a `static { ... }` initialization block?",
+      "keyPoints": "Exceptions in static initializers are wrapped by the JVM in java.lang.ExceptionInInitializerError.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`java.lang.ExceptionInInitializerError` wrapping the original runtime exception as its cause.",
+          "isCorrect": true,
+          "explanation": "If any unchecked exception occurs during static initialization of a class, the JVM wraps it in an ExceptionInInitializerError (an Error) and the class initialization fails."
+        },
+        {
+          "position": 1,
+          "text": "The exact original RuntimeException without wrapping.",
+          "isCorrect": false,
+          "explanation": "The JVM wraps static block exceptions in ExceptionInInitializerError."
+        },
+        {
+          "position": 2,
+          "text": "`ClassNotFoundException`.",
+          "isCorrect": false,
+          "explanation": "ClassNotFoundException is thrown when a class cannot be located by the ClassLoader."
+        },
+        {
+          "position": 3,
+          "text": "`IllegalStateException`.",
+          "isCorrect": false,
+          "explanation": "The JVM specifically throws ExceptionInInitializerError."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Exception Swallowing Anti-Pattern",
+      "difficulty": 2,
+      "body": "Why is the following pattern considered a severe software anti-pattern?\n```java\ntry {\n    processPayment(order);\n} catch (Exception e) {\n    // do nothing\n}\n```",
+      "keyPoints": "Swallowing exceptions hides critical failures, corrupts business state, and destroys diagnostic information.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It silently swallows failures, causing the application to proceed in a corrupted or inconsistent state while completely destroying diagnostic stack traces.",
+          "isCorrect": true,
+          "explanation": "Empty catch blocks (exception swallowing) prevent error detection, obscure bugs in production, and can cause silent data corruption."
+        },
+        {
+          "position": 1,
+          "text": "It causes an immediate JVM OutOfMemoryError due to unreleased stack frames.",
+          "isCorrect": false,
+          "explanation": "The stack frame unwinds normally; the issue is functional correctness and lack of visibility."
+        },
+        {
+          "position": 2,
+          "text": "The Java compiler rejects empty catch blocks with an EmptyBlockCompileException.",
+          "isCorrect": false,
+          "explanation": "Empty catch blocks are syntactically valid in Java."
+        },
+        {
+          "position": 3,
+          "text": "It causes all future methods in the thread to fail.",
+          "isCorrect": false,
+          "explanation": "The thread continues executing normally, which is precisely why it is dangerous."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Control Flow with Exceptions Anti-Pattern",
+      "difficulty": 2,
+      "body": "Why is using exceptions for normal application control flow (e.g. using `try { list.get(i); } catch (IndexOutOfBoundsException e) { break; }`) strongly discouraged?",
+      "keyPoints": "Constructing and throwing exceptions is expensive due to stack trace generation and obscures program logic.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Constructing exceptions is performance-heavy because `fillInStackTrace()` must inspect native JVM stack frames, and it obscures the readable logic of the program.",
+          "isCorrect": true,
+          "explanation": "Exceptions in Java are designed for exceptional circumstances. Capturing stack traces is computationally expensive and makes ordinary loops slow and confusing."
+        },
+        {
+          "position": 1,
+          "text": "Because exceptions in loops leak memory on each iteration that cannot be collected by GC.",
+          "isCorrect": false,
+          "explanation": "Exception objects are collected like any other heap objects."
+        },
+        {
+          "position": 2,
+          "text": "Because throwing an exception permanently disables CPU branch prediction for the application.",
+          "isCorrect": false,
+          "explanation": "Branch predictors operate on CPU machine instructions, not high-level language exceptions."
+        },
+        {
+          "position": 3,
+          "text": "Because the JVM limits any thread to a maximum of 1,000 exceptions per hour.",
+          "isCorrect": false,
+          "explanation": "There is no exception count quota in the JVM."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "StackTraceElement & Thread Diagnostics",
+      "difficulty": 2,
+      "body": "What information does a `StackTraceElement` provide when inspecting an exception's stack trace?",
+      "keyPoints": "StackTraceElement provides the class name, method name, file name, and line number where the execution occurred.",
+      "options": [
+        {
+          "position": 0,
+          "text": "The declaring class name, method name, source file name, and the executing line number.",
+          "isCorrect": true,
+          "explanation": "A StackTraceElement represents an execution point on the call stack containing `getClassName()`, `getMethodName()`, `getFileName()`, and `getLineNumber()`."
+        },
+        {
+          "position": 1,
+          "text": "The memory address and binary bytecode of every local variable.",
+          "isCorrect": false,
+          "explanation": "Local variable values are not stored in standard StackTraceElements."
+        },
+        {
+          "position": 2,
+          "text": "The SQL query that caused the database failure.",
+          "isCorrect": false,
+          "explanation": "SQL queries are database-specific strings, not part of JVM StackTraceElements."
+        },
+        {
+          "position": 3,
+          "text": "The CPU temperature and clock speed when the exception occurred.",
+          "isCorrect": false,
+          "explanation": "Hardware telemetry is not captured by Java exceptions."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Checked Exceptions in Functional Interfaces & Streams",
+      "difficulty": 3,
+      "body": "Why can a lambda expression passed to `Stream.map(x -> readFile(x))` not throw a checked `IOException` without explicit try-catch wrapping?",
+      "keyPoints": "Standard functional interfaces like Function<T, R> do not declare throws clauses in their method signatures.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Because `java.util.function.Function<T, R>` declares `R apply(T t)` with no throws clause, so lambdas implementing it cannot throw checked exceptions.",
+          "isCorrect": true,
+          "explanation": "A lambda can only throw checked exceptions if the functional interface method declares them. Standard Stream functional interfaces do not declare checked exceptions."
+        },
+        {
+          "position": 1,
+          "text": "Because Java Streams run in separate virtual threads that prohibit I/O operations.",
+          "isCorrect": false,
+          "explanation": "Streams run on the caller thread (or ForkJoinPool in parallel) and can perform I/O if unchecked."
+        },
+        {
+          "position": 2,
+          "text": "Because Java Streams automatically convert all checked exceptions to null values.",
+          "isCorrect": false,
+          "explanation": "Streams do not catch or convert exceptions."
+        },
+        {
+          "position": 3,
+          "text": "Because the `map` method is marked with `@NoThrow`.",
+          "isCorrect": false,
+          "explanation": "There is no `@NoThrow` annotation in the Java Stream API."
+        }
+      ]
+    },
+    {
+      "topicName": "Exception Handling",
+      "subtopic": "Sneaky Throws Pattern",
+      "difficulty": 3,
+      "body": "How does Lombok's `@SneakyThrows` enable a method to throw a checked exception without catching it or declaring it in a `throws` clause?",
+      "keyPoints": "SneakyThrows exploits generic type erasure (casting Throwable to RuntimeException) or bytecode manipulation to bypass compile-time checks.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It uses generic type erasure to deceive the Java compiler (`<E extends Throwable> void sneakyThrow(Throwable t) throws E`), tricking javac into thinking the exception is unchecked.",
+          "isCorrect": true,
+          "explanation": "Because type erasure erases E to RuntimeException, javac allows throwing the exception without checked declaration, while the JVM at runtime does not enforce checked exceptions."
+        },
+        {
+          "position": 1,
+          "text": "It uses native JNI code to suppress CPU interrupt signals.",
+          "isCorrect": false,
+          "explanation": "Sneaky throws is purely a bytecode/language type erasure trick."
+        },
+        {
+          "position": 2,
+          "text": "It catches the exception and immediately restarts the JVM.",
+          "isCorrect": false,
+          "explanation": "The JVM continues running and throws the original exception."
+        },
+        {
+          "position": 3,
+          "text": "It disables the Java compiler's type checker for the entire project.",
+          "isCorrect": false,
+          "explanation": "Only the annotated method has the sneaky throw helper injected."
+        }
+      ]
+    }
+  ]
+}

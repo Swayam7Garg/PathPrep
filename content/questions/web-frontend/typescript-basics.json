@@ -1,0 +1,685 @@
+{
+  "batch": "typescript-basics-batch-1",
+  "questions": [
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "Interface vs Type Alias",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is a unique capability of TypeScript `interface` declarations that `type` aliases do not have?",
+      "keyPoints": "Declaration merging: multiple interface declarations with the same name merge their members.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Declaration Merging: multiple interfaces declared with the exact same name within the same scope automatically merge their property definitions.",
+          "isCorrect": true,
+          "explanation": "Interfaces support declaration merging (vital for extending third-party library typings). Type aliases cannot be redeclared with the same name and will throw a duplicate identifier error."
+        },
+        {
+          "position": 1,
+          "text": "Interfaces can represent union types (`A | B`), while types cannot.",
+          "isCorrect": false,
+          "explanation": "Only `type` aliases can directly declare union types (`type Foo = A | B`)."
+        },
+        {
+          "position": 2,
+          "text": "Interfaces are compiled into JavaScript classes in output files.",
+          "isCorrect": false,
+          "explanation": "Both interfaces and types are completely erased during compilation (zero runtime footprint)."
+        },
+        {
+          "position": 3,
+          "text": "Types can be implemented by classes with `implements`, but interfaces cannot.",
+          "isCorrect": false,
+          "explanation": "Classes can implement both interfaces and object type aliases."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "any vs unknown",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What is the key difference between the `any` and `unknown` types in TypeScript?",
+      "keyPoints": "unknown is the type-safe counterpart of any; you cannot access properties or call methods on unknown without type narrowing.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`unknown` is type-safe: you cannot invoke methods or access properties on an `unknown` variable without first narrowing its type via type guards or assertions.",
+          "isCorrect": true,
+          "explanation": "`any` disables all type checking. `unknown` represents any value, but forces developers to perform type checks (`typeof`, `instanceof`) before performing any operations on it."
+        },
+        {
+          "position": 1,
+          "text": "`any` cannot be assigned to other types, while `unknown` can be assigned to anything.",
+          "isCorrect": false,
+          "explanation": "The opposite is true: `any` is assignable to almost any type, whereas `unknown` is only assignable to `unknown` and `any`."
+        },
+        {
+          "position": 2,
+          "text": "`unknown` is converted to `Object` at runtime, while `any` is stripped.",
+          "isCorrect": false,
+          "explanation": "All TypeScript types are erased at compile time."
+        },
+        {
+          "position": 3,
+          "text": "`unknown` only accepts primitive types.",
+          "isCorrect": false,
+          "explanation": "`unknown` accepts any value (objects, functions, primitives)."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "Type Narrowing & Guards",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What does a custom type guard function return in its return type signature?",
+      "keyPoints": "A type predicate in the form 'param is Type'.",
+      "options": [
+        {
+          "position": 0,
+          "text": "A type predicate in the form `arg is TargetType` (e.g. `pet is Fish`).",
+          "isCorrect": true,
+          "explanation": "A user-defined type guard function returns a boolean, and its return signature uses a type predicate (`pet is Fish`). When the function returns true, TypeScript narrows the variable type inside conditional blocks."
+        },
+        {
+          "position": 1,
+          "text": "`boolean as const`",
+          "isCorrect": false,
+          "explanation": "A standard boolean return does not trigger TypeScript control flow narrowing without a type predicate."
+        },
+        {
+          "position": 2,
+          "text": "`TargetType | undefined`",
+          "isCorrect": false,
+          "explanation": "Type predicates are declared on boolean-returning functions."
+        },
+        {
+          "position": 3,
+          "text": "`typeof TargetType`",
+          "isCorrect": false,
+          "explanation": "`typeof` in type space queries a value's type, it is not a predicate signature."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "Generics Constraints",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What does the `extends` keyword signify in a generic type parameter `<T extends { id: string }>`?",
+      "keyPoints": "It constrains generic type T to must have at least an id property of type string.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It constrains type `T` to guarantee that any type passed as `T` has at least an `id` property of type `string`.",
+          "isCorrect": true,
+          "explanation": "Generic constraints (`extends`) restrict the types that can be supplied to a generic argument, allowing the function body to safely access `.id` on values of type `T`."
+        },
+        {
+          "position": 1,
+          "text": "It means `T` must be a class that uses object-oriented class inheritance from an `id` class.",
+          "isCorrect": false,
+          "explanation": "`extends` in generics denotes structural compatibility/subtyping, not just class inheritance."
+        },
+        {
+          "position": 2,
+          "text": "It converts `T` into an array of strings.",
+          "isCorrect": false,
+          "explanation": "It constrains the shape of `T`."
+        },
+        {
+          "position": 3,
+          "text": "It makes the `id` property optional in `T`.",
+          "isCorrect": false,
+          "explanation": "It mandates the presence of `id: string`."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "Utility Types: Pick vs Omit",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What is the difference between `Pick<T, K>` and `Omit<T, K>`?",
+      "keyPoints": "Pick constructs a type with only the specified keys; Omit constructs a type with all keys EXCEPT the specified keys.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`Pick<T, K>` selects only the keys `K` from type `T`; `Omit<T, K>` constructs a type with all properties of `T` EXCEPT keys `K`.",
+          "isCorrect": true,
+          "explanation": "`Pick` extracts a subset of properties: `Pick<User, 'id' | 'name'>`. `Omit` removes specified keys: `Omit<User, 'password'>`."
+        },
+        {
+          "position": 1,
+          "text": "`Pick` operates on classes; `Omit` operates on interfaces.",
+          "isCorrect": false,
+          "explanation": "Both operate on any object type or interface."
+        },
+        {
+          "position": 2,
+          "text": "`Omit` makes keys optional rather than removing them.",
+          "isCorrect": false,
+          "explanation": "Making keys optional is done with `Partial<T>`."
+        },
+        {
+          "position": 3,
+          "text": "`Pick` mutates the original interface `T` at runtime.",
+          "isCorrect": false,
+          "explanation": "TypeScript utility types are pure compile-time type transformations."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "Partial and Required",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What does the `Partial<T>` utility type do to an interface `T`?",
+      "keyPoints": "Marks all properties of T as optional (? modifier).",
+      "options": [
+        {
+          "position": 0,
+          "text": "It constructs a type with all properties of `T` set to optional (`?`).",
+          "isCorrect": true,
+          "explanation": "`Partial<T>` maps over all keys `K in keyof T` and appends `?`, allowing objects to supply any subset of properties."
+        },
+        {
+          "position": 1,
+          "text": "It sets all properties of `T` to `readonly`.",
+          "isCorrect": false,
+          "explanation": "Setting properties to readonly is handled by `Readonly<T>`."
+        },
+        {
+          "position": 2,
+          "text": "It removes all properties that have value `null` or `undefined`.",
+          "isCorrect": false,
+          "explanation": "That would be `NonNullable<T>` for individual types."
+        },
+        {
+          "position": 3,
+          "text": "It deletes half the properties of `T` at random.",
+          "isCorrect": false,
+          "explanation": "It modifies the optionality of all properties."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "keyof and typeof Operators",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "Given `const config = { host: 'localhost', port: 3000 };`, what does `keyof typeof config` evaluate to in TypeScript?",
+      "keyPoints": "typeof config gets the object shape type; keyof gets the union of keys ('host' | 'port').",
+      "options": [
+        {
+          "position": 0,
+          "text": "The union of string literal types: `'host' | 'port'`",
+          "isCorrect": true,
+          "explanation": "`typeof config` captures the TypeScript object type `{ host: string, port: number }`. Applying `keyof` to that type extracts the union of its property keys (`'host' | 'port'`)."
+        },
+        {
+          "position": 1,
+          "text": "`string | number`",
+          "isCorrect": false,
+          "explanation": "That would be the union of value types, not key names."
+        },
+        {
+          "position": 2,
+          "text": "`['host', 'port']` as an array at runtime.",
+          "isCorrect": false,
+          "explanation": "`keyof` produces a type-space union, not a runtime JavaScript array."
+        },
+        {
+          "position": 3,
+          "text": "`'object'`",
+          "isCorrect": false,
+          "explanation": "Runtime `typeof` returns `'object'`; type-space `typeof` extracts the static type shape."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "Discriminated Unions",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is a 'Discriminated Union' (Tagged Union) in TypeScript?",
+      "keyPoints": "A union of object types that all share a common literal property used by TypeScript to narrow types.",
+      "options": [
+        {
+          "position": 0,
+          "text": "A union of object types that each share a common literal property (the discriminant/tag) enabling TypeScript to cleanly narrow down the exact variant in `switch` or `if` statements.",
+          "isCorrect": true,
+          "explanation": "Example: `{ status: 'success', data: string } | { status: 'error', error: Error }`. Checking `if (res.status === 'success')` allows TypeScript to narrow `res` and know `data` exists."
+        },
+        {
+          "position": 1,
+          "text": "A union type that only accepts numeric enums.",
+          "isCorrect": false,
+          "explanation": "Discriminated unions typically use string literal types, numbers, or booleans as tags on objects."
+        },
+        {
+          "position": 2,
+          "text": "A type that is rejected by the compiler if it contains undefined.",
+          "isCorrect": false,
+          "explanation": "It is an architectural pattern for polymorphic data modeling."
+        },
+        {
+          "position": 3,
+          "text": "A type that can only be used inside classes.",
+          "isCorrect": false,
+          "explanation": "Discriminated unions are plain type declarations."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "never Type & Exhaustiveness Checking",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "How is the `never` type utilized for compile-time exhaustiveness checking in a `switch` statement on a discriminated union?",
+      "keyPoints": "Assigning the unhandled variable to a variable of type never in the default case throws a compile error if any union variant was missed.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Assigning the variable to `never` in the `default` case (`const _exhaustiveCheck: never = x;`) ensures a compile-time error if a new union variant is added but not handled.",
+          "isCorrect": true,
+          "explanation": "Because `never` represents the type of values that never occur, if all union variants are handled, `x` in the default case is narrowed to `never`. If a variant was forgotten, TypeScript flags a type error."
+        },
+        {
+          "position": 1,
+          "text": "`never` automatically writes runtime fallback code in JavaScript.",
+          "isCorrect": false,
+          "explanation": "`never` is purely compile-time type analysis."
+        },
+        {
+          "position": 2,
+          "text": "`never` throws a runtime NullPointerException.",
+          "isCorrect": false,
+          "explanation": "It provides compile-time protection against unhandled cases."
+        },
+        {
+          "position": 3,
+          "text": "`never` is an alias for `void`.",
+          "isCorrect": false,
+          "explanation": "`void` means a function returns undefined; `never` means a function never returns or a type cannot exist."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "as const Assertion",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What does appending `as const` to an object literal declaration accomplish in TypeScript?\n```ts\nconst routes = {\n  home: '/',\n  login: '/login'\n} as const;\n```",
+      "keyPoints": "Narrows all primitive properties to literal types, makes all properties readonly, and turns arrays into readonly tuples.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It narrows string/number properties to their exact literal types and marks all properties deeply as `readonly`.",
+          "isCorrect": true,
+          "explanation": "`as const` signals to the compiler that the value will not be mutated. `home` becomes type `'/'` instead of `string`, and all properties become read-only."
+        },
+        {
+          "position": 1,
+          "text": "It invokes `Object.freeze()` at runtime in JavaScript.",
+          "isCorrect": false,
+          "explanation": "`as const` is compile-time only; it does not invoke `Object.freeze()` in output JS."
+        },
+        {
+          "position": 2,
+          "text": "It forces the object to be exported as a CommonJS module.",
+          "isCorrect": false,
+          "explanation": "It is a type assertion, not a module format directive."
+        },
+        {
+          "position": 3,
+          "text": "It prevents the object from being garbage collected.",
+          "isCorrect": false,
+          "explanation": "Memory management is unaffected."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "Mapped Types",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "What is a 'Mapped Type' in TypeScript?",
+      "keyPoints": "A generic type that transforms existing object types by iterating over keys using [K in keyof T].",
+      "options": [
+        {
+          "position": 0,
+          "text": "A type that creates new types by iterating over the property keys of an existing type using `[K in keyof T]` syntax, transforming properties uniformly.",
+          "isCorrect": true,
+          "explanation": "Mapped types (such as `type Readonly<T> = { readonly [P in keyof T]: T[P] }`) build new object types based on the keys of other types."
+        },
+        {
+          "position": 1,
+          "text": "An ES6 Map data structure with type arguments.",
+          "isCorrect": false,
+          "explanation": "ES6 Map is a runtime collection; Mapped Type is a type-system transformation."
+        },
+        {
+          "position": 2,
+          "text": "A type representing geographic coordinates on a map.",
+          "isCorrect": false,
+          "explanation": "Unrelated to geography."
+        },
+        {
+          "position": 3,
+          "text": "A function that executes `Array.prototype.map` with strict type safety.",
+          "isCorrect": false,
+          "explanation": "It is a type syntax feature for transforming object shapes."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "Conditional Types",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "What does a conditional type like `T extends string ? string[] : number[]` do?",
+      "keyPoints": "Selects one of two possible types based on whether type T is assignable to string.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It selects one of two possible types at compile time based on whether type `T` is assignable to `string`.",
+          "isCorrect": true,
+          "explanation": "Conditional types take the form `T extends U ? X : Y`. When `T` satisfies `U`, type `X` is resolved; otherwise type `Y` is resolved, enabling dynamic type computations."
+        },
+        {
+          "position": 1,
+          "text": "It evaluates an `if...else` branch at runtime in JavaScript.",
+          "isCorrect": false,
+          "explanation": "Conditional types are evaluated exclusively during TypeScript compilation."
+        },
+        {
+          "position": 2,
+          "text": "It forces `T` to be an array of booleans.",
+          "isCorrect": false,
+          "explanation": "It evaluates to either `string[]` or `number[]` depending on `T`."
+        },
+        {
+          "position": 3,
+          "text": "It throws a compiler error if `T` is not a string.",
+          "isCorrect": false,
+          "explanation": "If `T` is not a string, it cleanly resolves to `number[]`."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "infer Keyword in Conditional Types",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "What does the `infer` keyword allow you to do inside a conditional type clause?",
+      "keyPoints": "Allows deducing and introducing a new type variable within a type check (e.g. ReturnType<T>).",
+      "options": [
+        {
+          "position": 0,
+          "text": "It introduces a temporary type variable within the `extends` clause to deduce and extract an unknown inner type (e.g. extracting the return type of a function).",
+          "isCorrect": true,
+          "explanation": "Example: `type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;`. `infer R` extracts the return type `R` dynamically from the function signature."
+        },
+        {
+          "position": 1,
+          "text": "It tells the compiler to guess missing variable types in JavaScript files.",
+          "isCorrect": false,
+          "explanation": "It is an advanced conditional type keyword for pattern matching types."
+        },
+        {
+          "position": 2,
+          "text": "It converts TypeScript code into WebAssembly.",
+          "isCorrect": false,
+          "explanation": "It has no relation to WebAssembly."
+        },
+        {
+          "position": 3,
+          "text": "It disables type checking for the inferred block.",
+          "isCorrect": false,
+          "explanation": "The inferred type `R` is strictly type-checked."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "Index Signatures vs Record<K, V>",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the difference between an index signature `{ [key: string]: number }` and `Record<'a' | 'b', number>`?",
+      "keyPoints": "Index signature key must be string/number/symbol; Record can constrain keys to specific string literal unions.",
+      "options": [
+        {
+          "position": 0,
+          "text": "An index signature only accepts broad types (`string`, `number`), while `Record` can restrict keys to specific finite string literal unions (like `'a' | 'b'`).",
+          "isCorrect": true,
+          "explanation": "You cannot write `{ ['a' | 'b']: number }` directly in an interface index signature; `Record<'a' | 'b', number>` creates a type requiring exactly those literal keys."
+        },
+        {
+          "position": 1,
+          "text": "`Record` can only be used in Node.js environments.",
+          "isCorrect": false,
+          "explanation": "`Record` is a standard built-in TypeScript utility type available everywhere."
+        },
+        {
+          "position": 2,
+          "text": "Index signatures are checked at runtime in JavaScript.",
+          "isCorrect": false,
+          "explanation": "Both are erased at compile time."
+        },
+        {
+          "position": 3,
+          "text": "Index signatures cannot store primitive numbers as values.",
+          "isCorrect": false,
+          "explanation": "Index signatures support any value type."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "NonNullable Utility Type",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What does `NonNullable<string | null | undefined>` evaluate to?",
+      "keyPoints": "Excludes null and undefined from the union, resulting in string.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`string`",
+          "isCorrect": true,
+          "explanation": "`NonNullable<T>` constructs a type by excluding `null` and `undefined` from `T`."
+        },
+        {
+          "position": 1,
+          "text": "`null | undefined`",
+          "isCorrect": false,
+          "explanation": "Those are the excluded types."
+        },
+        {
+          "position": 2,
+          "text": "`never`",
+          "isCorrect": false,
+          "explanation": "It retains `string`."
+        },
+        {
+          "position": 3,
+          "text": "`any`",
+          "isCorrect": false,
+          "explanation": "It preserves the non-null members of the union."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "Structural Typing vs Nominal Typing",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What typing philosophy does TypeScript adhere to regarding type compatibility?",
+      "keyPoints": "Structural typing (duck typing): if two types share the same shape, they are compatible.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Structural Typing (Duck Typing): compatibility is based solely on the shape and members of the data, not on explicit inheritance or nominal type declarations.",
+          "isCorrect": true,
+          "explanation": "Unlike Java or C# (nominal typing where classes must explicitly implement an interface name), TypeScript considers two objects compatible if their required properties and types match structurally."
+        },
+        {
+          "position": 1,
+          "text": "Nominal Typing: types are only compatible if they share the exact same declared class or interface name.",
+          "isCorrect": false,
+          "explanation": "Nominal typing is used in languages like Java, C++, and Rust, not TypeScript."
+        },
+        {
+          "position": 2,
+          "text": "Dynamic Typing without any compile-time checks.",
+          "isCorrect": false,
+          "explanation": "TypeScript performs strict static compile-time checking based on structure."
+        },
+        {
+          "position": 3,
+          "text": "Strict Identity Typing: objects are only compatible if they point to the exact same memory address.",
+          "isCorrect": false,
+          "explanation": "Type systems check shape and constraints, not runtime pointer equality."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "Satisfies Operator",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "What is the advantage of using TypeScript 4.9's `satisfies` operator (`const palette = { ... } satisfies Theme`) over a type annotation (`const palette: Theme = { ... }`)?",
+      "keyPoints": "satisfies validates that an expression matches a type while preserving the expression's specific literal types.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It verifies that an object matches a contract type while preserving the most specific inferred literal types of its properties, avoiding unwanted type widening.",
+          "isCorrect": true,
+          "explanation": "With `palette: Theme`, properties widen to `Theme`'s generalized types (e.g. `string | RGB`). With `satisfies Theme`, the compiler validates adherence to `Theme` while keeping `palette.primary` typed as the exact string literal `'#ff0000'`."
+        },
+        {
+          "position": 1,
+          "text": "It converts JavaScript objects to JSON schemas at runtime.",
+          "isCorrect": false,
+          "explanation": "It is purely compile-time type validation."
+        },
+        {
+          "position": 2,
+          "text": "It automatically implements missing methods with empty stubs.",
+          "isCorrect": false,
+          "explanation": "It checks type compatibility; missing required properties still cause a compile error."
+        },
+        {
+          "position": 3,
+          "text": "It executes type checking asynchronously in a background worker.",
+          "isCorrect": false,
+          "explanation": "It is standard compiler syntax."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "Enums vs Const Enums vs String Unions",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "Why do modern TypeScript style guides (including TypeScript's own team) frequently recommend string literal unions (`'ADMIN' | 'USER'`) over standard numeric `enum`?",
+      "keyPoints": "Standard enums emit runtime IIFE JavaScript code, suffer reverse mapping quirks, and literal unions have zero runtime overhead.",
+      "options": [
+        {
+          "position": 0,
+          "text": "String unions have zero runtime code emission, exact type safety, and avoid the complex runtime IIFE object generation and reverse-mapping quirks of numeric enums.",
+          "isCorrect": true,
+          "explanation": "Numeric `enum` generates runtime code with bidirectional mappings (`Enum[Enum.A] = 'A'`) that inflate bundle size and allow accidental numeric assignability. String literal unions are completely erased and strictly type-safe."
+        },
+        {
+          "position": 1,
+          "text": "Because `enum` is removed in TypeScript 5.0.",
+          "isCorrect": false,
+          "explanation": "`enum` remains in TypeScript for backwards compatibility, but unions are favored."
+        },
+        {
+          "position": 2,
+          "text": "Enums cannot be used in `switch` statements.",
+          "isCorrect": false,
+          "explanation": "Both work in `switch` statements."
+        },
+        {
+          "position": 3,
+          "text": "String unions consume more browser RAM.",
+          "isCorrect": false,
+          "explanation": "String unions have zero runtime footprint."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "tsconfig Strict Mode Flags",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What does enabling `\"strict\": true` in `tsconfig.json` do?",
+      "keyPoints": "Enables a broad family of strict type-checking flags including strictNullChecks, noImplicitAny, strictFunctionTypes, and strictPropertyInitialization.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It enables all strict type-checking options simultaneously, including `strictNullChecks`, `noImplicitAny`, `strictFunctionTypes`, and `strictBindCallApply`.",
+          "isCorrect": true,
+          "explanation": "`\"strict\": true` is the recommended default setting that turns on the full suite of strong type-checking rules in the TypeScript compiler."
+        },
+        {
+          "position": 1,
+          "text": "It adds `'use strict'` to the top of compiled JS files only.",
+          "isCorrect": false,
+          "explanation": "It activates extensive compiler static analysis rules."
+        },
+        {
+          "position": 2,
+          "text": "It prevents the use of third-party npm packages.",
+          "isCorrect": false,
+          "explanation": "Third-party packages with typings work seamlessly in strict mode."
+        },
+        {
+          "position": 3,
+          "text": "It forbids the use of `async` and `await`.",
+          "isCorrect": false,
+          "explanation": "Async/await is fully supported in strict mode."
+        }
+      ]
+    },
+    {
+      "topicName": "TypeScript Basics",
+      "subtopic": "Ambient Declarations & .d.ts Files",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the purpose of a `.d.ts` declaration file in TypeScript projects?",
+      "keyPoints": "Contains purely type declarations describing the shape of JavaScript code without producing runtime executable output.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It provides purely type information describing existing JavaScript code (like npm libraries or global browser APIs) with zero runtime JavaScript output generated.",
+          "isCorrect": true,
+          "explanation": "Declaration files (`.d.ts`) act as type contracts that provide intellisense and compile-time type checking for code implemented in vanilla JS or external packages (e.g. `@types/react`)."
+        },
+        {
+          "position": 1,
+          "text": "It compiles directly into database schema migrations.",
+          "isCorrect": false,
+          "explanation": "It is purely for the TypeScript type checker."
+        },
+        {
+          "position": 2,
+          "text": "It defines unit tests for TypeScript functions.",
+          "isCorrect": false,
+          "explanation": "Tests are typically written in `.test.ts` or `.spec.ts` files."
+        },
+        {
+          "position": 3,
+          "text": "It serves as the production minified bundle for deployment.",
+          "isCorrect": false,
+          "explanation": "Production bundles contain executable JS (`.js`), not `.d.ts` declaration files."
+        }
+      ]
+    }
+  ]
+}

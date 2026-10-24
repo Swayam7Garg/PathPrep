@@ -1,0 +1,685 @@
+{
+  "batch": "dom-browser-apis-batch-1",
+  "questions": [
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "Event Propagation & Delegation",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What are the three sequential phases of event propagation in the DOM?",
+      "keyPoints": "Capturing phase, Target phase, and Bubbling phase.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Capturing phase -> Target phase -> Bubbling phase",
+          "isCorrect": true,
+          "explanation": "When an event occurs, it travels down the DOM tree from Window to target (Capturing phase), triggers on the target element (Target phase), and then bubbles up back to Window (Bubbling phase)."
+        },
+        {
+          "position": 1,
+          "text": "Bubbling phase -> Target phase -> Capturing phase",
+          "isCorrect": false,
+          "explanation": "Bubbling happens last, not first."
+        },
+        {
+          "position": 2,
+          "text": "Target phase -> Dispatch phase -> Render phase",
+          "isCorrect": false,
+          "explanation": "Dispatch and Render are not DOM event propagation phases."
+        },
+        {
+          "position": 3,
+          "text": "Capture phase -> Listen phase -> Execute phase",
+          "isCorrect": false,
+          "explanation": "The standard phases are Capturing, Target, and Bubbling."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "Event Delegation Pattern",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the primary performance benefit of Event Delegation in web applications?",
+      "keyPoints": "Attaching a single event listener to a parent element rather than many child elements.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Attaching a single listener to a common parent element instead of hundreds of listeners on dynamic child elements, saving memory and handling dynamic additions automatically.",
+          "isCorrect": true,
+          "explanation": "Event delegation leverages event bubbling to handle events at a parent level using `event.target`, vastly reducing memory usage and simplifying dynamic item handling."
+        },
+        {
+          "position": 1,
+          "text": "It bypasses the JavaScript single-threaded event loop completely.",
+          "isCorrect": false,
+          "explanation": "Event callbacks still run on the single-threaded event loop."
+        },
+        {
+          "position": 2,
+          "text": "It forces synchronous paint operations before user input occurs.",
+          "isCorrect": false,
+          "explanation": "Event delegation does not manipulate browser paint scheduling."
+        },
+        {
+          "position": 3,
+          "text": "It prevents events from ever bubbling to parent containers.",
+          "isCorrect": false,
+          "explanation": "Delegation fundamentally relies on event bubbling to function."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "stopPropagation vs stopImmediatePropagation",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the difference between `event.stopPropagation()` and `event.stopImmediatePropagation()`?",
+      "keyPoints": "stopPropagation prevents bubbling to other elements; stopImmediatePropagation also prevents other listeners on the same element.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`stopImmediatePropagation()` stops event traversal to other DOM nodes AND prevents any other listeners registered on the current element from executing.",
+          "isCorrect": true,
+          "explanation": "`stopPropagation()` only halts bubbling/capturing up or down the DOM tree. `stopImmediatePropagation()` additionally halts remaining listeners attached to the exact same element for that event."
+        },
+        {
+          "position": 1,
+          "text": "`stopPropagation()` prevents default browser behavior like form submission.",
+          "isCorrect": false,
+          "explanation": "Preventing default actions is done via `event.preventDefault()`."
+        },
+        {
+          "position": 2,
+          "text": "`stopImmediatePropagation()` only works during the capturing phase.",
+          "isCorrect": false,
+          "explanation": "It works in both capturing and bubbling phases."
+        },
+        {
+          "position": 3,
+          "text": "There is no difference; `stopImmediatePropagation()` is an obsolete deprecated alias.",
+          "isCorrect": false,
+          "explanation": "Both are active W3C DOM Level 3 standards with distinct behavior."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "IntersectionObserver",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "Why is `IntersectionObserver` preferred over attaching `window.addEventListener('scroll', handler)` for image lazy-loading or infinite scroll?",
+      "keyPoints": "IntersectionObserver runs asynchronously outside the main thread, avoiding layout thrashing.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It computes visibility changes asynchronously off the main thread, eliminating expensive main-thread polling and layout thrashing caused by `getBoundingClientRect()`.",
+          "isCorrect": true,
+          "explanation": "`scroll` event handlers fire frequently on the main thread and querying layout triggers costly reflows. `IntersectionObserver` notifies the app asynchronously when intersections occur."
+        },
+        {
+          "position": 1,
+          "text": "It automatically converts image formats to WebP.",
+          "isCorrect": false,
+          "explanation": "It only monitors bounding box intersections."
+        },
+        {
+          "position": 2,
+          "text": "It guarantees 120 FPS video rendering.",
+          "isCorrect": false,
+          "explanation": "Not related to video decoding or framerates."
+        },
+        {
+          "position": 3,
+          "text": "It does not require JavaScript execution to load images.",
+          "isCorrect": false,
+          "explanation": "It provides a JS callback when threshold intersections occur."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "requestAnimationFrame",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "When does the browser invoke callbacks passed to `window.requestAnimationFrame()`?",
+      "keyPoints": "Immediately before the browser performs the next display repaint.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Right before the browser's next screen repaint, synchronized with the display refresh rate (typically 60Hz or 120Hz).",
+          "isCorrect": true,
+          "explanation": "`requestAnimationFrame()` tells the browser you want to perform an animation and requests that the browser schedule a repaint update before the next frame, producing smooth animations and pausing in background tabs."
+        },
+        {
+          "position": 1,
+          "text": "Immediately after the DOM tree finishes loading (`DOMContentLoaded`).",
+          "isCorrect": false,
+          "explanation": "That is the `DOMContentLoaded` event."
+        },
+        {
+          "position": 2,
+          "text": "At a fixed interval of exactly 16.6 milliseconds unconditionally.",
+          "isCorrect": false,
+          "explanation": "It synchronizes with the device display refresh rate (60Hz, 120Hz, etc.) and pauses when tabs are inactive."
+        },
+        {
+          "position": 3,
+          "text": "In the microtask queue after every promise resolution.",
+          "isCorrect": false,
+          "explanation": "It runs in the rendering phase of the event loop, not the microtask queue."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "Storage APIs Comparison",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What is the primary difference in lifespan between `localStorage` and `sessionStorage`?",
+      "keyPoints": "sessionStorage is cleared when the page session / browser tab ends; localStorage persists indefinitely.",
+      "options": [
+        {
+          "position": 0,
+          "text": "`sessionStorage` data is cleared when the browser tab/window is closed, whereas `localStorage` persists until explicitly cleared.",
+          "isCorrect": true,
+          "explanation": "`sessionStorage` scoped data survives page reloads but is destroyed when the tab session ends. `localStorage` persists across sessions until cleared by script or user."
+        },
+        {
+          "position": 1,
+          "text": "`localStorage` is limited to 4 KB, while `sessionStorage` can store up to 50 MB.",
+          "isCorrect": false,
+          "explanation": "Both typically have a 5-10 MB origin quota; cookies are limited to 4 KB."
+        },
+        {
+          "position": 2,
+          "text": "`sessionStorage` data is sent automatically with HTTP requests on every page load.",
+          "isCorrect": false,
+          "explanation": "Cookies are sent with HTTP headers; Web Storage (local/session) is strictly client-side."
+        },
+        {
+          "position": 3,
+          "text": "`sessionStorage` can be accessed across different domains.",
+          "isCorrect": false,
+          "explanation": "Both adhere strictly to the Same-Origin Policy."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "IndexedDB",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What kind of database system does `IndexedDB` provide in modern browsers?",
+      "keyPoints": "A transactional, asynchronous, object-oriented NoSQL database system.",
+      "options": [
+        {
+          "position": 0,
+          "text": "A transactional, asynchronous, client-side NoSQL object-store database capable of storing large volumes of structured data.",
+          "isCorrect": true,
+          "explanation": "IndexedDB is a full low-level NoSQL database supporting transactions, indexes, key ranges, and blobs/ArrayBuffers with storage capacities measured in gigabytes."
+        },
+        {
+          "position": 1,
+          "text": "A relational SQL database running SQLite with standard SQL table schemas.",
+          "isCorrect": false,
+          "explanation": "WebSQL (SQLite in browser) was deprecated and removed; IndexedDB is NoSQL object-store based."
+        },
+        {
+          "position": 2,
+          "text": "An in-memory key-value cache that wipes on page reload.",
+          "isCorrect": false,
+          "explanation": "IndexedDB writes persistently to client disk."
+        },
+        {
+          "position": 3,
+          "text": "A cloud-synchronized Firebase clone managed directly by browser vendors.",
+          "isCorrect": false,
+          "explanation": "It is purely local client device storage."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "Reflow vs Repaint",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the difference between a DOM Reflow (Layout) and a Repaint?",
+      "keyPoints": "Reflow calculates geometry and positions of nodes; Repaint redraws visual pixels without altering geometry.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Reflow calculates the physical dimensions and positions of elements, whereas Repaint redraws visible pixels (like color or visibility) without changing geometry.",
+          "isCorrect": true,
+          "explanation": "Reflow (Layout) is computationally expensive because geometry changes cascade through parent/child nodes. Repaint occurs when visual styles change without altering element geometry."
+        },
+        {
+          "position": 1,
+          "text": "Repaint is slower than Reflow because it recalculates CSS selectors.",
+          "isCorrect": false,
+          "explanation": "Reflow is significantly more expensive than Repaint."
+        },
+        {
+          "position": 2,
+          "text": "Reflow only happens when using HTML5 canvas elements.",
+          "isCorrect": false,
+          "explanation": "Reflow applies to standard HTML/CSS DOM trees."
+        },
+        {
+          "position": 3,
+          "text": "CSS `transform` and `opacity` always trigger full Reflow.",
+          "isCorrect": false,
+          "explanation": "`transform` and `opacity` are composite-only properties handled on the GPU without triggering reflow or repaint."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "Layout Thrashing",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "What causes 'Layout Thrashing' in JavaScript DOM programming?",
+      "keyPoints": "Alternating between reading layout geometry properties and writing DOM mutations in a tight loop.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Alternating between writing to the DOM and reading layout properties (like `offsetWidth` or `scrollTop`) in a loop, forcing repeated synchronous layouts.",
+          "isCorrect": true,
+          "explanation": "Browsers batch DOM writes lazily. Reading a layout metric immediately after a write forces the browser to synchronously calculate layout ('forced synchronous layout'), causing severe performance drops when done in loops."
+        },
+        {
+          "position": 1,
+          "text": "Loading more than 5 stylesheets in `<head>`.",
+          "isCorrect": false,
+          "explanation": "That increases network requests, but does not cause layout thrashing."
+        },
+        {
+          "position": 2,
+          "text": "Using CSS grid with more than 12 columns.",
+          "isCorrect": false,
+          "explanation": "CSS Grid layout computation is handled by the browser engine natively."
+        },
+        {
+          "position": 3,
+          "text": "Triggering too many JavaScript Garbage Collection cycles.",
+          "isCorrect": false,
+          "explanation": "That is GC pressure, not DOM layout thrashing."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "MutationObserver",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What capability does `MutationObserver` provide?",
+      "keyPoints": "Monitors changes to the DOM tree (attributes, child nodes, text content) asynchronously.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It asynchronously monitors changes being made to the DOM tree (such as child additions/removals, attribute changes, or text content updates).",
+          "isCorrect": true,
+          "explanation": "`MutationObserver` replaced legacy synchronous DOM Mutation Events (`DOMNodeInserted`), providing an efficient asynchronous batch of DOM tree changes via microtasks."
+        },
+        {
+          "position": 1,
+          "text": "It listens to changes made to the Redux or Zustand global state stores.",
+          "isCorrect": false,
+          "explanation": "It is a native Web API for observing HTML DOM elements, not JS state management."
+        },
+        {
+          "position": 2,
+          "text": "It detects when the browser window loses focus.",
+          "isCorrect": false,
+          "explanation": "Window blur/focus events handle window focus changes."
+        },
+        {
+          "position": 3,
+          "text": "It tracks hardware CPU and RAM utilization.",
+          "isCorrect": false,
+          "explanation": "Browsers do not expose low-level CPU/RAM metrics to MutationObserver."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "ResizeObserver",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the primary use case of the `ResizeObserver` API?",
+      "keyPoints": "Monitors element content box or border box size changes independently of window size.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Detecting size changes of individual DOM elements, enabling container queries and element-responsive component behavior.",
+          "isCorrect": true,
+          "explanation": "`ResizeObserver` reports changes to the content rect or border box of targeted DOM elements, allowing components to react to their own dimension changes independent of window resize."
+        },
+        {
+          "position": 1,
+          "text": "Compressing uploaded image dimensions in canvas.",
+          "isCorrect": false,
+          "explanation": "It observes DOM layout box dimensions, not image file compression."
+        },
+        {
+          "position": 2,
+          "text": "Listening only to `window.onresize` events globally.",
+          "isCorrect": false,
+          "explanation": "It targets individual DOM elements rather than the whole window."
+        },
+        {
+          "position": 3,
+          "text": "Adjusting font sizes automatically when zooming text in browser settings.",
+          "isCorrect": false,
+          "explanation": "It reports dimension observations to JavaScript callbacks."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "History API vs Hash Routing",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What does `history.pushState(state, title, url)` do in Single Page Applications?",
+      "keyPoints": "Updates browser URL and history stack without triggering a full page reload.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It adds an entry to the browser session history and updates the address bar URL without triggering a full page reload.",
+          "isCorrect": true,
+          "explanation": "`pushState()` allows SPAs to modify the browser URL and history stack client-side without sending a request to the server or re-rendering the entire HTML document."
+        },
+        {
+          "position": 1,
+          "text": "It immediately forces a server-side round trip request for the new URL.",
+          "isCorrect": false,
+          "explanation": "`window.location.href = url` causes a reload; `pushState()` avoids it."
+        },
+        {
+          "position": 2,
+          "text": "It overwrites the entire browsing history and disables the Back button.",
+          "isCorrect": false,
+          "explanation": "It appends to history. `history.replaceState()` overwrites current history entry."
+        },
+        {
+          "position": 3,
+          "text": "It can push URLs targeting arbitrary third-party origins like `google.com`.",
+          "isCorrect": false,
+          "explanation": "Cross-origin URLs throw a SecurityError in `pushState()`."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "Custom Events",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "How can custom payload data be dispatched and accessed using the DOM `CustomEvent` API?",
+      "keyPoints": "Pass payload in the detail property of CustomEvent options and access via event.detail.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Pass payload data in the `detail` property of the `CustomEvent` init dictionary, and access it via `event.detail` in listeners.",
+          "isCorrect": true,
+          "explanation": "`new CustomEvent('my-event', { detail: { id: 123 }, bubbles: true })` allows passing custom objects accessible via `event.detail`."
+        },
+        {
+          "position": 1,
+          "text": "Pass payload in `event.data` like WebSockets.",
+          "isCorrect": false,
+          "explanation": "MessageEvents use `data`; CustomEvent uses the standardized `detail` property."
+        },
+        {
+          "position": 2,
+          "text": "Custom events cannot carry data payloads across the DOM.",
+          "isCorrect": false,
+          "explanation": "The `detail` property is explicitly designed for this."
+        },
+        {
+          "position": 3,
+          "text": "Encode data as URL query parameters in the event name.",
+          "isCorrect": false,
+          "explanation": "Payloads are passed directly as JavaScript objects in `detail`."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "DocumentFragment",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "Why is `document.createDocumentFragment()` useful when building and inserting multiple DOM nodes?",
+      "keyPoints": "Lightweight virtual container; appending its children triggers a single DOM reflow/repaint.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It acts as a lightweight off-DOM container; appending it to the live document transfers its children in a single operation, triggering only one reflow.",
+          "isCorrect": true,
+          "explanation": "Appending nodes one-by-one directly to the live DOM causes multiple layouts. A `DocumentFragment` batches node insertions into a single live DOM mutation."
+        },
+        {
+          "position": 1,
+          "text": "It prevents scripts from inspecting nodes inside it.",
+          "isCorrect": false,
+          "explanation": "It is fully inspectable in memory before insertion."
+        },
+        {
+          "position": 2,
+          "text": "It converts HTML elements directly to Canvas draw calls.",
+          "isCorrect": false,
+          "explanation": "It is a standard DOM node container."
+        },
+        {
+          "position": 3,
+          "text": "It is permanently retained in the live DOM tree as a `<fragment>` tag.",
+          "isCorrect": false,
+          "explanation": "The fragment itself is not inserted; only its children are moved into the destination element."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "Passive Event Listeners",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "What is the purpose of passing `{ passive: true }` in `addEventListener('touchstart', handler, { passive: true })`?",
+      "keyPoints": "Indicates handler will not call preventDefault, allowing smooth thread scrolling without blocking.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It signals that the handler will never invoke `event.preventDefault()`, allowing the browser to scroll smoothly on the compositor thread without waiting for JS execution.",
+          "isCorrect": true,
+          "explanation": "Without `{ passive: true }`, the browser compositor thread must wait for the JavaScript thread to complete the touch/wheel listener in case it calls `preventDefault()`, causing scroll stutter (jank)."
+        },
+        {
+          "position": 1,
+          "text": "It runs the event handler inside a Web Worker thread.",
+          "isCorrect": false,
+          "explanation": "The listener runs on the main thread."
+        },
+        {
+          "position": 2,
+          "text": "It limits the event listener to firing only once.",
+          "isCorrect": false,
+          "explanation": "That is the `{ once: true }` option."
+        },
+        {
+          "position": 3,
+          "text": "It captures events during the capture phase.",
+          "isCorrect": false,
+          "explanation": "That is `{ capture: true }`."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "Shadow DOM Encapsulation",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "What does the Shadow DOM provide in Web Components?",
+      "keyPoints": "Scoped styling and DOM encapsulation isolating internal component markup from external document styles.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Scoped DOM trees and CSS encapsulation, isolating internal component styles and markup from the outer document.",
+          "isCorrect": true,
+          "explanation": "Shadow DOM attaches an encapsulated DOM tree to an element (`shadowRoot`). Styles defined inside the shadow root do not bleed out, and outer global styles do not bleed in (with exceptions for CSS inherited properties and variables)."
+        },
+        {
+          "position": 1,
+          "text": "A mechanism to hide intellectual property code from DevTools.",
+          "isCorrect": false,
+          "explanation": "Shadow DOM elements are fully inspectable in browser DevTools."
+        },
+        {
+          "position": 2,
+          "text": "Virtual DOM diffing algorithm implemented in native C++.",
+          "isCorrect": false,
+          "explanation": "Virtual DOM is a React concept; Shadow DOM is a native W3C web standard for encapsulation."
+        },
+        {
+          "position": 3,
+          "text": "Server-side rendering engine for web browsers.",
+          "isCorrect": false,
+          "explanation": "Shadow DOM is a client-side browser DOM standard."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "Service Workers Lifecycle",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "What are the primary lifecycle stages of a browser Service Worker?",
+      "keyPoints": "Installing, Installed/Waiting, Activating, Activated, Redundant.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Parsed -> Installing (`install` event) -> Waiting -> Activating (`activate` event) -> Activated (controlling pages).",
+          "isCorrect": true,
+          "explanation": "A Service Worker installs (pre-caching assets), waits until old workers terminate, activates (cleaning old caches), and becomes active to intercept `fetch` and handle push/sync events."
+        },
+        {
+          "position": 1,
+          "text": "Pending -> Fulfilled -> Rejected.",
+          "isCorrect": false,
+          "explanation": "Those are Promise states."
+        },
+        {
+          "position": 2,
+          "text": "Mounted -> Updated -> Unmounted.",
+          "isCorrect": false,
+          "explanation": "Those are React component lifecycle stages."
+        },
+        {
+          "position": 3,
+          "text": "Connected -> Handshake -> Streaming -> Disconnected.",
+          "isCorrect": false,
+          "explanation": "Those are WebSocket connection stages."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "BroadcastChannel API",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What does the `BroadcastChannel` API enable in modern web browsers?",
+      "keyPoints": "Simple pub/sub communication between different tabs, windows, or workers of the same origin.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Simple publish/subscribe messaging between different browser tabs, windows, iframes, or workers sharing the same origin.",
+          "isCorrect": true,
+          "explanation": "`const bc = new BroadcastChannel('app'); bc.postMessage(...)` allows seamless broadcast communication between all contexts (tabs, workers) of the same origin without WebSockets or storage polling."
+        },
+        {
+          "position": 1,
+          "text": "Broadcasting live audio and video streams via WebRTC.",
+          "isCorrect": false,
+          "explanation": "That is WebRTC / MediaStream API."
+        },
+        {
+          "position": 2,
+          "text": "Cross-origin data transfer without CORS headers.",
+          "isCorrect": false,
+          "explanation": "BroadcastChannel is strictly constrained by Same-Origin Policy."
+        },
+        {
+          "position": 3,
+          "text": "Connecting directly to local Bluetooth devices.",
+          "isCorrect": false,
+          "explanation": "That is the Web Bluetooth API."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "Page Lifecycle & VisibilityState",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "How can an application detect when a user minimizes a browser window or switches tabs?",
+      "keyPoints": "Listening to document visibilitychange event and inspecting document.visibilityState.",
+      "options": [
+        {
+          "position": 0,
+          "text": "By listening to the `'visibilitychange'` event on `document` and checking `document.visibilityState === 'hidden'`.",
+          "isCorrect": true,
+          "explanation": "The Page Visibility API provides the `visibilitychange` event and `document.visibilityState` ('visible' or 'hidden'), allowing apps to pause video, mute audio, or halt polling when tabs are hidden."
+        },
+        {
+          "position": 1,
+          "text": "By polling `window.screenX` every 100ms.",
+          "isCorrect": false,
+          "explanation": "Screen position does not indicate tab switching."
+        },
+        {
+          "position": 2,
+          "text": "By checking if `navigator.onLine` is false.",
+          "isCorrect": false,
+          "explanation": "That checks network connectivity, not tab visibility."
+        },
+        {
+          "position": 3,
+          "text": "By attaching a mouseleave event on `<window>`.",
+          "isCorrect": false,
+          "explanation": "Mouse leaving the document occurs frequently during normal browsing on visible tabs."
+        }
+      ]
+    },
+    {
+      "topicName": "DOM & Browser APIs",
+      "subtopic": "Pointer Events vs Mouse/Touch Events",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What problem do modern `PointerEvent` APIs (e.g., `pointerdown`, `pointermove`) solve over legacy mouse and touch events?",
+      "keyPoints": "Unifies mouse, touch, and stylus pen inputs under a single consistent hardware-agnostic API.",
+      "options": [
+        {
+          "position": 0,
+          "text": "They unify mouse, touch, and stylus/pen inputs under a single hardware-agnostic event model with properties like pressure and tilt.",
+          "isCorrect": true,
+          "explanation": "Pointer Events consolidate mouse, pen, and touch inputs into a single event stream (`pointerdown`, `pointerup`, `pointermove`), preventing duplicate handler logic for touch vs mouse."
+        },
+        {
+          "position": 1,
+          "text": "They allow JavaScript to control the physical mouse cursor position on the user's desktop.",
+          "isCorrect": false,
+          "explanation": "Browsers forbid web scripts from moving hardware cursors for security."
+        },
+        {
+          "position": 2,
+          "text": "They increase touch sampling rates up to 1000Hz.",
+          "isCorrect": false,
+          "explanation": "Sampling rates are bound by hardware digitizer capabilities."
+        },
+        {
+          "position": 3,
+          "text": "They replace HTTP REST requests with pointer streams.",
+          "isCorrect": false,
+          "explanation": "Pointer events are purely DOM input events."
+        }
+      ]
+    }
+  ]
+}

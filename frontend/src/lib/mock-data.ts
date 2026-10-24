@@ -8,7 +8,9 @@ import {
   DueReviewItem,
   SessionReportResponse,
   AiUsageInfo,
+  AiUsageResponse,
   ProgressResponse,
+  UserDailyPlanResponse,
 } from "./types";
 
 export const MOCK_TRACKS: TrackSummary[] = [
@@ -353,9 +355,74 @@ export const MOCK_PROGRESS: ProgressResponse = {
   ],
 };
 
-export const MOCK_AI_USAGE: AiUsageInfo = {
-  dailyQuota: 2,
-  usedToday: 1,
-  resetAt: "Midnight UTC (05:30 AM IST)",
-  hasCustomKey: false,
+export const MOCK_AI_USAGE: AiUsageResponse = {
+  interviews: { used: 1, limit: 2 },
+  aiCalls: { used: 4, limit: 15 },
+  usingOwnKey: false,
+  keyStatus: "NOT_CONFIGURED",
+  keyLast4: null,
+  resetAt: "2026-10-25T00:00:00Z",
+  pool: {
+    dailyTokenBudget: 250000,
+    tokensUsedToday: 4200,
+    exhausted: false,
+  },
+  hasByok: false,
+  keyHint: null,
+  provider: "GROQ",
+};
+
+export const MOCK_USER_DAILY_PLAN: UserDailyPlanResponse = {
+  date: "2026-10-24",
+  totalItems: 3,
+  completedItems: 1,
+  progressPercent: 33,
+  hasUnfinishedYesterdayTasks: true,
+  items: [
+    {
+      id: 1,
+      planDate: "2026-10-24",
+      title: "Solve 3 DSA questions on LeetCode",
+      itemType: "CUSTOM",
+      trackId: null,
+      trackName: null,
+      topicId: null,
+      topicName: null,
+      questionCount: null,
+      sessionId: null,
+      completed: true,
+      completedAt: "2026-10-24T09:15:00Z",
+      sortOrder: 0,
+    },
+    {
+      id: 2,
+      planDate: "2026-10-24",
+      title: "Quiz: Collections & ConcurrentHashMap (5 Qs)",
+      itemType: "QUIZ",
+      trackId: 1,
+      trackName: "Java Backend Engineer",
+      topicId: 101,
+      topicName: "Collections & ConcurrentHashMap",
+      questionCount: 5,
+      sessionId: null,
+      completed: false,
+      completedAt: null,
+      sortOrder: 1,
+    },
+    {
+      id: 3,
+      planDate: "2026-10-24",
+      title: "Revise OS Virtual Memory & Paging notes",
+      itemType: "CUSTOM",
+      trackId: null,
+      trackName: null,
+      topicId: null,
+      topicName: null,
+      questionCount: null,
+      sessionId: null,
+      completed: false,
+      completedAt: null,
+      sortOrder: 2,
+    },
+  ],
 };

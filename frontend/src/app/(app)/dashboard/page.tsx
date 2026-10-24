@@ -25,6 +25,7 @@ import { Progress } from "@/components/ui/progress";
 import { getTodayPlan, getSessionHistory } from "@/lib/api";
 import { queryKeys } from "@/lib/query-keys";
 import { PlanItem } from "@/lib/types";
+import { DailyChecklist } from "@/components/plan/daily-checklist";
 
 export default function DashboardPage() {
   const {
@@ -332,15 +333,18 @@ export default function DashboardPage() {
 
       {/* 4. Today's Plan & Recent Sessions Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Column: Today's Plan Items in Order */}
-        <div className="lg:col-span-7 flex flex-col gap-4">
-          <div className="flex items-center justify-between">
+        {/* Left Column: Interactive Daily Checklist & System Actions */}
+        <div className="lg:col-span-7 flex flex-col gap-6">
+          {/* User-Defined Daily Plan & Interactive Checklist */}
+          <DailyChecklist />
+
+          <div className="flex items-center justify-between pt-2">
             <div className="flex items-center gap-2">
               <BookOpen className="w-4 h-4 text-[#111111]" />
-              <h2 className="text-[18px] font-semibold text-[#111111]">Today's Plan</h2>
+              <h2 className="text-[17px] font-semibold text-[#111111]">Adaptive Study Recommendations</h2>
             </div>
             <span className="text-[12px] font-mono text-[#8A8A8A]">
-              {items.length} prioritized action{items.length === 1 ? "" : "s"}
+              {items.length} algorithmic recommendation{items.length === 1 ? "" : "s"}
             </span>
           </div>
 

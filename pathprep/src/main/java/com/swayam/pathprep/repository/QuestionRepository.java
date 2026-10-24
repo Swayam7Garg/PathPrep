@@ -42,6 +42,19 @@ public interface QuestionRepository extends JpaRepository<Question, Long>, JpaSp
             @Param("difficulty") int difficulty
     );
 
+    @Query(value = """
+        SELECT q.id AS id, q.topic_id AS topicId
+        FROM questions q
+        WHERE q.topic_id IN (:topicIds)
+          AND q.type IN ('CONCEPT', 'SCENARIO')
+          AND q.status = 'PUBLISHED'
+          AND (:difficulty = 0 OR q.difficulty = :difficulty)
+        """, nativeQuery = true)
+    List<QuestionCandidateRow> findCandidateInterviewQuestions(
+            @Param("topicIds") Collection<Long> topicIds,
+            @Param("difficulty") int difficulty
+    );
+
 
     @Query("SELECT q FROM Question q JOIN FETCH q.topic LEFT JOIN FETCH q.options WHERE q.id = :id")
     Optional<Question> findWithDetailsById(@Param("id") Long id);

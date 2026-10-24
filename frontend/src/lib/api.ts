@@ -18,11 +18,19 @@ import {
   ReviewAnswerResponse,
   ProgressResponse,
   AiUsageInfo,
+  AiUsageResponse,
   ApiErrorResponse,
   UserProfile,
   AuthResponse,
   UpdateUserRequest,
   DeleteUserRequest,
+  InterviewSessionResponse,
+  InterviewTurnAnswerRequest,
+  LlmKeyTestResponse,
+  EvaluationFeedbackRequest,
+  UserDailyPlanResponse,
+  DailyPlanItemResponse,
+  CreateDailyPlanItemRequest,
 } from "./types";
 import {
   MOCK_TRACKS,
@@ -35,6 +43,7 @@ import {
   MOCK_SESSION_REPORT,
   MOCK_AI_USAGE,
   MOCK_PROGRESS,
+  MOCK_USER_DAILY_PLAN,
 } from "./mock-data";
 import { getAccessToken, setAccessToken } from "./auth-token";
 
@@ -233,6 +242,8 @@ export async function createPracticeSession(
   );
 }
 
+export const createSession = createPracticeSession;
+
 // Phase 4: Submit Answer (Idempotent)
 export async function submitQuizAnswer(
   sessionId: number | string,
@@ -322,9 +333,43 @@ export async function getSessionHistory(params?: {
   });
 }
 
-// Phase 6: Learning Loop (Plan, Skills, Gaps, Review, Progress)
+// Phase 6: Learning Loop (Algorithmic Plan, Skills, Gaps, Review, Progress)
 export async function getTodayPlan(): Promise<TodayPlanResponse> {
   return request<TodayPlanResponse>("/me/plan/today", {}, MOCK_DAILY_PLAN);
+}
+
+// User-Defined Daily Plan & Interactive Checklist
+export async function getUserDailyPlan(): Promise<UserDailyPlanResponse> {
+  return request<UserDailyPlanResponse>("/me/plan", {}, MOCK_USER_DAILY_PLAN);
+}
+
+export async function addDailyPlanItem(
+  payload: CreateDailyPlanItemRequest
+): Promise<DailyPlanItemResponse> {
+  return request<DailyPlanItemResponse>("/me/plan/items", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function toggleDailyPlanItem(
+  id: number
+): Promise<DailyPlanItemResponse> {
+  return request<DailyPlanItemResponse>(`/me/plan/items/${id}/toggle`, {
+    method: "PATCH",
+  });
+}
+
+export async function deleteDailyPlanItem(id: number): Promise<void> {
+  return request<void>(`/me/plan/items/${id}`, {
+    method: "DELETE",
+  });
+}
+
+export async function rolloverYesterdayDailyPlan(): Promise<UserDailyPlanResponse> {
+  return request<UserDailyPlanResponse>("/me/plan/rollover", {
+    method: "POST",
+  });
 }
 
 export async function getSkills(
@@ -397,19 +442,93 @@ export async function getProgress(
   return request<ProgressResponse>(`/me/progress${query}`, {}, MOCK_PROGRESS);
 }
 
-// Phase 8 / Settings placeholders (Disabled/Mock only)
-export async function getAiUsage(): Promise<AiUsageInfo> {
-  return request<AiUsageInfo>("/me/usage", {}, MOCK_AI_USAGE);
+// Phase 8: AI Stream & Usage Meter
+export async function getAiUsage(): Promise<AiUsageResponse> {
+  return request<AiUsageResponse>("/me/usage", {}, MOCK_AI_USAGE);
 }
 
-export async function saveGroqApiKey(apiKey: string): Promise<{ success: boolean }> {
-  return request<{ success: boolean }>(
+export async function saveGroqApiKey(apiKey: string): Promise<{ message?: string }> {
+  return request<{ message?: string }>(
     "/me/llm-key",
     {
-      method: "POST",
-      body: JSON.stringify({ apiKey }),
+      method: "PUT",
+      body: JSON.stringify({ apiKey, provider: "GROQ" }),
     },
-    { success: true }
+    { message: "API key saved successfully" }
+  );
+}
+
+export async function testGroqApiKey(apiKey?: string): Promise<LlmKeyTestResponse> {
+  return request<LlmKeyTestResponse>(
+    "/me/llm-key/test",
+    {
+      method: "POST",
+      body: JSON.stringify({ apiKey, provider: "GROQ" }),
+    },
+    { valid: true, latencyMs: 115, message: "Connection to Groq API successfully verified" }
+  );
+}
+
+export async function removeGroqApiKey(): Promise<{ message?: string }> {
+  return request<{ message?: string }>(
+    "/me/llm-key",
+    {
+      method: "DELETE",
+    },
+    { message: "API key removed successfully" }
+  );
+}
+
+export async function getInterviewSession(
+  sessionId: number | string
+): Promise<InterviewSessionResponse> {
+  return request<InterviewSessionResponse>(`/sessions/${sessionId}/interview`);
+}
+
+export async function submitInterviewTurn(
+  sessionId: number | string,
+  payload: InterviewTurnAnswerRequest,
+  idempotencyKey?: string
+): Promise<AnswerResponse> {
+  const key = idempotencyKey || generateUUID();
+  return request<AnswerResponse>(
+    `/sessions/${sessionId}/answers`,
+    {
+      method: "POST",
+      headers: {
+        "Idempotency-Key": key,
+      },
+      body: JSON.stringify({
+        turnId: payload.turnId,
+        answerText: payload.answerText,
+        timeSpentSec: payload.timeSpentSec,
+        idempotencyKey: key,
+      }),
+    }
+  );
+}
+
+export async function retryEvaluations(
+  sessionId: number | string
+): Promise<{ status: string; message?: string }> {
+  return request<{ status: string; message?: string }>(
+    `/sessions/${sessionId}/evaluations/retry`,
+    {
+      method: "POST",
+    }
+  );
+}
+
+export async function submitEvaluationFeedback(
+  evaluationId: number | string,
+  payload: EvaluationFeedbackRequest
+): Promise<{ success: boolean; message?: string }> {
+  return request<{ success: boolean; message?: string }>(
+    `/evaluations/${evaluationId}/feedback`,
+    {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }
   );
 }
 

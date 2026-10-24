@@ -40,7 +40,8 @@ public class MeService {
             "sessions",
             "question_reports",
             "cohort_members",
-            "refresh_tokens"
+            "refresh_tokens",
+            "daily_plan_items"
     );
 
     private final UserRepository userRepository;
@@ -129,6 +130,9 @@ public class MeService {
                 .setParameter("userId", userId).executeUpdate();
 
         entityManager.createNativeQuery("DELETE FROM attempts WHERE user_id = :userId")
+                .setParameter("userId", userId).executeUpdate();
+
+        entityManager.createNativeQuery("DELETE FROM daily_plan_items WHERE user_id = :userId")
                 .setParameter("userId", userId).executeUpdate();
 
         entityManager.createNativeQuery("DELETE FROM session_questions WHERE session_id IN (SELECT id FROM sessions WHERE user_id = :userId)")

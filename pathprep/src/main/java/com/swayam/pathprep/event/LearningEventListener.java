@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
 import java.time.Instant;
@@ -31,6 +32,8 @@ public class LearningEventListener {
     private final TopicRepository topicRepository;
     private final QuestionRepository questionRepository;
     private final AttemptRepository attemptRepository;
+    private final com.swayam.pathprep.service.DailyPlanService dailyPlanService;
+
 
     @EventListener
     public void onAttemptGraded(AttemptGradedEvent event) {
@@ -132,6 +135,7 @@ public class LearningEventListener {
     }
 
     @EventListener
+    @Transactional
     public void onSessionCompleted(SessionCompletedEvent event) {
         log.info("Processing SessionCompletedEvent in LearningEventListener: userId={}, sessionId={}",
                 event.userId(), event.sessionId());
@@ -146,5 +150,11 @@ public class LearningEventListener {
                 1,
                 0
         );
+
+        if (event.perTopicResults() != null) {
+            for (SessionCompletedEvent.TopicResult tr : event.perTopicResults()) {
+                dailyPlanService.autoCompleteQuizItems(event.userId(), tr.topicId(), event.sessionId(), event.completedAt());
+            }
+        }
     }
 }

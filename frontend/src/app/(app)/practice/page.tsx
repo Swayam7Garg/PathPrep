@@ -24,8 +24,10 @@ import {
   getTracks,
   getTopicsForTrack,
   createPracticeSession,
+  getUserDailyPlan,
   ApiError,
 } from "@/lib/api";
+import { ListTodo, Calendar } from "lucide-react";
 import { queryKeys } from "@/lib/query-keys";
 import { SessionMode, QuizDifficulty, SessionStyle } from "@/lib/types";
 
@@ -70,6 +72,13 @@ function PracticeLobbyContent() {
     queryKey: queryKeys.tracks.topics(selectedTrackId),
     queryFn: () => getTopicsForTrack(selectedTrackId),
   });
+
+  const { data: userPlan } = useQuery({
+    queryKey: queryKeys.me.userPlan,
+    queryFn: getUserDailyPlan,
+  });
+
+  const scheduledQuizzes = userPlan?.items?.filter((item) => item.itemType === "QUIZ") || [];
 
   // Auto-select valid topics for the selected track when topics load
   useEffect(() => {
@@ -121,6 +130,9 @@ function PracticeLobbyContent() {
   const handleStartSession = () => {
     setErrorMessage(null);
     setActiveSessionConflict(null);
+    if (selectedMode === "QUIZ" && typeof document !== "undefined" && document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    }
     createSessionMutation.mutate({
       trackId: selectedTrackId,
       mode: selectedMode,
@@ -148,6 +160,91 @@ function PracticeLobbyContent() {
           Customize your diagnostic drill or simulate live technical interviews aligned with college placements.
         </p>
       </div>
+
+      {/* Cross-Screen Integration: Scheduled for Today Pinned Section */}
+      {scheduledQuizzes.length > 0 && (
+        <div className="bg-[#FAFAFA] border border-[#E5E5E5] rounded-xl p-5 flex flex-col gap-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#16A34A]" />
+              <h3 className="text-[12px] font-semibold text-[#111111] uppercase tracking-wider font-mono flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-[#16A34A]" />
+                Scheduled in Today&apos;s Plan ({scheduledQuizzes.filter((q) => !q.completed).length} Pending)
+              </h3>
+            </div>
+            <Link
+              href="/dashboard"
+              className="text-[12px] font-medium text-[#737373] hover:text-[#111111] transition-colors flex items-center gap-1"
+            >
+              <span>Edit Daily Plan</span>
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {scheduledQuizzes.map((quiz) => (
+              <div
+                key={quiz.id}
+                className={`p-3.5 rounded-lg border flex flex-col justify-between gap-3 ${
+                  quiz.completed
+                    ? "bg-white border-[#E5E5E5] opacity-60"
+                    : "bg-white border-[#111111]/30 shadow-xs hover:border-[#111111] transition-colors"
+                }`}
+              >
+                <div>
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <span
+                      className={`text-[10px] font-mono px-1.5 py-0.5 rounded font-medium ${
+                        quiz.completed
+                          ? "bg-[#F5F5F5] text-[#737373]"
+                          : "bg-[#16A34A]/10 text-[#16A34A]"
+                      }`}
+                    >
+                      {quiz.completed ? "COMPLETED" : "PLANNED"}
+                    </span>
+                    {quiz.questionCount && (
+                      <span className="text-[11px] font-mono text-[#8A8A8A]">
+                        {quiz.questionCount} questions
+                      </span>
+                    )}
+                  </div>
+                  <h4 className="text-[13px] font-semibold text-[#111111] tracking-tight">
+                    {quiz.title}
+                  </h4>
+                </div>
+
+                <div className="flex items-center justify-between pt-2 border-t border-[#F5F5F5]">
+                  <span className="text-[11px] font-mono text-[#8A8A8A]">
+                    {quiz.topicName || (quiz.topicId ? `Topic #${quiz.topicId}` : "Quiz Drill")}
+                  </span>
+                  {quiz.completed ? (
+                    <span className="text-[12px] text-[#16A34A] font-medium flex items-center gap-1">
+                      <Check className="w-3.5 h-3.5" />
+                      Done
+                    </span>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (quiz.topicId) {
+                          setSelectedTopicIds([Number(quiz.topicId)]);
+                        }
+                        if (quiz.questionCount) {
+                          setQuestionCount(quiz.questionCount);
+                        }
+                        setSelectedMode("QUIZ");
+                      }}
+                      className="text-[12px] font-semibold text-[#111111] hover:underline flex items-center gap-1 cursor-pointer"
+                    >
+                      <span>Load Config</span>
+                      <span aria-hidden="true">&darr;</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* 1. Track Selection Strip */}
       <div className="flex flex-col gap-3">

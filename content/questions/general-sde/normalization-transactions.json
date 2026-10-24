@@ -1,0 +1,685 @@
+{
+  "batch": "normalization-transactions-batch-1",
+  "questions": [
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "ACID Properties",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What does each letter in the ACID acronym for database transactions stand for?",
+      "keyPoints": "Atomicity, Consistency, Isolation, Durability.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Atomicity, Consistency, Isolation, Durability",
+          "isCorrect": true,
+          "explanation": "Atomicity: all or nothing. Consistency: preserves database schema invariants. Isolation: concurrent transactions do not interfere. Durability: committed changes survive crashes."
+        },
+        {
+          "position": 1,
+          "text": "Authentication, Concurrency, Integrity, Decryption",
+          "isCorrect": false,
+          "explanation": "Those are general security and systems terms."
+        },
+        {
+          "position": 2,
+          "text": "Asynchronous, Clustered, Indexed, Distributed",
+          "isCorrect": false,
+          "explanation": "Those describe distributed database architecture attributes."
+        },
+        {
+          "position": 3,
+          "text": "Availability, Consistency, Isolation, Partition-tolerance",
+          "isCorrect": false,
+          "explanation": "CAP theorem covers Consistency, Availability, Partition-tolerance."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "Database Normal Forms (1NF, 2NF, 3NF)",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What condition must a relation satisfy to be in Third Normal Form (3NF)?",
+      "keyPoints": "Must be in 2NF and have no transitive functional dependencies (no non-key attribute depends on another non-key attribute).",
+      "options": [
+        {
+          "position": 0,
+          "text": "It must be in 2NF, and have NO transitive functional dependencies (every non-prime attribute must depend directly on the candidate key, not on another non-key attribute).",
+          "isCorrect": true,
+          "explanation": "In 3NF, 'every non-key attribute must provide a fact about the key, the whole key, and nothing but the key'. If column A determines non-key column B, and B determines column C, it violates 3NF."
+        },
+        {
+          "position": 1,
+          "text": "It must contain at least three foreign key constraints.",
+          "isCorrect": false,
+          "explanation": "3NF is about eliminating transitive redundancy, not constraint counts."
+        },
+        {
+          "position": 2,
+          "text": "All columns must have unique indexes.",
+          "isCorrect": false,
+          "explanation": "Only primary/candidate keys require uniqueness."
+        },
+        {
+          "position": 3,
+          "text": "Tables must have fewer than 10 columns.",
+          "isCorrect": false,
+          "explanation": "Column counts are irrelevant to mathematical normal forms."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "Second Normal Form (2NF)",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What constitutes a violation of Second Normal Form (2NF)?",
+      "keyPoints": "A partial functional dependency (a non-prime attribute depends on only part of a composite primary key).",
+      "options": [
+        {
+          "position": 0,
+          "text": "A partial dependency: when a non-key attribute depends on only PART of a composite candidate key rather than the entire composite key.",
+          "isCorrect": true,
+          "explanation": "2NF requires 1NF and no partial dependencies. If primary key is `(OrderID, ProductID)`, an attribute like `OrderDate` depends only on `OrderID`, violating 2NF (it belongs in an Orders table)."
+        },
+        {
+          "position": 1,
+          "text": "Having repeating groups or comma-separated values in a cell.",
+          "isCorrect": false,
+          "explanation": "Non-atomic repeating values violate First Normal Form (1NF)."
+        },
+        {
+          "position": 2,
+          "text": "Having more than two foreign keys.",
+          "isCorrect": false,
+          "explanation": "Foreign keys are standard relational linkages."
+        },
+        {
+          "position": 3,
+          "text": "Having NULL values in optional columns.",
+          "isCorrect": false,
+          "explanation": "Nullable columns are allowed in normalized schemas."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "BCNF (Boyce-Codd Normal Form)",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "How does Boyce-Codd Normal Form (BCNF) strictly strengthen Third Normal Form (3NF)?",
+      "keyPoints": "For every non-trivial functional dependency X -> Y, X must be a superkey (eliminates anomalies where prime attributes depend on non-superkeys).",
+      "options": [
+        {
+          "position": 0,
+          "text": "For every non-trivial functional dependency `X -> Y`, `X` MUST be a superkey, eliminating cases where prime attributes depend on non-superkeys.",
+          "isCorrect": true,
+          "explanation": "3NF allows `X -> Y` if Y is a prime attribute even if X is not a superkey. BCNF removes this exception, requiring every determinant `X` to be a candidate key / superkey."
+        },
+        {
+          "position": 1,
+          "text": "BCNF allows multi-valued dependencies.",
+          "isCorrect": false,
+          "explanation": "Multi-valued dependencies are addressed in 4NF."
+        },
+        {
+          "position": 2,
+          "text": "BCNF permits denormalized JSON columns.",
+          "isCorrect": false,
+          "explanation": "BCNF is a strict relational normalization standard."
+        },
+        {
+          "position": 3,
+          "text": "BCNF requires every table to have exactly two columns.",
+          "isCorrect": false,
+          "explanation": "BCNF relations can have any number of attributes."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "Denormalization Trade-offs",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "Why do high-throughput analytical or read-heavy systems intentionally denormalize database tables?",
+      "keyPoints": "To avoid expensive multi-table JOIN operations and improve read performance, at the expense of data redundancy and update complexity.",
+      "options": [
+        {
+          "position": 0,
+          "text": "To reduce expensive multi-table JOIN operations and accelerate read query performance, trading off storage space and requiring careful handling of update anomalies.",
+          "isCorrect": true,
+          "explanation": "Normalized tables minimize redundancy and prevent anomalies, but querying across 10 tables requires costly joins. Denormalization pre-aggregates or duplicates columns to optimize read latency."
+        },
+        {
+          "position": 1,
+          "text": "Because normalized databases cannot use indexes.",
+          "isCorrect": false,
+          "explanation": "Normalized databases make heavy use of indexes."
+        },
+        {
+          "position": 2,
+          "text": "To eliminate the need for primary keys.",
+          "isCorrect": false,
+          "explanation": "Denormalized tables still use primary and secondary keys."
+        },
+        {
+          "position": 3,
+          "text": "To reduce disk storage requirements.",
+          "isCorrect": false,
+          "explanation": "Denormalization increases storage consumption due to duplicated data."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "Transaction Isolation Levels (ANSI SQL)",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "Arrange the four standard ANSI SQL transaction isolation levels from lowest isolation (most concurrency) to highest isolation (strictest):",
+      "keyPoints": "Read Uncommitted < Read Committed < Repeatable Read < Serializable.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Read Uncommitted < Read Committed < Repeatable Read < Serializable",
+          "isCorrect": true,
+          "explanation": "Read Uncommitted permits dirty reads. Read Committed prevents dirty reads. Repeatable Read prevents non-repeatable reads. Serializable prevents all anomalies including phantom reads."
+        },
+        {
+          "position": 1,
+          "text": "Read Committed < Read Uncommitted < Serializable < Repeatable Read",
+          "isCorrect": false,
+          "explanation": "Read Uncommitted has the lowest isolation."
+        },
+        {
+          "position": 2,
+          "text": "Serializable < Repeatable Read < Read Committed < Read Uncommitted",
+          "isCorrect": false,
+          "explanation": "This is in reverse order."
+        },
+        {
+          "position": 3,
+          "text": "Snapshot Isolation < Read Committed < Read Uncommitted < Serializable",
+          "isCorrect": false,
+          "explanation": "Read Uncommitted is the baseline lowest isolation level."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "Dirty Read Anomaly",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "What is a 'Dirty Read' anomaly in database transactions?",
+      "keyPoints": "A transaction reads uncommitted data written by another concurrent transaction that is later rolled back.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Transaction A reads data modified by concurrent Transaction B before B commits; if Transaction B rolls back, Transaction A operated on invalid data that never truly existed.",
+          "isCorrect": true,
+          "explanation": "Dirty reads occur in Read Uncommitted. The modified rows were never finalized, violating consistency if Transaction B aborts."
+        },
+        {
+          "position": 1,
+          "text": "Reading data from a corrupted hard drive sector.",
+          "isCorrect": false,
+          "explanation": "Dirty read is a concurrency isolation phenomenon, not hardware corruption."
+        },
+        {
+          "position": 2,
+          "text": "Reading the same row twice and getting different values.",
+          "isCorrect": false,
+          "explanation": "That describes a Non-Repeatable Read."
+        },
+        {
+          "position": 3,
+          "text": "Reading a new row inserted by another committed transaction.",
+          "isCorrect": false,
+          "explanation": "That describes a Phantom Read."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "Non-Repeatable Read vs Phantom Read",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the distinction between a Non-Repeatable Read and a Phantom Read?",
+      "keyPoints": "Non-repeatable read: re-reading the SAME row finds updated/deleted values; phantom read: re-executing a RANGE query returns newly inserted rows matching the predicate.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Non-Repeatable Read involves re-reading the SAME existing row and finding modified or deleted column values; Phantom Read involves re-running a RANGE query and finding NEW rows inserted that match the predicate.",
+          "isCorrect": true,
+          "explanation": "Row-level locks prevent non-repeatable reads. Preventing phantom reads requires predicate locks or Next-Key Locks (gap locking) over the range of possible rows."
+        },
+        {
+          "position": 1,
+          "text": "They are exact synonyms in SQL-92 standards.",
+          "isCorrect": false,
+          "explanation": "They represent distinct anomalies requiring different locking techniques."
+        },
+        {
+          "position": 2,
+          "text": "Non-repeatable read occurs on writes; phantom read occurs on deletes.",
+          "isCorrect": false,
+          "explanation": "Both describe anomalies observed during read queries."
+        },
+        {
+          "position": 3,
+          "text": "Phantom reads only occur in NoSQL databases.",
+          "isCorrect": false,
+          "explanation": "Phantom reads are a classic relational database isolation phenomenon."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "MVCC (Multi-Version Concurrency Control)",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "How does MVCC (Multi-Version Concurrency Control) allow database readers and writers to avoid blocking each other in engines like PostgreSQL and MySQL InnoDB?",
+      "keyPoints": "Writers create new row versions with transaction timestamps rather than mutating rows in place; readers read consistent snapshot versions matching their read view.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Writers create new versions of modified rows with transaction IDs instead of in-place overwrites; readers view a consistent historical snapshot matching their transaction read view without acquiring read locks.",
+          "isCorrect": true,
+          "explanation": "'Readers do not block writers, and writers do not block readers.' By using undo logs / row version chains, readers look at past committed snapshots while writers modify new row versions concurrently."
+        },
+        {
+          "position": 1,
+          "text": "By locking the entire database table during every SELECT query.",
+          "isCorrect": false,
+          "explanation": "MVCC eliminates read locks entirely for standard SELECTs."
+        },
+        {
+          "position": 2,
+          "text": "By running all queries on a separate replica server.",
+          "isCorrect": false,
+          "explanation": "MVCC operates locally on a single database engine instance."
+        },
+        {
+          "position": 3,
+          "text": "By storing all database records in volatile CPU L3 cache.",
+          "isCorrect": false,
+          "explanation": "Row versions reside in the storage engine data pages and undo logs."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "Write-Ahead Logging (WAL)",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "Why do database engines mandate Write-Ahead Logging (WAL, e.g. redo log in MySQL, WAL in PostgreSQL) to guarantee the Durability property of ACID?",
+      "keyPoints": "Log changes must be flushed sequentially to disk before dirty data pages are flushed, enabling crash recovery with fast sequential I/O.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Sequential append-only log writes to disk are dramatically faster than random I/O writes to data pages; flushing the WAL to disk before confirming COMMIT guarantees recovery if power fails before dirty pages are written.",
+          "isCorrect": true,
+          "explanation": "Modifying random data pages in memory is fast, but flushing them to disk is slow random I/O. The WAL records the change sequentially. On a crash, unwritten dirty pages are reconstructed by replaying the redo log."
+        },
+        {
+          "position": 1,
+          "text": "To log user IP addresses for security compliance.",
+          "isCorrect": false,
+          "explanation": "WAL records low-level physical/logical byte changes for durability and crash recovery."
+        },
+        {
+          "position": 2,
+          "text": "To prevent SQL injection attacks.",
+          "isCorrect": false,
+          "explanation": "SQL injection is mitigated by parameterized queries."
+        },
+        {
+          "position": 3,
+          "text": "Because relational tables cannot write to SSDs directly.",
+          "isCorrect": false,
+          "explanation": "WAL is an architectural durability pattern regardless of storage medium."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "Two-Phase Locking (2PL)",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What are the two phases of the Two-Phase Locking (2PL) protocol, and what does 2PL mathematically guarantee?",
+      "keyPoints": "Growing Phase (acquiring locks) and Shrinking Phase (releasing locks); guarantees serializability.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Growing Phase (locks are acquired, none released) and Shrinking Phase (locks are released, none acquired); it guarantees serializability of concurrent transactions.",
+          "isCorrect": true,
+          "explanation": "Under 2PL, once a transaction releases a single lock, it enters the shrinking phase and can never acquire another lock. This mathematical restriction prevents inconsistent overlapping views, guaranteeing serializability."
+        },
+        {
+          "position": 1,
+          "text": "Prepare Phase and Commit Phase; guarantees two-phase commit across distributed nodes.",
+          "isCorrect": false,
+          "explanation": "That is Two-Phase Commit (2PC), a distributed consensus protocol, distinct from Two-Phase Locking (2PL)."
+        },
+        {
+          "position": 2,
+          "text": "Read Phase and Write Phase; guarantees zero deadlocks.",
+          "isCorrect": false,
+          "explanation": "2PL can still suffer deadlocks (which must be detected or avoided)."
+        },
+        {
+          "position": 3,
+          "text": "Compress Phase and Index Phase.",
+          "isCorrect": false,
+          "explanation": "Not related to database locking protocols."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "Two-Phase Commit (2PC)",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "What is the primary role of the Coordinator in the Two-Phase Commit (2PC) protocol across distributed database nodes?",
+      "keyPoints": "Coordinates Prepare phase (queries participants if ready to commit) and Commit phase (instructs all to commit or abort).",
+      "options": [
+        {
+          "position": 0,
+          "text": "It sends a `PREPARE` request asking all participant nodes if they can commit; if all answer YES, it logs and sends `COMMIT`, otherwise it orders all nodes to `ABORT`.",
+          "isCorrect": true,
+          "explanation": "2PC is an atomic commitment protocol. If any participant votes NO or fails to respond, the coordinator sends an ABORT to all participants, preserving distributed Atomicity across nodes."
+        },
+        {
+          "position": 1,
+          "text": "It balances network load among web servers.",
+          "isCorrect": false,
+          "explanation": "That is a load balancer."
+        },
+        {
+          "position": 2,
+          "text": "It replicates B-Tree indexes between master and slave.",
+          "isCorrect": false,
+          "explanation": "That is replication."
+        },
+        {
+          "position": 3,
+          "text": "It encrypts network packets between microservices.",
+          "isCorrect": false,
+          "explanation": "2PC is a distributed atomic consensus protocol."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "Pessimistic vs Optimistic Locking",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "When is Optimistic Concurrency Control (e.g. using a `version` column) preferred over Pessimistic Locking (`SELECT ... FOR UPDATE`)?",
+      "keyPoints": "When read volume is high and write conflicts are infrequent, avoiding lock contention.",
+      "options": [
+        {
+          "position": 0,
+          "text": "When read volume is high and write collisions are infrequent; updates verify `WHERE id = ? AND version = current_version`, avoiding lock overhead and blocking.",
+          "isCorrect": true,
+          "explanation": "Pessimistic locking holds exclusive database locks, causing queuing and deadlocks in web apps. Optimistic locking proceeds without locks; on commit, it checks if `version` changed; if conflict occurred, it rolls back or retries."
+        },
+        {
+          "position": 1,
+          "text": "When high write contention causes 90% of transactions to conflict.",
+          "isCorrect": false,
+          "explanation": "Under heavy contention, optimistic retries cause thrashing; pessimistic locking is better there."
+        },
+        {
+          "position": 2,
+          "text": "When transactions must execute on single-threaded databases.",
+          "isCorrect": false,
+          "explanation": "Single-threaded engines (like Redis) do not experience multi-thread concurrency."
+        },
+        {
+          "position": 3,
+          "text": "When the database does not support SQL.",
+          "isCorrect": false,
+          "explanation": "Optimistic locking is common across SQL and NoSQL databases."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "Next-Key Locking in InnoDB",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "How does MySQL InnoDB's 'Next-Key Lock' eliminate Phantom Reads in the Repeatable Read isolation level?",
+      "keyPoints": "Combines an index-record lock on the row with a gap lock on the gap preceding the record, preventing concurrent insertions into the range.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It combines an index record lock with a Gap Lock on the space preceding the index record, preventing concurrent transactions from inserting new rows into the scanned gap.",
+          "isCorrect": true,
+          "explanation": "A gap lock locks the empty spaces between index keys. Because other transactions cannot insert new keys into the locked gap, re-executing a range scan yields the exact same rows, eliminating phantom reads."
+        },
+        {
+          "position": 1,
+          "text": "It locks the entire database table with an exclusive table lock.",
+          "isCorrect": false,
+          "explanation": "InnoDB uses fine-grained gap locks, not blunt table locks."
+        },
+        {
+          "position": 2,
+          "text": "It rejects all write queries globally while a read query executes.",
+          "isCorrect": false,
+          "explanation": "Writes outside the scanned gap proceed concurrently."
+        },
+        {
+          "position": 3,
+          "text": "It caches all query results in Memcached.",
+          "isCorrect": false,
+          "explanation": "Next-Key locking is an internal index locking algorithm in InnoDB."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "Deadlock Detection in DBMS",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "How do modern database engines automatically resolve deadlocks when two transactions block each other?",
+      "keyPoints": "Maintains a Wait-For Graph, detects cycles, and chooses a victim transaction to abort and roll back.",
+      "options": [
+        {
+          "position": 0,
+          "text": "They maintain a Wait-For Graph to detect directed cycles, choose a 'victim' transaction (typically the one with fewer updates), and abort/roll it back so the other transaction can proceed.",
+          "isCorrect": true,
+          "explanation": "A background deadlock detector periodically checks the lock wait-for graph. When a cycle `T1 -> T2 -> T1` is found, it aborts the lowest-cost transaction with a deadlock error code (`ER_LOCK_DEADLOCK`), allowing the caller to retry."
+        },
+        {
+          "position": 1,
+          "text": "They crash and restart the database daemon.",
+          "isCorrect": false,
+          "explanation": "DBMS deadlock resolution is transparent and online."
+        },
+        {
+          "position": 2,
+          "text": "They execute both conflicting transactions in parallel anyway.",
+          "isCorrect": false,
+          "explanation": "Executing conflicting writes simultaneously corrupts data."
+        },
+        {
+          "position": 3,
+          "text": "They wait for 24 hours before timing out.",
+          "isCorrect": false,
+          "explanation": "Deadlock detection runs in milliseconds, or triggers a configurable timeout (e.g. `innodb_lock_wait_timeout = 50s`)."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "Checkpointing in WAL",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What is the purpose of periodic 'Checkpoints' in database Write-Ahead Logging systems?",
+      "keyPoints": "Flushes dirty in-memory pages to disk and truncates the WAL log, bounding crash recovery time.",
+      "options": [
+        {
+          "position": 0,
+          "text": "It flushes dirty buffer pool pages to disk and records a checkpoint marker, allowing the database to safely prune/truncate older WAL logs and bound crash recovery replay time.",
+          "isCorrect": true,
+          "explanation": "Without checkpoints, WAL logs would grow indefinitely and crash recovery would require replaying years of transaction history. At a checkpoint, all changes prior to the marker are guaranteed to be in data files on disk."
+        },
+        {
+          "position": 1,
+          "text": "It deletes all user passwords from the database.",
+          "isCorrect": false,
+          "explanation": "Checkpoints manage database storage buffer flushing."
+        },
+        {
+          "position": 2,
+          "text": "It closes all client database connections.",
+          "isCorrect": false,
+          "explanation": "Checkpointing is an asynchronous background process that does not disconnect users."
+        },
+        {
+          "position": 3,
+          "text": "It optimizes B-Tree index fragmentation.",
+          "isCorrect": false,
+          "explanation": "Index defragmentation is performed by `OPTIMIZE TABLE` or vacuuming."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "BASE vs ACID in Distributed Databases",
+      "difficulty": 2,
+      "status": "PUBLISHED",
+      "body": "What does the BASE model in distributed NoSQL databases stand for in contrast to ACID?",
+      "keyPoints": "Basically Available, Soft state, Eventual consistency.",
+      "options": [
+        {
+          "position": 0,
+          "text": "Basically Available, Soft state, Eventual consistency",
+          "isCorrect": true,
+          "explanation": "The BASE philosophy prioritizes availability and partition tolerance over immediate consistency: systems stay online (Basically Available), state can drift without input (Soft state), and data synchronizes over time (Eventual consistency)."
+        },
+        {
+          "position": 1,
+          "text": "Binary, Atomic, Secured, Encrypted",
+          "isCorrect": false,
+          "explanation": "Not the components of the BASE paradigm."
+        },
+        {
+          "position": 2,
+          "text": "Balanced, Synchronized, Replicated, Encapsulated",
+          "isCorrect": false,
+          "explanation": "BASE is specifically contrasted with ACID in distributed systems."
+        },
+        {
+          "position": 3,
+          "text": "Block, Allocate, Seek, Erase",
+          "isCorrect": false,
+          "explanation": "Those describe flash memory storage operations."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "Distributed Consensus (Raft vs Paxos)",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "In the Raft consensus algorithm used by distributed databases (e.g. CockroachDB, etcd), how does a leader maintain its authority and prevent split-brain elections?",
+      "keyPoints": "Sends periodic heartbeats (AppendEntries RPC) to followers; requires a strict majority quorum (N/2 + 1) to elect leaders and commit log entries.",
+      "options": [
+        {
+          "position": 0,
+          "text": "By sending periodic empty `AppendEntries` heartbeats to followers, and requiring a strict majority quorum (`floor(N/2) + 1`) of votes to elect leaders and commit log entries.",
+          "isCorrect": true,
+          "explanation": "Quorum intersection ensures that any two majorities must overlap in at least one node. Because a node votes at most once per term, two leaders can never be elected for the same term, preventing split-brain."
+        },
+        {
+          "position": 1,
+          "text": "By sharing a single hardware clock with GPS precision.",
+          "isCorrect": false,
+          "explanation": "Raft uses logical terms, not GPS clocks (Google TrueTime is for Spanner commit ordering)."
+        },
+        {
+          "position": 2,
+          "text": "By routing all traffic through a centralized master node in Virginia.",
+          "isCorrect": false,
+          "explanation": "Raft is decentralized consensus."
+        },
+        {
+          "position": 3,
+          "text": "By terminating any node that experiences network latency over 5ms.",
+          "isCorrect": false,
+          "explanation": "Raft tolerates partial network partitions as long as a majority remains connected."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "CAP Theorem",
+      "difficulty": 1,
+      "status": "PUBLISHED",
+      "body": "According to Eric Brewer's CAP Theorem, what must a distributed data store choose between when a Network Partition (P) inevitably occurs?",
+      "keyPoints": "Consistency (C) vs Availability (A).",
+      "options": [
+        {
+          "position": 0,
+          "text": "Consistency (returning errors/refusing writes to ensure all nodes see the same data) versus Availability (continuing to accept writes and reads, allowing node data to diverge).",
+          "isCorrect": true,
+          "explanation": "Because network partitions are physical realities of networks (cables cut, routers drop packets), a distributed system cannot 'choose' to avoid P. When P happens, it must pick CP (consistency over availability) or AP (availability over consistency)."
+        },
+        {
+          "position": 1,
+          "text": "Cost versus Performance.",
+          "isCorrect": false,
+          "explanation": "CAP is a formal theorem about distributed data consistency, not hardware pricing."
+        },
+        {
+          "position": 2,
+          "text": "Compression versus Encryption.",
+          "isCorrect": false,
+          "explanation": "Compression and encryption are transport/storage techniques."
+        },
+        {
+          "position": 3,
+          "text": "SQL versus NoSQL.",
+          "isCorrect": false,
+          "explanation": "CAP theorem applies equally to distributed SQL (Spanner/Cockroach) and NoSQL (Cassandra/Dynamo)."
+        }
+      ]
+    },
+    {
+      "topicName": "Normalization & Transactions",
+      "subtopic": "Saga Pattern in Microservices",
+      "difficulty": 3,
+      "status": "PUBLISHED",
+      "body": "Why is the Saga Pattern preferred over Two-Phase Commit (2PC) for transactions spanning multiple independent microservices?",
+      "keyPoints": "2PC is a blocking protocol holding distributed locks across services; Sagas execute local transactions and use compensating transactions to rollback on failure.",
+      "options": [
+        {
+          "position": 0,
+          "text": "2PC is synchronous and holds locks across independent services (causing latency and single-point-of-failure fragility); Sagas execute a sequence of local transactions with Compensating Transactions to reverse changes if a step fails.",
+          "isCorrect": true,
+          "explanation": "In microservices with separate databases, 2PC degrades throughput. Sagas use choreographed events or an orchestrator: if step 3 fails, compensating transactions (e.g. `refundPayment()`) are executed in reverse to achieve eventual consistency."
+        },
+        {
+          "position": 1,
+          "text": "Because Sagas guarantee strict ACID isolation across microservices.",
+          "isCorrect": false,
+          "explanation": "Sagas lack the Isolation property (intermediate states are visible), requiring compensating logic."
+        },
+        {
+          "position": 2,
+          "text": "Because Sagas do not require network connectivity.",
+          "isCorrect": false,
+          "explanation": "Sagas communicate via message brokers or HTTP."
+        },
+        {
+          "position": 3,
+          "text": "Because 2PC was outlawed by European GDPR regulations.",
+          "isCorrect": false,
+          "explanation": "2PC is an engineering protocol, not a legal regulation."
+        }
+      ]
+    }
+  ]
+}
